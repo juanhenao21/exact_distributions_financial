@@ -1,4 +1,4 @@
-'''Portfolio optimization download data main module.
+'''Exact distributions financial download data main module.
 
 The functions in the module download data from Yahoo! Finance for several years
 in several intervals.
@@ -33,8 +33,8 @@ import download_data_tools
 # -----------------------------------------------------------------------------
 
 
-def portfolio_download_data(tickers: List[str], dates: List[str],
-                            time_step: str) -> None:
+def exact_distributions_download_data(tickers: List[str], dates: List[str],
+                                      time_step: str) -> None:
     """Downloads the prices of a ticker for an interval of years in a time
        step.
 
@@ -48,7 +48,7 @@ def portfolio_download_data(tickers: List[str], dates: List[str],
     """
 
     try:
-        function_name: str = portfolio_download_data.__name__
+        function_name: str = exact_distributions_download_data.__name__
         download_data_tools \
             .function_header_print_data(function_name, tickers, dates,
                                         time_step)
@@ -95,7 +95,9 @@ def main() -> None:
 
     # S&P 500 companies, initial year and time step
     stocks: List[str] = download_data_tools.get_stocks(['all'])
-    dates: List[str] = ['1992-01', '2012-12']
+    dates_1: List[str] = ['1972-01', '1992-12']
+    dates_2: List[str] = ['1992-01', '2012-12']
+    dates_3: List[str] = ['2012-01', '2020-12']
     time_step: str = '1d'
 
     # Basic folders
@@ -103,7 +105,9 @@ def main() -> None:
 
     # Run analysis
     # Download data
-    portfolio_download_data(stocks, dates, time_step)
+    exact_distributions_download_data(stocks, dates_1, time_step)
+    exact_distributions_download_data(stocks, dates_2, time_step)
+    exact_distributions_download_data(stocks, dates_3, time_step)
 
     print('Ay vamos!!!')
 

@@ -1,4 +1,4 @@
-'''Portfolio optimization download data tools module.
+'''Exact distributions financial download data tools module.
 
 The functions in the module do small repetitive tasks, that are used along the
 whole implementation. These tools improve the way the tasks are standardized
@@ -122,7 +122,7 @@ def initial_message() -> None:
     print('Author: Juan Camilo Henao Londono')
     print('More information in:')
     print('* https://juanhenao21.github.io/')
-    print('* https://github.com/juanhenao21/portfolio_optimization')
+    print('* https://github.com/juanhenao21/exact_distributions_financial')
     # print('* https://forex-response_spread-year.readthedocs.io/en/latest/')
     print()
 
