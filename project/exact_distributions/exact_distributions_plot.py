@@ -482,6 +482,151 @@ def pdf_aa_plot(dates: List[str], time_step: str) -> None:
 # -----------------------------------------------------------------------------
 
 
+def pdf_all_distributions_plot(dates: List[str], time_step: str) -> None:
+    """Plots all the distributions and compares with agg. returns of a market.
+
+    :param dates: List of the interval of dates to be analyzed
+     (i.e. ['1980-01', '2020-12']).
+    :param time_step: time step of the data (i.e. '1m', '2m', '5m', ...).
+    :return: None -- The function saves the plot in a file and does not return
+     a value.
+    """
+
+    function_name: str = pdf_all_distributions_plot.__name__
+    exact_distributions_tools \
+        .function_header_print_plot(function_name, dates, time_step)
+
+    try:
+
+        # Load data
+        agg_returns_data: pd.Series = pickle.load(open(
+            '../data/exact_distributions/aggregated_dist_returns_market_data'
+            + f'_{dates[0]}_{dates[1]}_step_{time_step}.pickle', 'rb'))
+
+        agg_returns_data = agg_returns_data.rename('Agg. returns')
+
+        x_val: np.ndarray = np.arange(-10, 10, 0.1)
+
+        # Log plot
+        plot_log = agg_returns_data.plot(kind='density', style='-', logy=True,
+                                         figsize=(16, 9), legend=True, lw=3)
+
+        if dates[0] == '1972-01':
+            N = 5
+            K = 23
+            L = 55
+            l = 55
+
+            gg_distribution: np.ndarray = exact_distributions_tools \
+                .pdf_gaussian_gaussian(x_val, N, 1)
+            plt.semilogy(x_val, gg_distribution, 'o', lw=3,
+                            label=f'GG - N = {N}')
+
+            ga_distribution: np.ndarray = exact_distributions_tools \
+                .pdf_gaussian_algebraic(x_val, K, L, N, 1)
+            plt.semilogy(x_val, ga_distribution, 'o', lw=3,
+                            label=f'GA - N = {N} - K = {K} - L = {L}')
+
+            ag_distribution: np.ndarray = exact_distributions_tools \
+                .pdf_algebraic_gaussian(x_val, K, l, N, 1)
+            plt.semilogy(x_val, ag_distribution, 'o', lw=3,
+                        label=f'AG - N = {N} - K = {K} - l = {l}')
+
+            aa_distribution: np.ndarray = exact_distributions_tools \
+                .pdf_algebraic_algebraic(x_val, K, L, l, N, 1)
+            plt.semilogy(x_val, aa_distribution, 'o', lw=3,
+                            label=f'AA - N = {N} - K = {K} - L = {L}'
+                            + f' - l = {l}')
+
+        elif dates[0] == '1992-01':
+            N = 5
+            N_gg = 4
+            K = 277
+            L = 150
+            l = 150
+
+            gg_distribution: np.ndarray = exact_distributions_tools \
+                .pdf_gaussian_gaussian(x_val, N_gg, 1)
+            plt.semilogy(x_val, gg_distribution, 'o', lw=3,
+                            label=f'GG - N = {N_gg}')
+
+            ga_distribution: np.ndarray = exact_distributions_tools \
+                .pdf_gaussian_algebraic(x_val, K, L, N, 1)
+            plt.semilogy(x_val, ga_distribution, 'o', lw=3,
+                            label=f'GA - N = {N} - K = {K} - L = {L}')
+
+            ag_distribution: np.ndarray = exact_distributions_tools \
+                .pdf_algebraic_gaussian(x_val, K, l, N, 1)
+            plt.semilogy(x_val, ag_distribution, 'o', lw=3,
+                        label=f'AG - N = {N} - K = {K} - l = {l}')
+
+            aa_distribution: np.ndarray = exact_distributions_tools \
+                .pdf_algebraic_algebraic(x_val, K, L, l, N, 1)
+            plt.semilogy(x_val, aa_distribution, 'o', lw=3,
+                            label=f'AA - N = {N} - K = {K} - L = {L}'
+                            + f' - l = {l}')
+
+        else:
+            N = 5
+            K = 461
+            L_ga = 330
+            l_ag = 320
+            L_aa = 280
+            l_aa = 280
+
+
+            gg_distribution: np.ndarray = exact_distributions_tools \
+                .pdf_gaussian_gaussian(x_val, N, 1)
+            plt.semilogy(x_val, gg_distribution, 'o', lw=3,
+                            label=f'GG - N = {N}')
+
+            ga_distribution: np.ndarray = exact_distributions_tools \
+                .pdf_gaussian_algebraic(x_val, K, L_ga, N, 1)
+            plt.semilogy(x_val, ga_distribution, 'o', lw=3,
+                            label=f'GA - N = {N} - K = {K} - L = {L_ga}')
+
+            ag_distribution: np.ndarray = exact_distributions_tools \
+                .pdf_algebraic_gaussian(x_val, K, l_ag, N, 1)
+            plt.semilogy(x_val, ag_distribution, 'o', lw=3,
+                        label=f'AG - N = {N} - K = {K} - l = {l_ag}')
+
+            aa_distribution: np.ndarray = exact_distributions_tools \
+                .pdf_algebraic_algebraic(x_val, K, L_aa, l_aa, N, 1)
+            plt.semilogy(x_val, aa_distribution, 'o', lw=3,
+                            label=f'AA - N = {N} - K = {K} - L = {L_aa}'
+                            + f' - l = {l_aa}')
+
+        plt.legend(fontsize=20)
+        plt.title(f'Aggregated distribution returns from {dates[0]} to'
+                  + f' {dates[1]} - {time_step}', fontsize=30)
+        plt.xlabel('Aggregated returns', fontsize=25)
+        plt.ylabel('PDF', fontsize=25)
+        plt.xticks(fontsize=15)
+        plt.yticks(fontsize=15)
+        plt.xlim(-6, 6)
+        plt.ylim(10 ** -4, 1)
+        plt.grid(True)
+        plt.tight_layout()
+        figure_log: plt.Figure = plot_log.get_figure()
+
+        # Plotting
+        exact_distributions_tools \
+            .save_plot(figure_log, function_name + '_log', dates, time_step)
+
+        plt.close()
+        del agg_returns_data
+        del figure_log
+        del plot_log
+        gc.collect()
+
+    except FileNotFoundError as error:
+        print('No data')
+        print(error)
+        print()
+
+# -----------------------------------------------------------------------------
+
+
 def main() -> None:
     """The main function of the script.
 
@@ -508,7 +653,11 @@ def main() -> None:
 
     # pdf_aa_plot(dates_1, '1d')
     # pdf_aa_plot(dates_2, '1d')
-    pdf_aa_plot(dates_3, '1d')
+    # pdf_aa_plot(dates_3, '1d')
+
+    pdf_all_distributions_plot(dates_1, '1d')
+    pdf_all_distributions_plot(dates_2, '1d')
+    pdf_all_distributions_plot(dates_3, '1d')
 
 # -----------------------------------------------------------------------------
 
