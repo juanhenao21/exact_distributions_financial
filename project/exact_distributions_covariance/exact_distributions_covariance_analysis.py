@@ -1,4 +1,4 @@
-'''Exact distributions analysis module.
+'''Exact distributions covariance analysis module.
 
 The functions in the module compute the returns, the normalized returns and the
 aggregated returns of financial time series.
@@ -8,7 +8,7 @@ This script requires the following modules:
     * typing
     * numpy
     * pandas
-    * exact_distributions_tools
+    * exact_distributions_covariance_tools
 
 The module contains the following functions:
     * returns_data - computes the returns of the time series.
@@ -28,7 +28,7 @@ from typing import List
 import numpy as np  # type: ignore
 import pandas as pd  # type: ignore
 
-import exact_distributions_tools
+import exact_distributions_covariance_tools
 
 # -----------------------------------------------------------------------------
 
@@ -44,7 +44,7 @@ def returns_data(dates: List[str], time_step: str) -> None:
     """
 
     function_name: str = returns_data.__name__
-    exact_distributions_tools \
+    exact_distributions_covariance_tools \
         .function_header_print_data(function_name, dates, time_step)
 
     try:
@@ -57,7 +57,7 @@ def returns_data(dates: List[str], time_step: str) -> None:
         returns_df: pd.DataFrame = data.pct_change().dropna()
 
         # Saving data
-        exact_distributions_tools \
+        exact_distributions_covariance_tools \
             .save_data(returns_df, function_name, dates, time_step)
 
     except FileNotFoundError as error:
@@ -80,15 +80,15 @@ def aggregated_dist_returns_market_data(dates: List[str],
     """
 
     function_name: str = aggregated_dist_returns_market_data.__name__
-    exact_distributions_tools \
+    exact_distributions_covariance_tools \
         .function_header_print_data(function_name, dates, time_step)
 
     try:
 
         # Load data
         returns_vals: pd.DataFrame = pickle.load(open(
-            f'../data/exact_distributions/returns_data_{dates[0]}_{dates[1]}'
-            + f'_step_{time_step}.pickle', 'rb'))
+            f'../data/exact_distributions_covariance/returns_data_{dates[0]}'
+            + f'_{dates[1]}_step_{time_step}.pickle', 'rb'))
 
         cov: pd.DataFrame = returns_vals.cov()
         # eig_vec:  eigenvector, eig_val: eigenvalues
@@ -114,7 +114,7 @@ def aggregated_dist_returns_market_data(dates: List[str],
         print(f'Std. Dev. {dates} = {agg_returns.std()}')
 
         # Saving data
-        exact_distributions_tools \
+        exact_distributions_covariance_tools \
             .save_data(agg_returns, function_name, dates, time_step)
 
         del returns_vals

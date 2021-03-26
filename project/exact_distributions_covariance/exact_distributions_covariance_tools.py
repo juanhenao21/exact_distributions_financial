@@ -1,4 +1,4 @@
-'''Exact distributions tools module.
+'''Exact distributions covariance tools module.
 
 The functions in the module do small repetitive tasks, that are used along the
 whole implementation. These tools improve the way the tasks are standardized
@@ -59,7 +59,7 @@ def save_data(data: Any, function_name: str, dates: List[str],
     """Saves computed data in pickle files.
 
     Saves the data generated in the functions of the
-    exact_distributions_analysis module in pickle files.
+    exact_distributions_covariance_analysis module in pickle files.
 
     :param data: data to be saved. The data can be of different types.
     :param function_name: name of the function that generates the plot.
@@ -73,8 +73,8 @@ def save_data(data: Any, function_name: str, dates: List[str],
     # Saving data
 
     pickle.dump(data, open(
-        f'../data/exact_distributions/{function_name}_{dates[0]}_{dates[1]}'
-                + f'_step_{time_step}.pickle', 'wb'), protocol=4)
+        f'../data/exact_distributions_covariance/{function_name}_{dates[0]}'
+                + f'_{dates[1]}_step_{time_step}.pickle', 'wb'), protocol=4)
 
     print('Data Saved')
     print()
@@ -87,7 +87,7 @@ def save_plot(figure: plt.Figure, function_name: str, dates: List[str],
     """Saves plot in png files.
 
     Saves the plot generated in the functions of the
-    exact_distributions_analysis module in png files.
+    exact_distributions_covariance_analysis module in png files.
 
     :param figure: figure object that is going to be save.
     :param function_name: name of the function that generates the plot.
@@ -100,8 +100,8 @@ def save_plot(figure: plt.Figure, function_name: str, dates: List[str],
 
     # Saving plot data
 
-    figure.savefig(f'../plot/exact_distributions/{function_name}_{dates[0]}'
-                   + f'_{dates[1]}_step_{time_step}.png')
+    figure.savefig(f'../plot/exact_distributions_covariance/{function_name}'
+                   + f'_{dates[0]}_{dates[1]}_step_{time_step}.png')
 
     print('Plot Saved')
     print()
@@ -160,8 +160,8 @@ def start_folders() -> None:
     """
 
     try:
-        os.mkdir('../data/exact_distributions')
-        os.mkdir('../plot/exact_distributions')
+        os.mkdir('../data/exact_distributions_covariance')
+        os.mkdir('../plot/exact_distributions_covariance')
         print('Folder to save data created')
         print()
 

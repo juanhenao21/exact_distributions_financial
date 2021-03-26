@@ -1,7 +1,7 @@
-'''Exact distributions plot module.
+'''Exact distributions covariance plot module.
 
 The functions in the module plot the data obtained in the
-exact_distributions_analysis module.
+exact_distributions_covariance_analysis module.
 
 This script requires the following modules:
     * gc
@@ -11,7 +11,7 @@ This script requires the following modules:
     * numpy
     * pandas
     * seaborn
-    * exact_distributions_tools
+    * exact_distributions_covariance_tools
 
 The module contains the following functions:
     * returns_plot - plots the returns of five stocks.
@@ -34,7 +34,7 @@ import numpy as np  # type: ignore
 import pandas as pd  # type: ignore
 import seaborn as sns  # type: ignore
 
-import exact_distributions_tools
+import exact_distributions_covariance_tools
 
 # -----------------------------------------------------------------------------
 
@@ -50,16 +50,16 @@ def returns_plot(dates: List[str], time_step: str) -> None:
     """
 
     function_name: str = returns_plot.__name__
-    exact_distributions_tools \
+    exact_distributions_covariance_tools \
         .function_header_print_plot(function_name, dates, time_step)
 
     try:
 
         # Load data
         returns_data: pd.DataFrame = pickle.load(open(
-                        f'../data/exact_distributions/returns_data_{dates[0]}'
-                        + f'_{dates[1]}_step_{time_step}.pickle', 'rb')) \
-                        .iloc[:, :5]
+                        f'../data/exact_distributions_covariance/returns_data'
+                        + f'_{dates[0]}_{dates[1]}_step_{time_step}.pickle',
+                        'rb')).iloc[:, :5]
 
         plot: np.ndarray = returns_data.plot(subplots=True, sharex=True,
                                              figsize=(16, 16), grid=True,
@@ -72,7 +72,7 @@ def returns_plot(dates: List[str], time_step: str) -> None:
         figure: plt.Figure = plot[0].get_figure()
 
         # Plotting
-        exact_distributions_tools \
+        exact_distributions_covariance_tools \
             .save_plot(figure, function_name, dates, time_step)
 
         plt.close()
@@ -100,20 +100,21 @@ def aggregated_dist_returns_market_plot(dates: List[str],
     """
 
     function_name: str = aggregated_dist_returns_market_plot.__name__
-    exact_distributions_tools \
+    exact_distributions_covariance_tools \
         .function_header_print_plot(function_name, dates, time_step)
 
     try:
 
         # Load data
         agg_returns_data: pd.Series = pickle.load(open(
-            '../data/exact_distributions/aggregated_dist_returns_market_data'
-            + f'_{dates[0]}_{dates[1]}_step_{time_step}.pickle', 'rb'))
+            '../data/exact_distributions_covariance/aggregated_dist_returns'
+            + f'_market_data_{dates[0]}_{dates[1]}_step_{time_step}.pickle',
+            'rb'))
 
         agg_returns_data = agg_returns_data.rename('Agg. returns')
 
         x_gauss: np.ndarray = np.arange(-10, 10, 0.1)
-        gaussian: np.ndarray = exact_distributions_tools \
+        gaussian: np.ndarray = exact_distributions_covariance_tools \
             .gaussian_distribution(0, 1, x_gauss)
 
         # Log plot
@@ -144,7 +145,7 @@ def aggregated_dist_returns_market_plot(dates: List[str],
         plt.grid(True)
 
         # Plotting
-        exact_distributions_tools \
+        exact_distributions_covariance_tools \
             .save_plot(figure_log, function_name + '_log', dates, time_step)
 
         plt.close()
@@ -173,15 +174,16 @@ def pdf_gg_plot(dates: List[str], time_step: str) -> None:
     """
 
     function_name: str = pdf_gg_plot.__name__
-    exact_distributions_tools \
+    exact_distributions_covariance_tools \
         .function_header_print_plot(function_name, dates, time_step)
 
     try:
 
         # Load data
         agg_returns_data: pd.Series = pickle.load(open(
-            '../data/exact_distributions/aggregated_dist_returns_market_data'
-            + f'_{dates[0]}_{dates[1]}_step_{time_step}.pickle', 'rb'))
+            '../data/exact_distributions_covariance/aggregated_dist_returns'
+            + f'_market_data_{dates[0]}_{dates[1]}_step_{time_step}.pickle',
+            'rb'))
 
         agg_returns_data = agg_returns_data.rename('Agg. returns')
 
@@ -195,7 +197,7 @@ def pdf_gg_plot(dates: List[str], time_step: str) -> None:
 
         for N in N_vals:
 
-            gg_distribution: np.ndarray = exact_distributions_tools \
+            gg_distribution: np.ndarray = exact_distributions_covariance_tools\
                 .pdf_gaussian_gaussian(x_val, N, 1)
             plt.semilogy(x_val, gg_distribution, 'o', lw=3,
                          label=f'GG - N = {N}')
@@ -214,7 +216,7 @@ def pdf_gg_plot(dates: List[str], time_step: str) -> None:
         figure_log: plt.Figure = plot_log.get_figure()
 
         # Plotting
-        exact_distributions_tools \
+        exact_distributions_covariance_tools \
             .save_plot(figure_log, function_name + '_log', dates, time_step)
 
         plt.close()
@@ -243,15 +245,16 @@ def pdf_ga_plot(dates: List[str], time_step: str) -> None:
     """
 
     function_name: str = pdf_ga_plot.__name__
-    exact_distributions_tools \
+    exact_distributions_covariance_tools \
         .function_header_print_plot(function_name, dates, time_step)
 
     try:
 
         # Load data
         agg_returns_data: pd.Series = pickle.load(open(
-            '../data/exact_distributions/aggregated_dist_returns_market_data'
-            + f'_{dates[0]}_{dates[1]}_step_{time_step}.pickle', 'rb'))
+            '../data/exact_distributions_covariance/aggregated_dist_returns'
+            + f'_market_data_{dates[0]}_{dates[1]}_step_{time_step}.pickle',
+            'rb'))
 
         agg_returns_data = agg_returns_data.rename('Agg. returns')
 
@@ -277,7 +280,8 @@ def pdf_ga_plot(dates: List[str], time_step: str) -> None:
         for N in N_vals:
             for L in L_vals:
 
-                ga_distribution: np.ndarray = exact_distributions_tools \
+                ga_distribution: np.ndarray = \
+                    exact_distributions_covariance_tools \
                     .pdf_gaussian_algebraic(x_val, K, L, N, 1)
                 plt.semilogy(x_val, ga_distribution, 'o', lw=3,
                              label=f'GA - N = {N} - K = {K} - L = {L}')
@@ -296,7 +300,7 @@ def pdf_ga_plot(dates: List[str], time_step: str) -> None:
         figure_log: plt.Figure = plot_log.get_figure()
 
         # Plotting
-        exact_distributions_tools \
+        exact_distributions_covariance_tools \
             .save_plot(figure_log, function_name + '_log', dates, time_step)
 
         plt.close()
@@ -325,15 +329,16 @@ def pdf_ag_plot(dates: List[str], time_step: str) -> None:
     """
 
     function_name: str = pdf_ag_plot.__name__
-    exact_distributions_tools \
+    exact_distributions_covariance_tools \
         .function_header_print_plot(function_name, dates, time_step)
 
     try:
 
         # Load data
         agg_returns_data: pd.Series = pickle.load(open(
-            '../data/exact_distributions/aggregated_dist_returns_market_data'
-            + f'_{dates[0]}_{dates[1]}_step_{time_step}.pickle', 'rb'))
+            '../data/exact_distributions_covariance/aggregated_dist_returns'
+            + f'_market_data_{dates[0]}_{dates[1]}_step_{time_step}.pickle',
+            'rb'))
 
         agg_returns_data = agg_returns_data.rename('Agg. returns')
 
@@ -359,7 +364,8 @@ def pdf_ag_plot(dates: List[str], time_step: str) -> None:
         for N in N_vals:
             for l in l_vals:
 
-                ag_distribution: np.ndarray = exact_distributions_tools \
+                ag_distribution: np.ndarray = \
+                    exact_distributions_covariance_tools \
                     .pdf_algebraic_gaussian(x_val, K, l, N, 1)
                 plt.semilogy(x_val, ag_distribution, 'o', lw=3,
                              label=f'AG - N = {N} - K = {K} - l = {l}')
@@ -378,7 +384,7 @@ def pdf_ag_plot(dates: List[str], time_step: str) -> None:
         figure_log: plt.Figure = plot_log.get_figure()
 
         # Plotting
-        exact_distributions_tools \
+        exact_distributions_covariance_tools \
             .save_plot(figure_log, function_name + '_log', dates, time_step)
 
         plt.close()
@@ -407,15 +413,16 @@ def pdf_aa_plot(dates: List[str], time_step: str) -> None:
     """
 
     function_name: str = pdf_aa_plot.__name__
-    exact_distributions_tools \
+    exact_distributions_covariance_tools \
         .function_header_print_plot(function_name, dates, time_step)
 
     try:
 
         # Load data
         agg_returns_data: pd.Series = pickle.load(open(
-            '../data/exact_distributions/aggregated_dist_returns_market_data'
-            + f'_{dates[0]}_{dates[1]}_step_{time_step}.pickle', 'rb'))
+            '../data/exact_distributions_covariance/aggregated_dist_returns'
+            + f'_market_data_{dates[0]}_{dates[1]}_step_{time_step}.pickle',
+            'rb'))
 
         agg_returns_data = agg_returns_data.rename('Agg. returns')
 
@@ -445,7 +452,8 @@ def pdf_aa_plot(dates: List[str], time_step: str) -> None:
             for L in L_vals:
                 for l in l_vals:
 
-                    aa_distribution: np.ndarray = exact_distributions_tools \
+                    aa_distribution: np.ndarray = \
+                        exact_distributions_covariance_tools \
                         .pdf_algebraic_algebraic(x_val, K, L, l, N, 1)
                     plt.semilogy(x_val, aa_distribution, 'o', lw=3,
                                  label=f'AA - N = {N} - K = {K} - L = {L}'
@@ -465,7 +473,7 @@ def pdf_aa_plot(dates: List[str], time_step: str) -> None:
         figure_log: plt.Figure = plot_log.get_figure()
 
         # Plotting
-        exact_distributions_tools \
+        exact_distributions_covariance_tools \
             .save_plot(figure_log, function_name + '_log', dates, time_step)
 
         plt.close()
@@ -493,15 +501,16 @@ def pdf_all_distributions_plot(dates: List[str], time_step: str) -> None:
     """
 
     function_name: str = pdf_all_distributions_plot.__name__
-    exact_distributions_tools \
+    exact_distributions_covariance_tools \
         .function_header_print_plot(function_name, dates, time_step)
 
     try:
 
         # Load data
         agg_returns_data: pd.Series = pickle.load(open(
-            '../data/exact_distributions/aggregated_dist_returns_market_data'
-            + f'_{dates[0]}_{dates[1]}_step_{time_step}.pickle', 'rb'))
+            '../data/exact_distributions_covariance/aggregated_dist_returns'
+            + f'_market_data_{dates[0]}_{dates[1]}_step_{time_step}.pickle',
+            'rb'))
 
         agg_returns_data = agg_returns_data.rename('Agg. returns')
 
@@ -517,22 +526,22 @@ def pdf_all_distributions_plot(dates: List[str], time_step: str) -> None:
             L = 55
             l = 55
 
-            gg_distribution: np.ndarray = exact_distributions_tools \
+            gg_distribution: np.ndarray = exact_distributions_covariance_tools\
                 .pdf_gaussian_gaussian(x_val, N, 1)
             plt.semilogy(x_val, gg_distribution, 'o', lw=3,
                             label=f'GG - N = {N}')
 
-            ga_distribution: np.ndarray = exact_distributions_tools \
+            ga_distribution: np.ndarray = exact_distributions_covariance_tools\
                 .pdf_gaussian_algebraic(x_val, K, L, N, 1)
             plt.semilogy(x_val, ga_distribution, 'o', lw=3,
                             label=f'GA - N = {N} - K = {K} - L = {L}')
 
-            ag_distribution: np.ndarray = exact_distributions_tools \
+            ag_distribution: np.ndarray = exact_distributions_covariance_tools\
                 .pdf_algebraic_gaussian(x_val, K, l, N, 1)
             plt.semilogy(x_val, ag_distribution, 'o', lw=3,
                         label=f'AG - N = {N} - K = {K} - l = {l}')
 
-            aa_distribution: np.ndarray = exact_distributions_tools \
+            aa_distribution: np.ndarray = exact_distributions_covariance_tools\
                 .pdf_algebraic_algebraic(x_val, K, L, l, N, 1)
             plt.semilogy(x_val, aa_distribution, 'o', lw=3,
                             label=f'AA - N = {N} - K = {K} - L = {L}'
@@ -545,22 +554,22 @@ def pdf_all_distributions_plot(dates: List[str], time_step: str) -> None:
             L = 150
             l = 150
 
-            gg_distribution: np.ndarray = exact_distributions_tools \
+            gg_distribution: np.ndarray = exact_distributions_covariance_tools\
                 .pdf_gaussian_gaussian(x_val, N_gg, 1)
             plt.semilogy(x_val, gg_distribution, 'o', lw=3,
                             label=f'GG - N = {N_gg}')
 
-            ga_distribution: np.ndarray = exact_distributions_tools \
+            ga_distribution: np.ndarray = exact_distributions_covariance_tools\
                 .pdf_gaussian_algebraic(x_val, K, L, N, 1)
             plt.semilogy(x_val, ga_distribution, 'o', lw=3,
                             label=f'GA - N = {N} - K = {K} - L = {L}')
 
-            ag_distribution: np.ndarray = exact_distributions_tools \
+            ag_distribution: np.ndarray = exact_distributions_covariance_tools\
                 .pdf_algebraic_gaussian(x_val, K, l, N, 1)
             plt.semilogy(x_val, ag_distribution, 'o', lw=3,
                         label=f'AG - N = {N} - K = {K} - l = {l}')
 
-            aa_distribution: np.ndarray = exact_distributions_tools \
+            aa_distribution: np.ndarray = exact_distributions_covariance_tools\
                 .pdf_algebraic_algebraic(x_val, K, L, l, N, 1)
             plt.semilogy(x_val, aa_distribution, 'o', lw=3,
                             label=f'AA - N = {N} - K = {K} - L = {L}'
@@ -575,22 +584,22 @@ def pdf_all_distributions_plot(dates: List[str], time_step: str) -> None:
             l_aa = 280
 
 
-            gg_distribution: np.ndarray = exact_distributions_tools \
+            gg_distribution: np.ndarray = exact_distributions_covariance_tools\
                 .pdf_gaussian_gaussian(x_val, N, 1)
             plt.semilogy(x_val, gg_distribution, 'o', lw=3,
                             label=f'GG - N = {N}')
 
-            ga_distribution: np.ndarray = exact_distributions_tools \
+            ga_distribution: np.ndarray = exact_distributions_covariance_tools\
                 .pdf_gaussian_algebraic(x_val, K, L_ga, N, 1)
             plt.semilogy(x_val, ga_distribution, 'o', lw=3,
                             label=f'GA - N = {N} - K = {K} - L = {L_ga}')
 
-            ag_distribution: np.ndarray = exact_distributions_tools \
+            ag_distribution: np.ndarray = exact_distributions_covariance_tools\
                 .pdf_algebraic_gaussian(x_val, K, l_ag, N, 1)
             plt.semilogy(x_val, ag_distribution, 'o', lw=3,
                         label=f'AG - N = {N} - K = {K} - l = {l_ag}')
 
-            aa_distribution: np.ndarray = exact_distributions_tools \
+            aa_distribution: np.ndarray = exact_distributions_covariance_tools\
                 .pdf_algebraic_algebraic(x_val, K, L_aa, l_aa, N, 1)
             plt.semilogy(x_val, aa_distribution, 'o', lw=3,
                             label=f'AA - N = {N} - K = {K} - L = {L_aa}'
@@ -610,7 +619,7 @@ def pdf_all_distributions_plot(dates: List[str], time_step: str) -> None:
         figure_log: plt.Figure = plot_log.get_figure()
 
         # Plotting
-        exact_distributions_tools \
+        exact_distributions_covariance_tools \
             .save_plot(figure_log, function_name + '_log', dates, time_step)
 
         plt.close()
