@@ -66,7 +66,7 @@ def function_header_print_data(function_name: str, tickers: List[str],
     :return: None -- The function prints a message and does not return a value.
     """
 
-    print('Portfolio Optimization')
+    print('Exact distributions')
     print(function_name)
 
     print(f'Downloading data for the tickers {tickers} in the interval time'
