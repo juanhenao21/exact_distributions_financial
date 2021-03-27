@@ -1,7 +1,7 @@
 '''Exact distributions covariance analysis module.
 
-The functions in the module compute the returns, the normalized returns and the
-aggregated returns of financial time series.
+The functions in the module compute the returns, and the aggregated returns of
+financial time series.
 
 This script requires the following modules:
     * pickle
