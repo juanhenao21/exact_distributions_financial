@@ -64,6 +64,39 @@ def returns_data(dates: List[str], time_step: str) -> None:
         print('No data')
         print(error)
         print()
+# -----------------------------------------------------------------------------
+
+
+def normalized_returns_data(dates: List[str], time_step: str) -> None:
+    """Normalizes the returns of the time series.
+    :param dates: List of the interval of dates to be analyzed
+     (i.e. ['1980-01', '2020-12']).
+    :param time_step: time step of the data (i.e. '1m', '2m', '5m', ...).
+    :return: None -- The function saves the data in a file and does not return
+     a value.
+    """
+
+    function_name: str = normalized_returns_data.__name__
+    exact_distributions_correlation_tools \
+        .function_header_print_data(function_name, dates, time_step)
+
+    try:
+
+        # Load data
+        data: pd.DataFrame = pickle.load(open(
+            f'../data/exact_distributions_correlation/returns_data_{dates[0]}'
+            + f'_{dates[1]}_step_{time_step}.pickle', 'rb'))
+
+        normalized_df: pd.DataFrame = (data - data.mean()) / data.std()
+
+        # Saving data
+        exact_distributions_correlation_tools\
+            .save_data(normalized_df, function_name, dates, time_step)
+
+    except FileNotFoundError as error:
+        print('No data')
+        print(error)
+        print()
 
 # ----------------------------------------------------------------------------
 
@@ -87,8 +120,8 @@ def aggregated_dist_returns_market_data(dates: List[str],
 
         # Load data
         returns_vals: pd.DataFrame = pickle.load(open(
-            f'../data/exact_distributions_correlation/returns_data_{dates[0]}'
-            + f'_{dates[1]}_step_{time_step}.pickle', 'rb'))
+            f'../data/exact_distributions_correlation/normalized_returns_data'
+            + f'_{dates[0]}_{dates[1]}_step_{time_step}.pickle', 'rb'))
 
         corr: pd.DataFrame = returns_vals.corr()
         # eig_vec:  eigenvector, eig_val: eigenvalues
