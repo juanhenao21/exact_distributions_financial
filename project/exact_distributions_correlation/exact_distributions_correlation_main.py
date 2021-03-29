@@ -49,6 +49,8 @@ def data_plot_generator(dates: List[List[str]], time_steps: List[str]) -> None:
         pool.starmap(exact_distributions_correlation_analysis
                      .returns_data, iprod(dates, time_steps))
         pool.starmap(exact_distributions_correlation_analysis
+                     .normalized_returns_data, iprod(dates, time_steps))
+        pool.starmap(exact_distributions_correlation_analysis
                      .aggregated_dist_returns_market_data,
                      iprod(dates, time_steps))
 
