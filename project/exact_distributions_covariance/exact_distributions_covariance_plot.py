@@ -193,7 +193,7 @@ def pdf_gg_plot(dates: List[str], time_step: str) -> None:
         plot_log = agg_returns_data.plot(kind='density', style='-', logy=True,
                                          figsize=(16, 9), legend=True, lw=3)
 
-        N_vals = np.arange(6, 7, 1)
+        N_vals = np.arange(5, 6, 1)
 
         for N in N_vals:
 
