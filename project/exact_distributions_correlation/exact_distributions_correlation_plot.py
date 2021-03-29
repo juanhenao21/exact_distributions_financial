@@ -658,7 +658,7 @@ def pdf_all_distributions_plot(dates: List[str], time_step: str) -> None:
         plt.ylabel('PDF', fontsize=25)
         plt.xticks(fontsize=15)
         plt.yticks(fontsize=15)
-        plt.xlim(-6, 6)
+        plt.xlim(-8, 8)
         plt.ylim(10 ** -4, 1)
         plt.grid(True)
         plt.tight_layout()
