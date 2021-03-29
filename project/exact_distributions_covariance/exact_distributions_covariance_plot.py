@@ -562,23 +562,23 @@ def pdf_all_distributions_plot(dates: List[str], time_step: str) -> None:
             gg_distribution: np.ndarray = exact_distributions_covariance_tools\
                 .pdf_gaussian_gaussian(x_val, N, 1)
             plt.semilogy(x_val, gg_distribution, 'o', lw=3,
-                            label=f'GG - N = {N}')
+                         label=f'GG - N = {N}')
 
             ga_distribution: np.ndarray = exact_distributions_covariance_tools\
                 .pdf_gaussian_algebraic(x_val, K, L, N, 1)
             plt.semilogy(x_val, ga_distribution, 'o', lw=3,
-                            label=f'GA - N = {N} - K = {K} - L = {L}')
+                         label=f'GA - N = {N} - K = {K} - L = {L}')
 
             ag_distribution: np.ndarray = exact_distributions_covariance_tools\
                 .pdf_algebraic_gaussian(x_val, K, l, N, 1)
             plt.semilogy(x_val, ag_distribution, 'o', lw=3,
-                        label=f'AG - N = {N} - K = {K} - l = {l}')
+                         label=f'AG - N = {N} - K = {K} - l = {l}')
 
             aa_distribution: np.ndarray = exact_distributions_covariance_tools\
                 .pdf_algebraic_algebraic(x_val, K, L, l, N_aa, 1)
             plt.semilogy(x_val, aa_distribution, 'o', lw=3,
-                            label=f'AA - N = {N_aa} - K = {K} - L = {L}'
-                            + f' - l = {l}')
+                         label=f'AA - N = {N_aa} - K = {K} - L = {L}'
+                         + f' - l = {l}')
 
         elif dates[0] == '1992-01':
             N = 5
@@ -591,23 +591,23 @@ def pdf_all_distributions_plot(dates: List[str], time_step: str) -> None:
             gg_distribution: np.ndarray = exact_distributions_covariance_tools\
                 .pdf_gaussian_gaussian(x_val, N_gg, 1)
             plt.semilogy(x_val, gg_distribution, 'o', lw=3,
-                            label=f'GG - N = {N_gg}')
+                         label=f'GG - N = {N_gg}')
 
             ga_distribution: np.ndarray = exact_distributions_covariance_tools\
                 .pdf_gaussian_algebraic(x_val, K, L, N, 1)
             plt.semilogy(x_val, ga_distribution, 'o', lw=3,
-                            label=f'GA - N = {N} - K = {K} - L = {L}')
+                         label=f'GA - N = {N} - K = {K} - L = {L}')
 
             ag_distribution: np.ndarray = exact_distributions_covariance_tools\
                 .pdf_algebraic_gaussian(x_val, K, l, N, 1)
             plt.semilogy(x_val, ag_distribution, 'o', lw=3,
-                        label=f'AG - N = {N} - K = {K} - l = {l}')
+                         label=f'AG - N = {N} - K = {K} - l = {l}')
 
             aa_distribution: np.ndarray = exact_distributions_covariance_tools\
                 .pdf_algebraic_algebraic(x_val, K, L, l, N, 1)
             plt.semilogy(x_val, aa_distribution, 'o', lw=3,
-                            label=f'AA - N = {N_aa} - K = {K} - L = {L}'
-                            + f' - l = {l}')
+                         label=f'AA - N = {N_aa} - K = {K} - L = {L}'
+                         + f' - l = {l}')
 
         else:
             N = 7
@@ -617,25 +617,24 @@ def pdf_all_distributions_plot(dates: List[str], time_step: str) -> None:
             l = 280
 
             gg_distribution: np.ndarray = exact_distributions_covariance_tools\
-                .pdf_gaussian_gaussian(x_val, N, 1)
+                .pdf_gaussian_gaussian(x_val, N_gg, 1)
             plt.semilogy(x_val, gg_distribution, 'o', lw=3,
-                            label=f'GG - N = {N_gg}')
+                         label=f'GG - N = {N_gg}')
 
             ga_distribution: np.ndarray = exact_distributions_covariance_tools\
                 .pdf_gaussian_algebraic(x_val, K, L, N, 1)
             plt.semilogy(x_val, ga_distribution, 'o', lw=3,
-                            label=f'GA - N = {N} - K = {K} - L = {L}')
+                         label=f'GA - N = {N} - K = {K} - L = {L}')
 
             ag_distribution: np.ndarray = exact_distributions_covariance_tools\
                 .pdf_algebraic_gaussian(x_val, K, l, N, 1)
             plt.semilogy(x_val, ag_distribution, 'o', lw=3,
-                        label=f'AG - N = {N} - K = {K} - l = {l}')
+                         label=f'AG - N = {N} - K = {K} - l = {l}')
 
             aa_distribution: np.ndarray = exact_distributions_covariance_tools\
                 .pdf_algebraic_algebraic(x_val, K, L, l, N, 1)
             plt.semilogy(x_val, aa_distribution, 'o', lw=3,
-                            label=f'AA - N = {N} - K = {K} - L = {L}'
-                            + f' - l = {l}')
+                         label=f'AA - N = {N} - K = {K} - L = {L} - l = {l}')
 
         plt.legend(fontsize=20)
         plt.title(f'Aggregated distribution returns from {dates[0]} to'
@@ -680,21 +679,21 @@ def main() -> None:
     dates_2 = ['1992-01', '2012-12']
     dates_3 = ['2012-01', '2020-12']
 
-    # pdf_gg_plot(dates_1, '1d')
-    # pdf_gg_plot(dates_2, '1d')
-    # pdf_gg_plot(dates_3, '1d')
+    pdf_gg_plot(dates_1, '1d')
+    pdf_gg_plot(dates_2, '1d')
+    pdf_gg_plot(dates_3, '1d')
 
-    # pdf_ga_plot(dates_1, '1d')
-    # pdf_ga_plot(dates_2, '1d')
-    # pdf_ga_plot(dates_3, '1d')
+    pdf_ga_plot(dates_1, '1d')
+    pdf_ga_plot(dates_2, '1d')
+    pdf_ga_plot(dates_3, '1d')
 
-    # pdf_ag_plot(dates_1, '1d')
-    # pdf_ag_plot(dates_2, '1d')
-    # pdf_ag_plot(dates_3, '1d')
+    pdf_ag_plot(dates_1, '1d')
+    pdf_ag_plot(dates_2, '1d')
+    pdf_ag_plot(dates_3, '1d')
 
-    # pdf_aa_plot(dates_1, '1d')
-    # pdf_aa_plot(dates_2, '1d')
-    # pdf_aa_plot(dates_3, '1d')
+    pdf_aa_plot(dates_1, '1d')
+    pdf_aa_plot(dates_2, '1d')
+    pdf_aa_plot(dates_3, '1d')
 
     pdf_all_distributions_plot(dates_1, '1d')
     pdf_all_distributions_plot(dates_2, '1d')
