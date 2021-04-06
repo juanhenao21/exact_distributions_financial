@@ -130,8 +130,8 @@ def aggregated_dist_returns_market_plot(dates: List[str],
         plt.ylabel('PDF', fontsize=25)
         plt.xticks(fontsize=15)
         plt.yticks(fontsize=15)
-        plt.xlim(-8, 8)
-        plt.ylim(10 ** -4, 1)
+        plt.xlim(-10, 10)
+        plt.ylim(10 ** -9, 1)
         plt.grid(True)
         plt.tight_layout()
         figure_log: plt.Figure = plot_log.get_figure()
@@ -193,14 +193,17 @@ def pdf_gg_plot(dates: List[str], time_step: str) -> None:
         plot_log = agg_returns_data.plot(kind='density', style='-', logy=True,
                                          figsize=(16, 9), legend=True, lw=3)
 
-        N_vals = np.arange(5, 6, 1)
+        if dates[0] == '1972-01':
+            N = 5.5
+        elif dates[0] == '1992-01':
+            N = 4
+        else:
+            N = 6
 
-        for N in N_vals:
-
-            gg_distribution: np.ndarray = exact_distributions_covariance_tools\
-                .pdf_gaussian_gaussian(x_val, N, 1)
-            plt.semilogy(x_val, gg_distribution, 'o', lw=3,
-                         label=f'GG - N = {N}')
+        gg_distribution: np.ndarray = exact_distributions_covariance_tools\
+            .pdf_gaussian_gaussian(x_val, N, 1)
+        plt.semilogy(x_val, gg_distribution, 'o', lw=3,
+                        label=f'GG - N = {N}')
 
         plt.legend(fontsize=20)
         plt.title(f'Aggregated distribution returns from {dates[0]} to'
@@ -209,8 +212,8 @@ def pdf_gg_plot(dates: List[str], time_step: str) -> None:
         plt.ylabel('PDF', fontsize=25)
         plt.xticks(fontsize=15)
         plt.yticks(fontsize=15)
-        plt.xlim(-8, 8)
-        plt.ylim(10 ** -4, 1)
+        plt.xlim(-10, 10)
+        plt.ylim(10 ** -9, 1)
         plt.grid(True)
         plt.tight_layout()
         figure_log: plt.Figure = plot_log.get_figure()
@@ -225,7 +228,7 @@ def pdf_gg_plot(dates: List[str], time_step: str) -> None:
 
         # Plotting
         exact_distributions_covariance_tools \
-            .save_plot(figure_log, function_name + '_log', dates, time_step)
+            .save_plot(figure_log, function_name, dates, time_step)
 
         plt.close()
         del agg_returns_data
@@ -273,26 +276,23 @@ def pdf_ga_plot(dates: List[str], time_step: str) -> None:
                                          figsize=(16, 9), legend=True, lw=3)
 
         if dates[0] == '1972-01':
-            N_vals = np.arange(5, 6, 1)
+            N = 5.5
             K = 23
-            L_vals = np.arange(55, 60, 5)
+            L = 55
         elif dates[0] == '1992-01':
-            N_vals = np.arange(5, 6, 1)
+            N = 5
             K = 277
-            L_vals = np.arange(150, 160, 10)
+            L = 150
         else:
-            N_vals = np.arange(7, 8, 1)
+            N = 7
             K = 461
-            L_vals = np.arange(280, 290, 10)
+            L = 280
 
-        for N in N_vals:
-            for L in L_vals:
-
-                ga_distribution: np.ndarray = \
-                    exact_distributions_covariance_tools \
-                    .pdf_gaussian_algebraic(x_val, K, L, N, 1)
-                plt.semilogy(x_val, ga_distribution, 'o', lw=3,
-                             label=f'GA - N = {N} - K = {K} - L = {L}')
+        ga_distribution: np.ndarray = \
+            exact_distributions_covariance_tools \
+            .pdf_gaussian_algebraic(x_val, K, L, N, 1)
+        plt.semilogy(x_val, ga_distribution, 'o', lw=3,
+                        label=f'GA - N = {N} - K = {K} - L = {L}')
 
         plt.legend(fontsize=20)
         plt.title(f'Aggregated distribution returns from {dates[0]} to'
@@ -301,8 +301,8 @@ def pdf_ga_plot(dates: List[str], time_step: str) -> None:
         plt.ylabel('PDF', fontsize=25)
         plt.xticks(fontsize=15)
         plt.yticks(fontsize=15)
-        plt.xlim(-8, 8)
-        plt.ylim(10 ** -4, 1)
+        plt.xlim(-10, 10)
+        plt.ylim(10 ** -9, 1)
         plt.grid(True)
         plt.tight_layout()
         figure_log: plt.Figure = plot_log.get_figure()
@@ -317,7 +317,7 @@ def pdf_ga_plot(dates: List[str], time_step: str) -> None:
 
         # Plotting
         exact_distributions_covariance_tools \
-            .save_plot(figure_log, function_name + '_log', dates, time_step)
+            .save_plot(figure_log, function_name, dates, time_step)
 
         plt.close()
         del agg_returns_data
@@ -365,26 +365,23 @@ def pdf_ag_plot(dates: List[str], time_step: str) -> None:
                                          figsize=(16, 9), legend=True, lw=3)
 
         if dates[0] == '1972-01':
-            N_vals = np.arange(5, 6, 1)
+            N = 5.5
             K = 23
-            l_vals = np.arange(55, 60, 5)
+            l = 55
         elif dates[0] == '1992-01':
-            N_vals = np.arange(5, 6, 1)
+            N = 5
             K = 277
-            l_vals = np.arange(150, 160, 10)
+            l = 150
         else:
-            N_vals = np.arange(7, 8, 1)
+            N = 7
             K = 461
-            l_vals = np.arange(280, 290, 10)
+            l = 280
 
-        for N in N_vals:
-            for l in l_vals:
-
-                ag_distribution: np.ndarray = \
-                    exact_distributions_covariance_tools \
-                    .pdf_algebraic_gaussian(x_val, K, l, N, 1)
-                plt.semilogy(x_val, ag_distribution, 'o', lw=3,
-                             label=f'AG - N = {N} - K = {K} - l = {l}')
+        ag_distribution: np.ndarray = \
+            exact_distributions_covariance_tools \
+            .pdf_algebraic_gaussian(x_val, K, l, N, 1)
+        plt.semilogy(x_val, ag_distribution, 'o', lw=3,
+                        label=f'AG - N = {N} - K = {K} - l = {l}')
 
         plt.legend(fontsize=20)
         plt.title(f'Aggregated distribution returns from {dates[0]} to'
@@ -393,8 +390,8 @@ def pdf_ag_plot(dates: List[str], time_step: str) -> None:
         plt.ylabel('PDF', fontsize=25)
         plt.xticks(fontsize=15)
         plt.yticks(fontsize=15)
-        plt.xlim(-8, 8)
-        plt.ylim(10 ** -4, 1)
+        plt.xlim(-10, 10)
+        plt.ylim(10 ** -9, 1)
         plt.grid(True)
         plt.tight_layout()
         figure_log: plt.Figure = plot_log.get_figure()
@@ -409,7 +406,7 @@ def pdf_ag_plot(dates: List[str], time_step: str) -> None:
 
         # Plotting
         exact_distributions_covariance_tools \
-            .save_plot(figure_log, function_name + '_log', dates, time_step)
+            .save_plot(figure_log, function_name, dates, time_step)
 
         plt.close()
         del agg_returns_data
@@ -457,31 +454,27 @@ def pdf_aa_plot(dates: List[str], time_step: str) -> None:
                                          figsize=(16, 9), legend=True, lw=3)
 
         if dates[0] == '1972-01':
-            N_vals = np.arange(6, 7, 1)
+            N = 6
             K = 23
-            L_vals = np.arange(55, 60, 5)
-            l_vals = np.arange(55, 60, 5)
+            L = 55
+            l = 55
         elif dates[0] == '1992-01':
-            N_vals = np.arange(6, 7, 1)
+            N = 6
             K = 277
-            L_vals = np.arange(150, 160, 10)
-            l_vals = np.arange(150, 160, 10)
+            L = 150
+            l = 150
         else:
-            N_vals = np.arange(7, 8, 1)
+            N = 7
             K = 461
-            L_vals = np.arange(280, 290, 20)
-            l_vals = np.arange(280, 290, 20)
+            L = 280
+            l = 280
 
-        for N in N_vals:
-            for L in L_vals:
-                for l in l_vals:
-
-                    aa_distribution: np.ndarray = \
-                        exact_distributions_covariance_tools \
-                        .pdf_algebraic_algebraic(x_val, K, L, l, N, 1)
-                    plt.semilogy(x_val, aa_distribution, 'o', lw=3,
-                                 label=f'AA - N = {N} - K = {K} - L = {L}'
-                                 + f' - l = {l}')
+        aa_distribution: np.ndarray = \
+            exact_distributions_covariance_tools \
+            .pdf_algebraic_algebraic(x_val, K, L, l, N, 1)
+        plt.semilogy(x_val, aa_distribution, 'o', lw=3,
+                        label=f'AA - N = {N} - K = {K} - L = {L}'
+                        + f' - l = {l}')
 
         plt.legend(loc='upper right', fontsize=20)
         plt.title(f'Aggregated distribution returns from {dates[0]} to'
@@ -490,8 +483,8 @@ def pdf_aa_plot(dates: List[str], time_step: str) -> None:
         plt.ylabel('PDF', fontsize=25)
         plt.xticks(fontsize=15)
         plt.yticks(fontsize=15)
-        plt.xlim(-8, 8)
-        plt.ylim(10 ** -4, 1)
+        plt.xlim(-10, 10)
+        plt.ylim(10 ** -9, 1)
         plt.grid(True)
         plt.tight_layout()
         figure_log: plt.Figure = plot_log.get_figure()
@@ -506,7 +499,7 @@ def pdf_aa_plot(dates: List[str], time_step: str) -> None:
 
         # Plotting
         exact_distributions_covariance_tools \
-            .save_plot(figure_log, function_name + '_log', dates, time_step)
+            .save_plot(figure_log, function_name, dates, time_step)
 
         plt.close()
         del agg_returns_data
@@ -522,7 +515,7 @@ def pdf_aa_plot(dates: List[str], time_step: str) -> None:
 # -----------------------------------------------------------------------------
 
 
-def pdf_all_distributions_plot(dates: List[str], time_step: str) -> None:
+def pdf_lin_all_distributions_plot(dates: List[str], time_step: str) -> None:
     """Plots all the distributions and compares with agg. returns of a market.
 
     :param dates: List of the interval of dates to be analyzed
@@ -532,7 +525,152 @@ def pdf_all_distributions_plot(dates: List[str], time_step: str) -> None:
      a value.
     """
 
-    function_name: str = pdf_all_distributions_plot.__name__
+    function_name: str = pdf_lin_all_distributions_plot.__name__
+    exact_distributions_covariance_tools \
+        .function_header_print_plot(function_name, dates, time_step)
+
+    try:
+
+        # Load data
+        agg_returns_data: pd.Series = pickle.load(open(
+            '../data/exact_distributions_covariance/aggregated_dist_returns'
+            + f'_market_data_{dates[0]}_{dates[1]}_step_{time_step}.pickle',
+            'rb'))
+
+        agg_returns_data = agg_returns_data.rename('Agg. returns')
+
+        x_val: np.ndarray = np.arange(-10, 10, 0.1)
+
+        # Lin plot
+        plot_lin = agg_returns_data.plot(kind='density', style='-',
+                                         figsize=(16, 9), legend=True, lw=3)
+
+        if dates[0] == '1972-01':
+            N = 5.5
+            N_aa = 6
+            K = 23
+            L = 55
+            l = 55
+
+            gg_distribution: np.ndarray = exact_distributions_covariance_tools\
+                .pdf_gaussian_gaussian(x_val, N, 1)
+            plt.plot(x_val, gg_distribution, 'o', lw=3,
+                         label=f'GG - N = {N}')
+
+            ga_distribution: np.ndarray = exact_distributions_covariance_tools\
+                .pdf_gaussian_algebraic(x_val, K, L, N, 1)
+            plt.plot(x_val, ga_distribution, 'o', lw=3,
+                         label=f'GA - N = {N} - K = {K} - L = {L}')
+
+            ag_distribution: np.ndarray = exact_distributions_covariance_tools\
+                .pdf_algebraic_gaussian(x_val, K, l, N, 1)
+            plt.plot(x_val, ag_distribution, 'o', lw=3,
+                         label=f'AG - N = {N} - K = {K} - l = {l}')
+
+            aa_distribution: np.ndarray = exact_distributions_covariance_tools\
+                .pdf_algebraic_algebraic(x_val, K, L, l, N_aa, 1)
+            plt.plot(x_val, aa_distribution, 'o', lw=3,
+                         label=f'AA - N = {N_aa} - K = {K} - L = {L}'
+                         + f' - l = {l}')
+
+        elif dates[0] == '1992-01':
+            N = 5
+            N_gg = 4
+            N_aa = 6
+            K = 277
+            L = 150
+            l = 150
+
+            gg_distribution: np.ndarray = exact_distributions_covariance_tools\
+                .pdf_gaussian_gaussian(x_val, N_gg, 1)
+            plt.plot(x_val, gg_distribution, 'o', lw=3,
+                         label=f'GG - N = {N_gg}')
+
+            ga_distribution: np.ndarray = exact_distributions_covariance_tools\
+                .pdf_gaussian_algebraic(x_val, K, L, N, 1)
+            plt.plot(x_val, ga_distribution, 'o', lw=3,
+                         label=f'GA - N = {N} - K = {K} - L = {L}')
+
+            ag_distribution: np.ndarray = exact_distributions_covariance_tools\
+                .pdf_algebraic_gaussian(x_val, K, l, N, 1)
+            plt.plot(x_val, ag_distribution, 'o', lw=3,
+                         label=f'AG - N = {N} - K = {K} - l = {l}')
+
+            aa_distribution: np.ndarray = exact_distributions_covariance_tools\
+                .pdf_algebraic_algebraic(x_val, K, L, l, N_aa, 1)
+            plt.plot(x_val, aa_distribution, 'o', lw=3,
+                         label=f'AA - N = {N_aa} - K = {K} - L = {L}'
+                         + f' - l = {l}')
+
+        else:
+            N = 7
+            N_gg = 6
+            K = 461
+            L = 280
+            l = 280
+
+            gg_distribution: np.ndarray = exact_distributions_covariance_tools\
+                .pdf_gaussian_gaussian(x_val, N_gg, 1)
+            plt.plot(x_val, gg_distribution, 'o', lw=3,
+                         label=f'GG - N = {N_gg}')
+
+            ga_distribution: np.ndarray = exact_distributions_covariance_tools\
+                .pdf_gaussian_algebraic(x_val, K, L, N, 1)
+            plt.plot(x_val, ga_distribution, 'o', lw=3,
+                         label=f'GA - N = {N} - K = {K} - L = {L}')
+
+            ag_distribution: np.ndarray = exact_distributions_covariance_tools\
+                .pdf_algebraic_gaussian(x_val, K, l, N, 1)
+            plt.plot(x_val, ag_distribution, 'o', lw=3,
+                         label=f'AG - N = {N} - K = {K} - l = {l}')
+
+            aa_distribution: np.ndarray = exact_distributions_covariance_tools\
+                .pdf_algebraic_algebraic(x_val, K, L, l, N, 1)
+            plt.plot(x_val, aa_distribution, 'o', lw=3,
+                         label=f'AA - N = {N} - K = {K} - L = {L} - l = {l}')
+
+        plt.legend(fontsize=20)
+        plt.title(f'Aggregated distribution returns from {dates[0]} to'
+                  + f' {dates[1]} - {time_step}', fontsize=30)
+        plt.xlabel('Aggregated returns', fontsize=25)
+        plt.ylabel('PDF', fontsize=25)
+        plt.xticks(fontsize=15)
+        plt.yticks(fontsize=15)
+        plt.xlim(-2, 2)
+        plt.ylim(0, 0.6)
+        plt.grid(True)
+        plt.tight_layout()
+        figure_lin: plt.Figure = plot_lin.get_figure()
+
+        # Plotting
+        exact_distributions_covariance_tools \
+            .save_plot(figure_lin, function_name, dates, time_step)
+
+        plt.close()
+        del agg_returns_data
+        del figure_lin
+        del plot_lin
+        gc.collect()
+
+    except FileNotFoundError as error:
+        print('No data')
+        print(error)
+        print()
+
+# -----------------------------------------------------------------------------
+
+
+def pdf_log_all_distributions_plot(dates: List[str], time_step: str) -> None:
+    """Plots all the distributions and compares with agg. returns of a market.
+
+    :param dates: List of the interval of dates to be analyzed
+     (i.e. ['1980-01', '2020-12']).
+    :param time_step: time step of the data (i.e. '1m', '2m', '5m', ...).
+    :return: None -- The function saves the plot in a file and does not return
+     a value.
+    """
+
+    function_name: str = pdf_log_all_distributions_plot.__name__
     exact_distributions_covariance_tools \
         .function_header_print_plot(function_name, dates, time_step)
 
@@ -553,7 +691,7 @@ def pdf_all_distributions_plot(dates: List[str], time_step: str) -> None:
                                          figsize=(16, 9), legend=True, lw=3)
 
         if dates[0] == '1972-01':
-            N = 5
+            N = 5.5
             N_aa = 6
             K = 23
             L = 55
@@ -604,7 +742,7 @@ def pdf_all_distributions_plot(dates: List[str], time_step: str) -> None:
                          label=f'AG - N = {N} - K = {K} - l = {l}')
 
             aa_distribution: np.ndarray = exact_distributions_covariance_tools\
-                .pdf_algebraic_algebraic(x_val, K, L, l, N, 1)
+                .pdf_algebraic_algebraic(x_val, K, L, l, N_aa, 1)
             plt.semilogy(x_val, aa_distribution, 'o', lw=3,
                          label=f'AA - N = {N_aa} - K = {K} - L = {L}'
                          + f' - l = {l}')
@@ -643,15 +781,15 @@ def pdf_all_distributions_plot(dates: List[str], time_step: str) -> None:
         plt.ylabel('PDF', fontsize=25)
         plt.xticks(fontsize=15)
         plt.yticks(fontsize=15)
-        plt.xlim(-8, 8)
-        plt.ylim(10 ** -4, 1)
+        plt.xlim(-10, 10)
+        plt.ylim(10 ** -9, 1)
         plt.grid(True)
         plt.tight_layout()
         figure_log: plt.Figure = plot_log.get_figure()
 
         # Plotting
         exact_distributions_covariance_tools \
-            .save_plot(figure_log, function_name + '_log', dates, time_step)
+            .save_plot(figure_log, function_name, dates, time_step)
 
         plt.close()
         del agg_returns_data
@@ -695,9 +833,13 @@ def main() -> None:
     pdf_aa_plot(dates_2, '1d')
     pdf_aa_plot(dates_3, '1d')
 
-    pdf_all_distributions_plot(dates_1, '1d')
-    pdf_all_distributions_plot(dates_2, '1d')
-    pdf_all_distributions_plot(dates_3, '1d')
+    pdf_lin_all_distributions_plot(dates_1, '1d')
+    pdf_lin_all_distributions_plot(dates_2, '1d')
+    pdf_lin_all_distributions_plot(dates_3, '1d')
+
+    pdf_log_all_distributions_plot(dates_1, '1d')
+    pdf_log_all_distributions_plot(dates_2, '1d')
+    pdf_log_all_distributions_plot(dates_3, '1d')
 
 # -----------------------------------------------------------------------------
 
