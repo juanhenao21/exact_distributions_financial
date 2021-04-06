@@ -1,3 +1,57 @@
-\begin{thebibliography}{}
+\begin{thebibliography}{1}
+
+\bibitem{subtle_nature}
+Jean-Philippe Bouchaud.
+\newblock The subtle nature of financial random walks.
+\newblock {\em Chaos: An Interdisciplinary Journal of Nonlinear Science},
+  15(2):026104, 2005.
+
+\bibitem{empirical_facts}
+Anirban Chakraborti, Ioane Toke, Marco Patriarca, and Frédéric Abergel.
+\newblock Econophysics: Empirical facts and agent-based models.
+\newblock {\em arXiv.org, Quantitative Finance Papers}, 09 2009.
+
+\bibitem{non_stationarity_fin_guhr}
+Thilo~A. Schmitt, Desislava Chetalova, Rudi Schäfer, and Thomas Guhr.
+\newblock Non-stationarity in financial time series: Generic features and tail
+  behavior.
+\newblock {\em {EPL} (Europhysics Letters)}, 103(5):58003, sep 2013.
+
+\bibitem{volatility_change}
+William~G. Schwert.
+\newblock Why does stock market volatility change over time?
+\newblock {\em The Journal of Finance}, 44(5):1115--1153.
+
+\bibitem{exact_distributions_guhr}
+Thomas Guhr and Andreas Schell.
+\newblock Exact multivariate amplitude distributions for non-stationary
+  gaussian or algebraic fluctuations of covariances or correlations.
+\newblock {\em Journal of Physics A: Mathematical and Theoretical},
+  54(12):125002, mar 2021.
+
+\bibitem{credit_risk_guhr}
+Thilo~A. Schmitt, Desislava Chetalova, Rudi Schäfer, and Thomas Guhr.
+\newblock Credit risk and the instability of the financial system: An ensemble
+  approach.
+\newblock {\em {EPL} (Europhysics Letters)}, 105(3):38004, feb 2014.
+
+\bibitem{portfolio_distributions_guhr}
+Desislava Chetalova, Thilo~A. Schmitt, Rudi Schäfer, and Thomas Guhr.
+\newblock Portfolio return distributions: Sample statistics with stochastic
+  correlations.
+\newblock {\em International Journal of Theoretical and Applied Finance},
+  18(02):1550012, 2015.
+
+\bibitem{asset_correlations_guhr}
+Thilo Schmitt, Rudi Schäfer, and Thomas Guhr.
+\newblock Credit risk: Taking fluctuating asset correlations into account.
+\newblock {\em Journal of Credit Risk}, 11(3), 2015.
+
+\bibitem{stochastic_cov_guhr}
+Frederik Meudt, Martin Theissen, Rudi Schäfer, and Thomas Guhr.
+\newblock Constructing analytically tractable ensembles of stochastic
+  covariances with an application to financial data.
+\newblock {\em Journal of Statistical Mechanics: Theory and Experiment},
+  2015(11):P11025, nov 2015.
 
 \end{thebibliography}

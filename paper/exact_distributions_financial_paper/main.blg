@@ -1,48 +1,48 @@
-This is BibTeX, Version 0.99d (TeX Live 2016/Debian)
+This is BibTeX, Version 0.99d (TeX Live 2017/Debian)
 Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: main.aux
 The style file: unsrt.bst
-I found no \citation commands---while reading file main.aux
 Database file #1: bib.bib
-You've used 0 entries,
+Warning--empty year in volatility_change
+You've used 9 entries,
             1791 wiz_defined-function locations,
-            445 strings with 3509 characters,
-and the built_in function-call counts, 18 in all, are:
-= -- 0
-> -- 0
+            504 strings with 5212 characters,
+and the built_in function-call counts, 1988 in all, are:
+= -- 158
+> -- 97
 < -- 0
-+ -- 0
-- -- 0
-* -- 2
-:= -- 7
-add.period$ -- 0
-call.type$ -- 0
-change.case$ -- 0
++ -- 36
+- -- 27
+* -- 173
+:= -- 337
+add.period$ -- 27
+call.type$ -- 9
+change.case$ -- 9
 chr.to.int$ -- 0
-cite$ -- 0
-duplicate$ -- 0
-empty$ -- 1
-format.name$ -- 0
-if$ -- 1
+cite$ -- 10
+duplicate$ -- 79
+empty$ -- 193
+format.name$ -- 27
+if$ -- 422
 int.to.chr$ -- 0
-int.to.str$ -- 0
-missing$ -- 0
-newline$ -- 3
-num.names$ -- 0
-pop$ -- 0
+int.to.str$ -- 9
+missing$ -- 9
+newline$ -- 48
+num.names$ -- 9
+pop$ -- 12
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 1
+skip$ -- 29
 stack$ -- 0
-substring$ -- 0
-swap$ -- 0
+substring$ -- 132
+swap$ -- 9
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
-warning$ -- 0
-while$ -- 0
-width$ -- 0
-write$ -- 2
-(There was 1 error message)
+warning$ -- 1
+while$ -- 16
+width$ -- 10
+write$ -- 99
+(There was 1 warning)
