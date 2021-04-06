@@ -655,15 +655,15 @@ def pdf_lin_all_distributions_plot(dates: List[str], time_step: str) -> None:
         plt.ylim(0, 0.6)
         plt.grid(True)
         plt.tight_layout()
-        figure_log: plt.Figure = plot_lin.get_figure()
+        figure_lin: plt.Figure = plot_lin.get_figure()
 
         # Plotting
         exact_distributions_correlation_tools \
-            .save_plot(figure_log, function_name, dates, time_step)
+            .save_plot(figure_lin, function_name, dates, time_step)
 
         plt.close()
         del agg_returns_data
-        del figure_log
+        del figure_lin
         del plot_lin
         gc.collect()
 
