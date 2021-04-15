@@ -1,5 +1,11 @@
 \begin{thebibliography}{1}
 
+\bibitem{non_stationarity_fin_guhr}
+Thilo~A. Schmitt, Desislava Chetalova, Rudi Schäfer, and Thomas Guhr.
+\newblock Non-stationarity in financial time series: Generic features and tail
+  behavior.
+\newblock {\em {EPL} (Europhysics Letters)}, 103(5):58003, sep 2013.
+
 \bibitem{subtle_nature}
 Jean-Philippe Bouchaud.
 \newblock The subtle nature of financial random walks.
@@ -10,12 +16,6 @@ Jean-Philippe Bouchaud.
 Anirban Chakraborti, Ioane Toke, Marco Patriarca, and Frédéric Abergel.
 \newblock Econophysics: Empirical facts and agent-based models.
 \newblock {\em arXiv.org, Quantitative Finance Papers}, 09 2009.
-
-\bibitem{non_stationarity_fin_guhr}
-Thilo~A. Schmitt, Desislava Chetalova, Rudi Schäfer, and Thomas Guhr.
-\newblock Non-stationarity in financial time series: Generic features and tail
-  behavior.
-\newblock {\em {EPL} (Europhysics Letters)}, 103(5):58003, sep 2013.
 
 \bibitem{volatility_change}
 William~G. Schwert.
