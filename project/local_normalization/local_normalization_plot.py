@@ -372,13 +372,9 @@ def ln_aggregated_dist_returns_market_plot(dates: List[str], time_step: str,
         agg_returns_data: pd.Series = pickle.load(open(
             '../data/local_normalization/ln_aggregated_dist_returns_market'
             + f'_data_{dates[0]}_{dates[1]}_step_{time_step}_win_{window}'
-            + f'.pickle', 'rb'))[::2]
+            + f'.pickle', 'rb'))#[::2]
 
-        agg_returns_data = agg_returns_data[np.isfinite(agg_returns_data)]
         agg_returns_data = agg_returns_data.rename('Agg. returns')
-
-        print(max(agg_returns_data))
-        print(min(agg_returns_data))
 
         x_gauss: np.ndarray = np.arange(-10, 10, 0.1)
         gaussian: np.ndarray = local_normalization_tools \
@@ -387,7 +383,7 @@ def ln_aggregated_dist_returns_market_plot(dates: List[str], time_step: str,
         figure_log = plt.figure(figsize=(16, 9))
 
         # Log plot
-        plot_log = agg_returns_data.plot(kind='hist', style='-', density=True,
+        plot_log = agg_returns_data.plot(kind='density', style='-', logy=True,
                                          figsize=(16, 9), legend=True, lw=3)
 
         plt.semilogy(x_gauss, gaussian, 'o', lw=3, label='Gaussian')
@@ -399,8 +395,8 @@ def ln_aggregated_dist_returns_market_plot(dates: List[str], time_step: str,
         plt.ylabel('PDF', fontsize=25)
         plt.xticks(fontsize=15)
         plt.yticks(fontsize=15)
-        # plt.xlim(-5, 5)
-        # plt.ylim(10 ** -100, 100)
+        plt.xlim(-6, 6)
+        plt.ylim(10 ** -5, 1)
         plt.grid(True)
         plt.tight_layout()
         figure_log: plt.Figure = plot_log.get_figure()

@@ -5,6 +5,7 @@ normalized returns and the correlation matrix of financial time series.
 
 This script requires the following modules:
     * itertools
+    * math
     * multiprocessing
     * pickle
     * typing
@@ -31,7 +32,8 @@ The module contains the following functions:
 # Modules
 
 from itertools import product as iprod
-from itertools import combinations as icomb
+from itertools import permutations as iperm
+import math
 import multiprocessing as mp
 import pickle
 from typing import Any, Iterator, List, Tuple
@@ -237,8 +239,10 @@ def ln_aggregated_dist_returns_pair_data(dates: List[str], time_step: str,
 
         del two_col
 
-        # remove NaN
-        agg_ret_mkt_list = [x for x in agg_ret_mkt_list if x == x]
+        # remove NaN and Inf
+        agg_ret_mkt_list = [x for x in agg_ret_mkt_list if not math.isnan(x) and not math.isinf(x)]
+        # filter out values greater than 10 or smaller than -10
+        agg_ret_mkt_list = [x for x in agg_ret_mkt_list if x <= 10 and x >= -10]
 
         return agg_ret_mkt_list
 
@@ -268,21 +272,24 @@ def ln_aggregated_dist_returns_market_data(dates: List[str], time_step: str,
 
     try:
 
-        # Load data
+        # Load name of the stocks
         stocks_name: pd.DataFrame = pickle.load(open(
             f'../data/exact_distributions_correlation/returns_data_{dates[0]}'
-            + f'_{dates[1]}_step_{time_step}.pickle', 'rb')).columns[:20]
+            + f'_{dates[1]}_step_{time_step}.pickle', 'rb')).columns[:10]
 
         agg_ret_mkt_list: List[float] = []
 
-        stocks_comb: Iterator[Tuple[Any, ...]] = icomb(stocks_name, 2)
-        args_prod: Iterator[Any] = iprod([dates], [time_step], stocks_comb,
+        # Combination of stock pairs
+        stocks_perm: Iterator[Tuple[Any, ...]] = iperm(stocks_name, 2)
+        args_prod: Iterator[Any] = iprod([dates], [time_step], stocks_perm,
                                          [window])
 
+        # Parallel computing
         with mp.Pool(processes=mp.cpu_count()) as pool:
             agg_ret_mkt_list.extend(pool.starmap(
                 ln_aggregated_dist_returns_pair_data, args_prod))
 
+        # Flatten the list
         agg_ret_mkt_list_flat = \
             [val for sublist in agg_ret_mkt_list for val in sublist]
         agg_ret_mkt_series: pd.Series = pd.Series(agg_ret_mkt_list_flat)
@@ -311,8 +318,8 @@ def main() -> None:
     :return: None.
     """
 
-    ln_aggregated_dist_returns_pair_data(['1992-01', '2012-12'], '1d', ['AAPL', 'MSFT'], '25')
-    # ln_aggregated_dist_returns_market_data(['1992-01', '2012-12'], '1d', '25')
+    # ln_aggregated_dist_returns_pair_data(['1992-01', '2012-12'], '1d', ['AAPL', 'MSFT'], '25')
+    ln_aggregated_dist_returns_market_data(['1992-01', '2012-12'], '1d', '25')
 
 
 # -----------------------------------------------------------------------------
