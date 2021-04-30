@@ -185,7 +185,7 @@ def ln_aggregated_dist_returns_pair_data(dates: List[str], time_step: str,
 
         # Load data
         two_col: pd.DataFrame = pickle.load(open(
-            f'../data/exact_distributions_correlation/returns_data_{dates[0]}'
+            f'../data/exact_distributions_correlation/normalized_returns_data_{dates[0]}'
             + f'_{dates[1]}_step_{time_step}.pickle', 'rb')) \
             [[cols[0], cols[1]]]
 
@@ -204,6 +204,14 @@ def ln_aggregated_dist_returns_pair_data(dates: List[str], time_step: str,
 
             # Use the return columns
             local_data_df: pd.DataFrame = local_data[1][[cols[0], cols[1]]]
+
+            # Local normalization
+            mean: pd.Series = local_data_df.mean()
+            std_dev: pd.Series = local_data_df.std()
+
+            # local_norm_data_df: pd.DataFrame = (local_data_df - mean) / std_dev
+
+            # cov_two_col: pd.DataFrame = local_norm_data_df.cov()
             cov_two_col: pd.DataFrame = local_data_df.cov()
             # eig_vec:  eigenvector, eig_val: eigenvalues
             eig_val, eig_vec = np.linalg.eig(cov_two_col)
@@ -211,7 +219,8 @@ def ln_aggregated_dist_returns_pair_data(dates: List[str], time_step: str,
             # rot: rotation, scal: scaling
             rot, scale = eig_vec, np.diag(1 / np.sqrt(eig_val))
             # trans: transformation matrix
-            # trans = rot . scal
+            # trans = rot . scale
+            # trans = scale.dot(rot.T)
             trans = rot.dot(scale)
 
             try:
@@ -275,7 +284,7 @@ def ln_aggregated_dist_returns_market_data(dates: List[str], time_step: str,
         # Load name of the stocks
         stocks_name: pd.DataFrame = pickle.load(open(
             f'../data/exact_distributions_correlation/returns_data_{dates[0]}'
-            + f'_{dates[1]}_step_{time_step}.pickle', 'rb')).columns[:10]
+            + f'_{dates[1]}_step_{time_step}.pickle', 'rb')).columns[:20]
 
         agg_ret_mkt_list: List[float] = []
 
@@ -293,6 +302,15 @@ def ln_aggregated_dist_returns_market_data(dates: List[str], time_step: str,
         agg_ret_mkt_list_flat = \
             [val for sublist in agg_ret_mkt_list for val in sublist]
         agg_ret_mkt_series: pd.Series = pd.Series(agg_ret_mkt_list_flat)
+
+        print(f'mean = {agg_ret_mkt_series.mean()}')
+        print(f'std  = {agg_ret_mkt_series.std()}')
+        mean = agg_ret_mkt_series.mean()
+        std = agg_ret_mkt_series.std()
+        # agg_ret_mkt_series_norm = (agg_ret_mkt_series - mean) / std
+        # print('xxx')
+        # print(f'mean = {agg_ret_mkt_series_norm.mean()}')
+        # print(f'std  = {agg_ret_mkt_series_norm.std()}')
 
         # Saving data
         local_normalization_tools \
