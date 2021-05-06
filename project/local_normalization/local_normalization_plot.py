@@ -372,7 +372,7 @@ def ln_aggregated_dist_returns_market_plot(dates: List[str], time_step: str,
         agg_returns_data: pd.Series = pickle.load(open(
             '../data/local_normalization/ln_aggregated_dist_returns_market'
             + f'_data_{dates[0]}_{dates[1]}_step_{time_step}_win_{window}'
-            + f'.pickle', 'rb'))#[::2]
+            + f'.pickle', 'rb'))
 
         agg_returns_data = agg_returns_data.rename('Agg. returns')
 
@@ -395,8 +395,8 @@ def ln_aggregated_dist_returns_market_plot(dates: List[str], time_step: str,
         plt.ylabel('PDF', fontsize=25)
         plt.xticks(fontsize=15)
         plt.yticks(fontsize=15)
-        plt.xlim(-6, 6)
-        plt.ylim(10 ** -5, 1)
+        plt.xlim(-8, 8)
+        plt.ylim(10 ** -9, 1)
         plt.grid(True)
         plt.tight_layout()
         figure_log: plt.Figure = plot_log.get_figure()
