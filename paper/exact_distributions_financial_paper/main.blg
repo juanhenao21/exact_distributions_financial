@@ -4,45 +4,45 @@ The top-level auxiliary file: main.aux
 The style file: unsrt.bst
 Database file #1: bib.bib
 Warning--empty year in volatility_change
-You've used 9 entries,
+You've used 15 entries,
             1791 wiz_defined-function locations,
-            504 strings with 5212 characters,
-and the built_in function-call counts, 1988 in all, are:
-= -- 158
-> -- 97
+            546 strings with 6205 characters,
+and the built_in function-call counts, 3536 in all, are:
+= -- 299
+> -- 165
 < -- 0
-+ -- 36
-- -- 27
-* -- 173
-:= -- 337
-add.period$ -- 27
-call.type$ -- 9
-change.case$ -- 9
++ -- 61
+- -- 46
+* -- 308
+:= -- 586
+add.period$ -- 45
+call.type$ -- 15
+change.case$ -- 15
 chr.to.int$ -- 0
-cite$ -- 10
-duplicate$ -- 79
-empty$ -- 193
-format.name$ -- 27
-if$ -- 422
+cite$ -- 16
+duplicate$ -- 133
+empty$ -- 339
+format.name$ -- 46
+if$ -- 750
 int.to.chr$ -- 0
-int.to.str$ -- 9
-missing$ -- 9
-newline$ -- 48
-num.names$ -- 9
-pop$ -- 12
+int.to.str$ -- 15
+missing$ -- 15
+newline$ -- 78
+num.names$ -- 15
+pop$ -- 18
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 29
+skip$ -- 48
 stack$ -- 0
-substring$ -- 132
-swap$ -- 9
+substring$ -- 292
+swap$ -- 15
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
 warning$ -- 1
-while$ -- 16
-width$ -- 10
-write$ -- 99
+while$ -- 32
+width$ -- 17
+write$ -- 165
 (There was 1 warning)

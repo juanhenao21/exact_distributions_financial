@@ -1,4 +1,41 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
+
+\bibitem{comp_sys_1}
+J.~B. Gao.
+\newblock Recurrence time statistics for chaotic systems and their
+  applications.
+\newblock {\em Phys. Rev. Lett.}, 83:3178--3181, Oct 1999.
+
+\bibitem{comp_sys_2}
+Rainer Hegger, Holger Kantz, Lorenzo Matassini, and Thomas Schreiber.
+\newblock Coping with nonstationarity by overembedding.
+\newblock {\em Phys. Rev. Lett.}, 84:4092--4095, May 2000.
+
+\bibitem{comp_sys_3}
+Pedro Bernaola-Galv\'an, Plamen~Ch. Ivanov, Lu\'{\i}s A.~Nunes Amaral, and
+  H.~Eugene Stanley.
+\newblock Scale invariance in the nonstationarity of human heart rate.
+\newblock {\em Phys. Rev. Lett.}, 87:168105, Oct 2001.
+
+\bibitem{comp_sys_4}
+Christoph Rieke, Karsten Sternickel, Ralph~G. Andrzejak, Christian~E. Elger,
+  Peter David, and Klaus Lehnertz.
+\newblock Measuring nonstationarity by analyzing the loss of recurrence in
+  dynamical systems.
+\newblock {\em Phys. Rev. Lett.}, 88:244102, May 2002.
+
+\bibitem{non_stat_1}
+R~K~P Zia and Per~Arne Rikvold.
+\newblock Fluctuations and correlations in an individual-based model of
+  biological coevolution.
+\newblock {\em Journal of Physics A: Mathematical and General},
+  37(19):5135--5155, apr 2004.
+
+\bibitem{non_stat_2}
+R~K~P Zia and B~Schmittmann.
+\newblock A possible classification of nonequilibrium steady states.
+\newblock {\em Journal of Physics A: Mathematical and General},
+  39(24):L407--L413, may 2006.
 
 \bibitem{non_stationarity_fin_guhr}
 Thilo~A. Schmitt, Desislava Chetalova, Rudi Schäfer, and Thomas Guhr.
