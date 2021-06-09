@@ -55,7 +55,7 @@ def distributions_plot(N: float, K: float, L: float, l: float) -> None:
 
     markers: List[str] = ['-o', '-^', '-s', '-P']
 
-    figure: plt.Figure = plt.figure(figsize=(6, 16))
+    figure: plt.Figure = plt.figure(figsize=(9, 16))
     ax1: plt.subplot = plt.subplot(2, 1, 1)
     ax2: plt.subplot = plt.subplot(2, 1, 2)
 
@@ -66,10 +66,10 @@ def distributions_plot(N: float, K: float, L: float, l: float) -> None:
     ax1.plot(x_vals, aa_distribution, markers[3], ms=10, label=f'AA')
 
     ax1.legend(fontsize=20)
-    ax1.set_xlabel(r'$\tilde{r}$', fontsize=15)
-    ax1.set_ylabel(r'PDF', fontsize=15)
-    ax1.tick_params(axis='x', labelsize=10)
-    ax1.tick_params(axis='y', labelsize=10)
+    ax1.set_xlabel(r'$\tilde{r}$', fontsize=20)
+    ax1.set_ylabel(r'PDF', fontsize=20)
+    ax1.tick_params(axis='x', labelsize=15)
+    ax1.tick_params(axis='y', labelsize=15)
     ax1.set_xlim(-2, 2)
     ax1.set_ylim(0, 0.65)
     ax1.grid(True)
@@ -81,10 +81,10 @@ def distributions_plot(N: float, K: float, L: float, l: float) -> None:
     ax2.semilogy(x_vals, aa_distribution, markers[3], ms=5, label=f'AA')
 
     ax2.legend(fontsize=20)
-    ax2.set_xlabel(r'$\tilde{r}$', fontsize=15)
-    ax2.set_ylabel(r'PDF', fontsize=15)
-    ax2.tick_params(axis='x', labelsize=10)
-    ax2.tick_params(axis='y', labelsize=10)
+    ax2.set_xlabel(r'$\tilde{r}$', fontsize=20)
+    ax2.set_ylabel(r'PDF', fontsize=20)
+    ax2.tick_params(axis='x', labelsize=15)
+    ax2.tick_params(axis='y', labelsize=15)
     ax2.set_xlim(-8, 8)
     ax2.set_ylim(10 ** -6.5, 1)
     ax2.grid(True)
@@ -92,7 +92,7 @@ def distributions_plot(N: float, K: float, L: float, l: float) -> None:
     plt.tight_layout()
 
     # Save Plot
-    figure.savefig(f'../plot/distributions_comparison.png')
+    figure.savefig(f'../plot/05_distributions_comparison.png')
 
 # ----------------------------------------------------------------------------
 
