@@ -36,7 +36,7 @@ from itertools import combinations as icomb
 import math
 import multiprocessing as mp
 import pickle
-from typing import Any, Iterator, List, Tuple
+from typing import Any, Iterable, List, Tuple
 
 import numpy as np  # type: ignore
 import pandas as pd  # type: ignore
@@ -204,7 +204,8 @@ def ln_aggregated_dist_returns_pair_data(dates: List[str], time_step: str,
             # Use the return columns
             local_data_df: pd.DataFrame = local_data[1][[cols[0], cols[1]]]
 
-            local_data_df: pd.DataFrame = (local_data_df - local_data_df.mean()) / local_data_df.std()
+            local_data_df= \
+                (local_data_df - local_data_df.mean()) / local_data_df.std()
 
             cov_two_col: pd.DataFrame = local_data_df.corr()
             # eig_vec:  eigenvector, eig_val: eigenvalues
@@ -242,9 +243,11 @@ def ln_aggregated_dist_returns_pair_data(dates: List[str], time_step: str,
         del two_col
 
         # remove NaN and Inf
-        agg_ret_mkt_list = [x for x in agg_ret_mkt_list if not math.isnan(x) and not math.isinf(x)]
+        agg_ret_mkt_list = [x for x in agg_ret_mkt_list if not math.isnan(x)
+                            and not math.isinf(x)]
         # filter out values greater than 10 or smaller than -10
-        agg_ret_mkt_list = [x for x in agg_ret_mkt_list if x <= 10 and x >= -10]
+        agg_ret_mkt_list = [x for x in agg_ret_mkt_list if x <= 10
+                            and x >= -10]
 
         return agg_ret_mkt_list
 
@@ -277,13 +280,13 @@ def ln_aggregated_dist_returns_market_data(dates: List[str], time_step: str,
         # Load name of the stocks
         stocks_name: pd.DataFrame = pickle.load(open(
             f'../data/exact_distributions_correlation/returns_data_{dates[0]}'
-            + f'_{dates[1]}_step_{time_step}.pickle', 'rb'))#.columns[:20]
+            + f'_{dates[1]}_step_{time_step}.pickle', 'rb')).columns[:80]
 
-        agg_ret_mkt_list: List[float] = []
+        agg_ret_mkt_list: List[List[float]] = []
 
         # Combination of stock pairs
-        stocks_comb: Iterator[Tuple[Any, ...]] = icomb(stocks_name, 2)
-        args_prod: Iterator[Any] = iprod([dates], [time_step], stocks_comb,
+        stocks_comb: Iterable[Tuple[Any, ...]] = icomb(stocks_name, 2)
+        args_prod: Iterable[Any] = iprod([dates], [time_step], stocks_comb,
                                          [window])
 
         # Parallel computing
@@ -292,7 +295,7 @@ def ln_aggregated_dist_returns_market_data(dates: List[str], time_step: str,
                 ln_aggregated_dist_returns_pair_data, args_prod))
 
         # Flatten the list
-        agg_ret_mkt_list_flat = \
+        agg_ret_mkt_list_flat: List[float] = \
             [val for sublist in agg_ret_mkt_list for val in sublist]
         agg_ret_mkt_series: pd.Series = pd.Series(agg_ret_mkt_list_flat)
 
@@ -322,10 +325,6 @@ def main() -> None:
 
     :return: None.
     """
-
-    # ln_aggregated_dist_returns_pair_data(['1992-01', '2012-12'], '1d', ['AAPL', 'MSFT'], '25')
-    ln_aggregated_dist_returns_market_data(['1992-01', '2012-12'], '1d', '25')
-
 
 # -----------------------------------------------------------------------------
 
