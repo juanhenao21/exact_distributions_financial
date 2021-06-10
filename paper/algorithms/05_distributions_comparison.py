@@ -3,12 +3,10 @@
 Plots the figures of the exact distributions implementation for the paper.
 
 This script requires the following modules:
-    * pickle
     * sys
     * typing
     * matplotlib
     * numpy
-    * pandas
     * exact_distributions_covariance_tools
 
 The module contains the following functions:
@@ -22,13 +20,11 @@ The module contains the following functions:
 # ----------------------------------------------------------------------------
 # Modules
 
-import pickle
 import sys
 from typing import List
 
-from matplotlib import pyplot as plt  #type: ignore
-import numpy as np  #type: ignore
-import pandas as pd  #type: ignore
+from matplotlib import pyplot as plt  # type: ignore
+import numpy as np  # type: ignore
 
 sys.path.insert(1, '../../project/exact_distributions_covariance')
 import exact_distributions_covariance_tools as exact_distributions_tools
