@@ -73,7 +73,7 @@ def correlation_matrix_plot(dates: List[List[str]], time_step: str) -> None:
 
         figure.tight_layout()
 
-        # Plotting
+        # Save plot
         figure.savefig(f'../plot/03_correlation_matrix.png')
 
     except FileNotFoundError as error:
