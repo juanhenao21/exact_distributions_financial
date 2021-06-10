@@ -185,7 +185,7 @@ def ln_aggregated_dist_returns_pair_data(dates: List[str], time_step: str,
 
         # Load data
         two_col: pd.DataFrame = pickle.load(open(
-            f'../data/exact_distributions_correlation/normalized_returns_data_{dates[0]}'
+            f'../data/exact_distributions_correlation/returns_data_{dates[0]}'
             + f'_{dates[1]}_step_{time_step}.pickle', 'rb')) \
             [[cols[0], cols[1]]]
 
@@ -203,6 +203,8 @@ def ln_aggregated_dist_returns_pair_data(dates: List[str], time_step: str,
 
             # Use the return columns
             local_data_df: pd.DataFrame = local_data[1][[cols[0], cols[1]]]
+
+            local_data_df: pd.DataFrame = (local_data_df - local_data_df.mean()) / local_data_df.std()
 
             cov_two_col: pd.DataFrame = local_data_df.corr()
             # eig_vec:  eigenvector, eig_val: eigenvalues
@@ -274,7 +276,7 @@ def ln_aggregated_dist_returns_market_data(dates: List[str], time_step: str,
 
         # Load name of the stocks
         stocks_name: pd.DataFrame = pickle.load(open(
-            f'../data/exact_distributions_correlation/normalized_returns_data_{dates[0]}'
+            f'../data/exact_distributions_correlation/returns_data_{dates[0]}'
             + f'_{dates[1]}_step_{time_step}.pickle', 'rb'))#.columns[:20]
 
         agg_ret_mkt_list: List[float] = []
