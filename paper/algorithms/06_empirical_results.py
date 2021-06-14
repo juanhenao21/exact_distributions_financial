@@ -32,6 +32,7 @@ import pandas as pd  # type: ignore
 
 sys.path.insert(1, '../../project/exact_distributions_covariance')
 import exact_distributions_covariance_tools as exact_distributions_tools
+
 # ----------------------------------------------------------------------------
 
 
@@ -55,7 +56,7 @@ def pdf_all_distributions_plot(dates: List[str], time_step: str) -> None:
             + f'_returns_market_data_{dates[0]}_{dates[1]}_step_{time_step}'
             + f'.pickle', 'rb'))
 
-        agg_returns_data = agg_returns_data.rename('Agg. returns')
+        agg_returns_data = agg_returns_data.rename(r'$\tilde{r}$')
 
         x_val_lin: np.ndarray = np.arange(-5, 5, 0.2)
         x_val_log: np.ndarray = np.arange(-10, 10, 0.5)
@@ -64,7 +65,7 @@ def pdf_all_distributions_plot(dates: List[str], time_step: str) -> None:
 
         # Lin plot
         plot_lin = agg_returns_data.plot(kind='density', style='-', ax=ax1,
-                                         legend=True, lw=3)
+                                         legend=False, lw=3)
         # Log plot
         plot_log = agg_returns_data.plot(kind='density', style='-', logy=True,
                                          ax=ax2, legend=True, lw=3)
@@ -82,38 +83,36 @@ def pdf_all_distributions_plot(dates: List[str], time_step: str) -> None:
             gg_distribution_log: np.ndarray = exact_distributions_tools\
                 .pdf_gaussian_gaussian(x_val_log, N_gg, 1)
             ax1.plot(x_val_lin, gg_distribution_lin, markers[0], lw=3, ms=15,
-                         label=f'GG - N = {N_gg}')
+                         label=f'GG')
             ax2.semilogy(x_val_log, gg_distribution_log, markers[0], lw=3, ms=15,
-                         label=f'GG - N = {N_gg}')
+                         label=f'GG')
 
             ga_distribution_lin: np.ndarray = exact_distributions_tools\
                 .pdf_gaussian_algebraic(x_val_lin, K, L, N, 1)
             ga_distribution_log: np.ndarray = exact_distributions_tools\
                 .pdf_gaussian_algebraic(x_val_log, K, L, N, 1)
             ax1.plot(x_val_lin, ga_distribution_lin, markers[1], lw=3, ms=15,
-                         label=f'GA - N = {N} - K = {K} - L = {L}')
+                         label=f'GA')
             ax2.semilogy(x_val_log, ga_distribution_log, markers[1], lw=3, ms=15,
-                         label=f'GA - N = {N} - K = {K} - L = {L}')
+                         label=f'GA')
 
             ag_distribution_lin: np.ndarray = exact_distributions_tools\
                 .pdf_algebraic_gaussian(x_val_lin, K, l, N, 1)
             ag_distribution_log: np.ndarray = exact_distributions_tools\
                 .pdf_algebraic_gaussian(x_val_log, K, l, N, 1)
             ax1.plot(x_val_lin, ag_distribution_lin, markers[2], lw=3, ms=15,
-                         label=f'AG - N = {N} - K = {K} - l = {l}')
+                         label=f'AG')
             ax2.semilogy(x_val_log, ag_distribution_log, markers[2], lw=3, ms=15,
-                         label=f'AG - N = {N} - K = {K} - l = {l}')
+                         label=f'AG')
 
             aa_distribution_lin: np.ndarray = exact_distributions_tools\
                 .pdf_algebraic_algebraic(x_val_lin, K, L, l, N_aa, 1)
             aa_distribution_log: np.ndarray = exact_distributions_tools\
                 .pdf_algebraic_algebraic(x_val_log, K, L, l, N_aa, 1)
             ax1.plot(x_val_lin, aa_distribution_lin, markers[3], lw=3, ms=15,
-                         label=f'AA - N = {N_aa} - K = {K} - L = {L}'
-                         + f' - l = {l}')
+                         label=f'AA')
             ax2.semilogy(x_val_log, aa_distribution_log, markers[3], lw=3, ms=15,
-                         label=f'AA - N = {N_aa} - K = {K} - L = {L}'
-                         + f' - l = {l}')
+                         label=f'AA')
 
         else:
             N = 7
@@ -170,7 +169,8 @@ def pdf_all_distributions_plot(dates: List[str], time_step: str) -> None:
         ax1.grid(True)
         plt.tight_layout()
 
-        # ax2.legend(fontsize=20)
+        ax2.legend(loc='upper center', bbox_to_anchor=(0.45, -0.09), ncol=5,
+                   fontsize=20)
         ax2.set_xlabel(r'$\tilde{r}$', fontsize=25)
         ax2.set_ylabel('PDF', fontsize=25)
         ax2.tick_params(axis='x', labelsize=15)
@@ -206,7 +206,7 @@ def main() -> None:
     :return: None.
     """
 
-    # pdf_all_distributions_plot(['1992-01', '2012-12'], "1d")
+    pdf_all_distributions_plot(['1992-01', '2012-12'], "1d")
     pdf_all_distributions_plot(['2012-01', '2020-12'], "1d")
 
 # -----------------------------------------------------------------------------
