@@ -39,15 +39,26 @@ def distributions_plot(N: float, K: float, L: float, l: float) -> None:
      a value.
     """
 
-    x_vals: np.ndarray = np.arange(-10, 10, 0.1)
-    gg_distribution: np.ndarray = exact_distributions_tools \
-        .pdf_gaussian_gaussian(x_vals, N, 1)
-    ga_distribution: np.ndarray = exact_distributions_tools \
-        .pdf_gaussian_algebraic(x_vals, K, L, N, 1)
-    ag_distribution: np.ndarray = exact_distributions_tools \
-        .pdf_algebraic_gaussian(x_vals, K, l, N, 1)
-    aa_distribution: np.ndarray = exact_distributions_tools \
-        .pdf_algebraic_algebraic(x_vals, K, L, l, N, 1)
+    x_vals_lin: np.ndarray = np.arange(-10, 10, 0.2)
+    x_vals_log: np.ndarray = np.arange(-10, 10, 0.5)
+
+    gg_distribution_lin: np.ndarray = exact_distributions_tools \
+        .pdf_gaussian_gaussian(x_vals_lin, N, 1)
+    ga_distribution_lin: np.ndarray = exact_distributions_tools \
+        .pdf_gaussian_algebraic(x_vals_lin, K, L, N, 1)
+    ag_distribution_lin: np.ndarray = exact_distributions_tools \
+        .pdf_algebraic_gaussian(x_vals_lin, K, l, N, 1)
+    aa_distribution_lin: np.ndarray = exact_distributions_tools \
+        .pdf_algebraic_algebraic(x_vals_lin, K, L, l, N, 1)
+
+    gg_distribution_log: np.ndarray = exact_distributions_tools \
+        .pdf_gaussian_gaussian(x_vals_log, N, 1)
+    ga_distribution_log: np.ndarray = exact_distributions_tools \
+        .pdf_gaussian_algebraic(x_vals_log, K, L, N, 1)
+    ag_distribution_log: np.ndarray = exact_distributions_tools \
+        .pdf_algebraic_gaussian(x_vals_log, K, l, N, 1)
+    aa_distribution_log: np.ndarray = exact_distributions_tools \
+        .pdf_algebraic_algebraic(x_vals_log, K, L, l, N, 1)
 
     markers: List[str] = ['-o', '-^', '-s', '-P']
 
@@ -56,12 +67,11 @@ def distributions_plot(N: float, K: float, L: float, l: float) -> None:
     ax2: plt.subplot = plt.subplot(2, 1, 2)
 
     # Linear plot
-    ax1.plot(x_vals, gg_distribution, markers[0], ms=10, label=f'GG')
-    ax1.plot(x_vals, ga_distribution, markers[1], ms=10, label=f'GA')
-    ax1.plot(x_vals, ag_distribution, markers[2], ms=10, label=f'AG')
-    ax1.plot(x_vals, aa_distribution, markers[3], ms=10, label=f'AA')
+    ax1.plot(x_vals_lin, gg_distribution_lin, markers[0], ms=10, label=f'GG')
+    ax1.plot(x_vals_lin, ga_distribution_lin, markers[1], ms=10, label=f'GA')
+    ax1.plot(x_vals_lin, ag_distribution_lin, markers[2], ms=10, label=f'AG')
+    ax1.plot(x_vals_lin, aa_distribution_lin, markers[3], ms=10, label=f'AA')
 
-    ax1.legend(fontsize=20)
     ax1.set_xlabel(r'$\tilde{r}$', fontsize=20)
     ax1.set_ylabel(r'PDF', fontsize=20)
     ax1.tick_params(axis='x', labelsize=15)
@@ -71,12 +81,17 @@ def distributions_plot(N: float, K: float, L: float, l: float) -> None:
     ax1.grid(True)
 
     # Logarithmic plot
-    ax2.semilogy(x_vals, gg_distribution, markers[0], ms=5, label=f'GG')
-    ax2.semilogy(x_vals, ga_distribution, markers[1], ms=5, label=f'GA')
-    ax2.semilogy(x_vals, ag_distribution, markers[2], ms=5, label=f'AG')
-    ax2.semilogy(x_vals, aa_distribution, markers[3], ms=5, label=f'AA')
+    ax2.semilogy(x_vals_log, gg_distribution_log, markers[0], ms=10,
+                 label=f'GG')
+    ax2.semilogy(x_vals_log, ga_distribution_log, markers[1], ms=10,
+                 label=f'GA')
+    ax2.semilogy(x_vals_log, ag_distribution_log, markers[2], ms=10,
+                 label=f'AG')
+    ax2.semilogy(x_vals_log, aa_distribution_log, markers[3], ms=10,
+                 label=f'AA')
 
-    ax2.legend(fontsize=20)
+    ax2.legend(loc='upper center', bbox_to_anchor=(0.5, -0.09), ncol=4,
+               fontsize=20)
     ax2.set_xlabel(r'$\tilde{r}$', fontsize=20)
     ax2.set_ylabel(r'PDF', fontsize=20)
     ax2.tick_params(axis='x', labelsize=15)
