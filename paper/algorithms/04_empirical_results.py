@@ -181,7 +181,7 @@ def pdf_all_distributions_plot(dates: List[str], time_step: str) -> None:
         plt.tight_layout()
 
         # Save plot
-        figure.savefig(f"../plot/06_all_{dates[0].split(sep='-')[0]}.png")
+        figure.savefig(f"../plot/04_all_{dates[0].split(sep='-')[0]}.png")
 
         plt.close()
         del agg_returns_data
