@@ -1,5 +1,18 @@
 \begin{thebibliography}{10}
 
+\bibitem{non_stat_1}
+R~K~P Zia and Per~Arne Rikvold.
+\newblock Fluctuations and correlations in an individual-based model of
+  biological coevolution.
+\newblock {\em Journal of Physics A: Mathematical and General},
+  37(19):5135--5155, apr 2004.
+
+\bibitem{non_stat_2}
+R~K~P Zia and B~Schmittmann.
+\newblock A possible classification of nonequilibrium steady states.
+\newblock {\em Journal of Physics A: Mathematical and General},
+  39(24):L407--L413, may 2006.
+
 \bibitem{comp_sys_1}
 J.~B. Gao.
 \newblock Recurrence time statistics for chaotic systems and their
@@ -23,19 +36,6 @@ Christoph Rieke, Karsten Sternickel, Ralph~G. Andrzejak, Christian~E. Elger,
 \newblock Measuring nonstationarity by analyzing the loss of recurrence in
   dynamical systems.
 \newblock {\em Phys. Rev. Lett.}, 88:244102, May 2002.
-
-\bibitem{non_stat_1}
-R~K~P Zia and Per~Arne Rikvold.
-\newblock Fluctuations and correlations in an individual-based model of
-  biological coevolution.
-\newblock {\em Journal of Physics A: Mathematical and General},
-  37(19):5135--5155, apr 2004.
-
-\bibitem{non_stat_2}
-R~K~P Zia and B~Schmittmann.
-\newblock A possible classification of nonequilibrium steady states.
-\newblock {\em Journal of Physics A: Mathematical and General},
-  39(24):L407--L413, may 2006.
 
 \bibitem{non_stationarity_fin_guhr}
 Thilo~A. Schmitt, Desislava Chetalova, Rudi Schäfer, and Thomas Guhr.
