@@ -83,41 +83,42 @@ def pdf_all_distributions_plot(dates: List[str], time_step: str) -> None:
             gg_distribution_log: np.ndarray = exact_distributions_tools\
                 .pdf_gaussian_gaussian(x_val_log, N_gg, 1)
             ax1.plot(x_val_lin, gg_distribution_lin, markers[0], lw=3, ms=15,
-                         label=f'GG')
-            ax2.semilogy(x_val_log, gg_distribution_log, markers[0], lw=3, ms=15,
-                         label=f'GG')
+                     label=f'GG')
+            ax2.semilogy(x_val_log, gg_distribution_log, markers[0], lw=3,
+                         ms=15, label=f'GG')
 
             ga_distribution_lin: np.ndarray = exact_distributions_tools\
                 .pdf_gaussian_algebraic(x_val_lin, K, L, N, 1)
             ga_distribution_log: np.ndarray = exact_distributions_tools\
                 .pdf_gaussian_algebraic(x_val_log, K, L, N, 1)
             ax1.plot(x_val_lin, ga_distribution_lin, markers[1], lw=3, ms=15,
-                         label=f'GA')
-            ax2.semilogy(x_val_log, ga_distribution_log, markers[1], lw=3, ms=15,
-                         label=f'GA')
+                     label=f'GA')
+            ax2.semilogy(x_val_log, ga_distribution_log, markers[1], lw=3,
+                         ms=15, label=f'GA')
 
             ag_distribution_lin: np.ndarray = exact_distributions_tools\
                 .pdf_algebraic_gaussian(x_val_lin, K, l, N, 1)
             ag_distribution_log: np.ndarray = exact_distributions_tools\
                 .pdf_algebraic_gaussian(x_val_log, K, l, N, 1)
             ax1.plot(x_val_lin, ag_distribution_lin, markers[2], lw=3, ms=15,
-                         label=f'AG')
-            ax2.semilogy(x_val_log, ag_distribution_log, markers[2], lw=3, ms=15,
-                         label=f'AG')
+                     label=f'AG')
+            ax2.semilogy(x_val_log, ag_distribution_log, markers[2], lw=3,
+                         ms=15, label=f'AG')
 
             aa_distribution_lin: np.ndarray = exact_distributions_tools\
                 .pdf_algebraic_algebraic(x_val_lin, K, L, l, N_aa, 1)
             aa_distribution_log: np.ndarray = exact_distributions_tools\
                 .pdf_algebraic_algebraic(x_val_log, K, L, l, N_aa, 1)
             ax1.plot(x_val_lin, aa_distribution_lin, markers[3], lw=3, ms=15,
-                         label=f'AA')
-            ax2.semilogy(x_val_log, aa_distribution_log, markers[3], lw=3, ms=15,
-                         label=f'AA')
+                     label=f'AA')
+            ax2.semilogy(x_val_log, aa_distribution_log, markers[3], lw=3,
+                         ms=15, label=f'AA')
 
         else:
-            N = 7
             N_gg = 6
-            N_aa = 10
+            N_ga = 7
+            N_ag = 7
+            N_aa = 8
             K = 461
             L = 240
             l = 240
@@ -127,39 +128,41 @@ def pdf_all_distributions_plot(dates: List[str], time_step: str) -> None:
             gg_distribution_log: np.ndarray = exact_distributions_tools\
                 .pdf_gaussian_gaussian(x_val_log, N_gg, 1)
             ax1.plot(x_val_lin, gg_distribution_lin, markers[0], lw=3, ms=15,
-                         label=f'GG - N = {N_gg}')
-            ax2.semilogy(x_val_log, gg_distribution_log, markers[0], lw=3, ms=15,
-                         label=f'GG - N = {N_gg}')
+                     label=f'GG')
+            ax2.semilogy(x_val_log, gg_distribution_log, markers[0], lw=3,
+                         ms=15, label=f'GG')
 
             ga_distribution_lin: np.ndarray = exact_distributions_tools\
-                .pdf_gaussian_algebraic(x_val_lin, K, L, N, 1)
+                .pdf_gaussian_algebraic(x_val_lin, K, L, N_ga, 1)
             ga_distribution_log: np.ndarray = exact_distributions_tools\
-                .pdf_gaussian_algebraic(x_val_log, K, L, N, 1)
+                .pdf_gaussian_algebraic(x_val_log, K, L, N_ga, 1)
             ax1.plot(x_val_lin, ga_distribution_lin, markers[1], lw=3, ms=15,
-                         label=f'GA - N = {N} - K = {K} - L = {L}')
-            ax2.semilogy(x_val_log, ga_distribution_log, markers[1], lw=3, ms=15,
-                         label=f'GA - N = {N} - K = {K} - L = {L}')
+                     label=f'GA')
+            ax2.semilogy(x_val_log, ga_distribution_log, markers[1], lw=3,
+                         ms=15, label=f'GA')
 
             ag_distribution_lin: np.ndarray = exact_distributions_tools\
-                .pdf_algebraic_gaussian(x_val_lin, K, l, N, 1)
+                .pdf_algebraic_gaussian(x_val_lin, K, l, N_ag, 1)
             ag_distribution_log: np.ndarray = exact_distributions_tools\
-                .pdf_algebraic_gaussian(x_val_log, K, l, N, 1)
+                .pdf_algebraic_gaussian(x_val_log, K, l, N_ag, 1)
             ax1.plot(x_val_lin, ag_distribution_lin, markers[2], lw=3, ms=15,
-                         label=f'AG - N = {N} - K = {K} - l = {l}')
-            ax2.semilogy(x_val_log, ag_distribution_log, markers[2], lw=3, ms=15,
-                         label=f'AG - N = {N} - K = {K} - l = {l}')
+                     label=f'AG')
+            ax2.semilogy(x_val_log, ag_distribution_log, markers[2], lw=3,
+                         ms=15, label=f'AG')
 
             aa_distribution_lin: np.ndarray = exact_distributions_tools\
                 .pdf_algebraic_algebraic(x_val_lin, K, L, l, N_aa, 1)
             aa_distribution_log: np.ndarray = exact_distributions_tools\
                 .pdf_algebraic_algebraic(x_val_log, K, L, l, N_aa, 1)
             ax1.plot(x_val_lin, aa_distribution_lin, markers[3], lw=3, ms=15,
-                         label=f'AA - N = {N_aa} - K = {K} - L = {L} - l = {l}')
-            ax2.semilogy(x_val_log, aa_distribution_log, markers[3], lw=3, ms=15,
-                         label=f'AA - N = {N_aa} - K = {K} - L = {L} - l = {l}')
+                     label=f'AA')
+            ax2.semilogy(x_val_log, aa_distribution_log, markers[3], lw=3,
+                         ms=15, label=f'AA')
 
         # ax1.legend(fontsize=20)
-        ax1.set_title(f"{dates[0].split(sep='-')[0]} - {dates[1].split(sep='-')[0]}", fontsize=30)
+        ax1.set_title(
+            f"{dates[0].split(sep='-')[0]} - {dates[1].split(sep='-')[0]}",
+            fontsize=30)
         ax1.set_xlabel(r'$\tilde{r}$', fontsize=25)
         ax1.set_ylabel('PDF', fontsize=25)
         ax1.tick_params(axis='x', labelsize=15)

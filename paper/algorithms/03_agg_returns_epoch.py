@@ -9,7 +9,6 @@ This script requires the following modules:
     * matplotlib
     * numpy
     * pandas
-    * seaborn
     * exact_distributions_covariance_tools
 
 The module contains the following functions:
@@ -31,10 +30,9 @@ from typing import List
 from matplotlib import pyplot as plt  # type: ignore
 import numpy as np  # type: ignore
 import pandas as pd  # type: ignore
-import seaborn as sns  # type: ignore
 
 sys.path.insert(1, '../../project/local_normalization')
-import local_normalization_tools
+import local_normalization_tools  # type: ignore
 
 # ----------------------------------------------------------------------------
 
@@ -59,12 +57,12 @@ def ln_aggregated_dist_returns_market_plot(dates: List[List[str]],
 
         # Load data
         agg_1: pd.Series = pickle.load(open(
-            '../../project/data/local_normalization/ln_aggregated_dist_returns_market'
-            + f'_data_{dates[0][0]}_{dates[0][1]}_step_{time_step}_win'
+            '../../project/data/local_normalization/ln_aggregated_dist_returns'
+            + f'_market_data_{dates[0][0]}_{dates[0][1]}_step_{time_step}_win'
             + f'_{window}.pickle', 'rb'))
         agg_2: pd.Series = pickle.load(open(
-            '../../project/data/local_normalization/ln_aggregated_dist_returns_market'
-            + f'_data_{dates[1][0]}_{dates[1][1]}_step_{time_step}_win'
+            '../../project/data/local_normalization/ln_aggregated_dist_returns'
+            + f'_market_data_{dates[1][0]}_{dates[1][1]}_step_{time_step}_win'
             + f'_{window}.pickle', 'rb'))
 
         agg_1 = agg_1.rename('Agg. returns')
