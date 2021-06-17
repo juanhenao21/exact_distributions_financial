@@ -1,15 +1,15 @@
 # Fdb version 3
-["bibtex main"] 1623858306 "main.aux" "main.bbl" "main" 1623858308
+["bibtex main"] 1623858306 "main.aux" "main.bbl" "main" 1623923103
   "/usr/share/texlive/texmf-dist/bibtex/bst/base/unsrt.bst" 1292289607 18030 1376b4b231b50c66211e47e42eda2875 ""
   "bib.bib" 1623857934 17991 6cba56e7e7e8188b8d211edf7e4e1309 ""
-  "main.aux" 1623858307 8066 82d4d55c4a17874c19f466e38fae55fb ""
+  "main.aux" 1623923103 8066 82d4d55c4a17874c19f466e38fae55fb ""
   "main.bcf" 0 -1 0 ""
   (generated)
   "main.bbl"
   "main.blg"
-["pdflatex"] 1623858306 "/scratch/jchenaol/exact_distributions_financial/paper/exact_distributions_financial_paper/main.tex" "/scratch/jchenaol/exact_distributions_financial/paper/exact_distributions_financial_paper/main.pdf" "main" 1623858308
+["pdflatex"] 1623923102 "/scratch/jchenaol/exact_distributions_financial/paper/exact_distributions_financial_paper/main.tex" "/scratch/jchenaol/exact_distributions_financial/paper/exact_distributions_financial_paper/main.pdf" "main" 1623923103
   "/etc/texmf/web2c/texmf.cnf" 1541150118 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/scratch/jchenaol/exact_distributions_financial/paper/exact_distributions_financial_paper/main.aux" 1623858307 8066 82d4d55c4a17874c19f466e38fae55fb ""
+  "/scratch/jchenaol/exact_distributions_financial/paper/exact_distributions_financial_paper/main.aux" 1623923103 8066 82d4d55c4a17874c19f466e38fae55fb ""
   "/scratch/jchenaol/exact_distributions_financial/paper/exact_distributions_financial_paper/main.tex" 1616669202 569 596300ea39ee7e91381ed2e3581a6341 ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1272929888 3287 e6b82fe08f5336d4d5ebc73fb1152e87 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
@@ -126,13 +126,13 @@
   "figures/03_distributions_comparison.png" 1623741234 158394 37262a85b0216e0e27f4fea6bc025531 ""
   "figures/04_all_1992.png" 1623748623 98442 83920aad1d2089de60f7df4df55365dc ""
   "figures/04_all_2012.png" 1623748655 103445 73d4b70798d30a41691de88a8bb232b5 ""
-  "main.aux" 1623858307 8066 82d4d55c4a17874c19f466e38fae55fb ""
+  "main.aux" 1623923103 8066 82d4d55c4a17874c19f466e38fae55fb ""
   "main.bbl" 1623858306 8983 6b07855080298fc398648694eef3c7aa "bibtex main"
-  "main.out" 1623858307 457 a2c4179c886a5cf33609d3cbc24d3099 ""
+  "main.out" 1623923103 457 a2c4179c886a5cf33609d3cbc24d3099 ""
   "main.tex" 1616669202 569 596300ea39ee7e91381ed2e3581a6341 ""
   "sections/01_title.tex" 1623235634 711 35ce79cad1f4d65392d20bb46e18e71c ""
   "sections/02_abstract.tex" 1618824998 1419 be1c44caac4a30d3c9bf856500d2350b ""
-  "sections/03_introduction.tex" 1623858305 3227 c68bfed3f59d35e28e87339b6dbaef57 ""
+  "sections/03_introduction.tex" 1623923102 3646 17fbd20691a05e6760ddcc6bf6e1d3c3 ""
   "sections/04_data.tex" 1618824998 892 f14939d4756a9be300cc33038429a81c ""
   "sections/05_formulae.tex" 1623748763 12603 95f678ea7ed5472e2a677cdb1ad4ac3d ""
   "sections/06_empirical_results.tex" 1623749098 1109 7d53e99a2283f9a4da7e76bf0da05a4e ""
@@ -144,9 +144,9 @@
   "svepj.clo" 1570709632 10088 1f9909ce8da6ad383a73ed0fa4c6479a ""
   "svjour.cls" 1570709632 41964 f1cf530a6c8e721e6b13dafe3c59d374 ""
   (generated)
-  "main.pdf"
-  "/scratch/jchenaol/exact_distributions_financial/paper/exact_distributions_financial_paper/main.log"
-  "main.log"
-  "main.aux"
   "main.out"
+  "main.log"
+  "main.pdf"
   "/scratch/jchenaol/exact_distributions_financial/paper/exact_distributions_financial_paper/main.pdf"
+  "main.aux"
+  "/scratch/jchenaol/exact_distributions_financial/paper/exact_distributions_financial_paper/main.log"
