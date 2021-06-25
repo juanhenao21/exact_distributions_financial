@@ -380,7 +380,7 @@ def ln_aggregated_dist_returns_market_plot(dates: List[str], time_step: str,
         gaussian: np.ndarray = local_normalization_tools \
             .gaussian_distribution(0, 1, x_gauss)
 
-        figure_log = plt.figure(figsize=(16, 9))
+        figure_log: plt.Figure = plt.figure(figsize=(16, 9))
 
         # Log plot
         plot_log = agg_returns_data.plot(kind='density', style='-', logy=True,
@@ -395,11 +395,11 @@ def ln_aggregated_dist_returns_market_plot(dates: List[str], time_step: str,
         plt.ylabel('PDF', fontsize=25)
         plt.xticks(fontsize=15)
         plt.yticks(fontsize=15)
-        plt.xlim(-8, 8)
-        plt.ylim(10 ** -9, 1)
+        plt.xlim(-6, 6)
+        plt.ylim(10 ** -5, 1)
         plt.grid(True)
         plt.tight_layout()
-        figure_log: plt.Figure = plot_log.get_figure()
+        figure_log = plot_log.get_figure()
 
         # Plotting
         local_normalization_tools \

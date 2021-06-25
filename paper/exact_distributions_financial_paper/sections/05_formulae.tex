@@ -1,10 +1,13 @@
 \section{Exact multivariate amplitude distributions}
 \label{sec:exact_distributions}
 
-% In Sect. \ref{subsec:time_definition} we describe the physical time scale and
-% the trade time scale. In Sect. \ref{subsec:trade_time} and Sect.
-% \ref{subsec:physical_time} we define the trade and the physical time scales,
-% respectively.
+In Sect. \ref{subsec:key_concepts} we introduce the fundamental quantities used
+in the distribution definitions. An example of the non-stationarity in
+financial markets is shown in Sect. \ref{subsec:non_stationarity}. In Sect.
+\ref{subsec:general_considerations} we set the theoretical considerations to
+construct the distributions. In Sect.  \ref{subsec:distributions} we define the
+four distribution cases and in \ref{subsec:graphical_distributions} we show
+their graphical representation.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Key concepts}\label{subsec:key_concepts}
@@ -40,7 +43,7 @@ The mean of the logarithmic differences reads \cite{exact_distributions_guhr}
 \end{equation}
 To compare the different $K$ companies, it is necessary to normalize the time
 series. The normalized time series are defined by
-\cite{exact_distributions_guhr,non_stationarity_fin_guhr}
+\cite{non_stationarity_fin_guhr,exact_distributions_guhr}
 \begin{equation}
     M_{k} \left( t \right) = \frac{G_{k} \left( t \right) - \left\langle
     G_{k} \left( t \right) \right\rangle} {\sqrt{\left\langle G_{k}^{2}
@@ -93,18 +96,58 @@ the form
 \end{equation}
 The correlation matrix $C$ is real and symmetric. Using the correlation matrix
 $C$ is possible to define the covariance matrix
-\cite{credit_risk_guhr,portfolio_distributions_guhr,asset_correlations_guhr,stochastic_cov_guhr,exact_distributions_guhr}
+\cite{exact_distributions_guhr,credit_risk_guhr,portfolio_distributions_guhr,asset_correlations_guhr,stochastic_cov_guhr}
 \begin{equation}
     \Sigma = \sigma C \sigma ,
 \end{equation}
-where the diagonal matrix $\sigma$ contains the volatilities $\sigma_{k}$,
-$k = 1, \ldots, K$.
+where the diagonal matrix $\sigma$ contains respectively, the volatilities
+$\sigma_{k}$, $k = 1, \ldots, K$.
 
 From the results obtained in
-\cite{portfolio_distributions_guhr,non_stationarity_fin_guhr}, it does not make
+\cite{non_stationarity_fin_guhr,portfolio_distributions_guhr}, it does not make
 a difference the calculation with a covariance or a correlation matrix. Thus,
 to ease the comparison between works, we will use covariance matrices as in
 \cite{non_stationarity_fin_guhr}.
+
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\columnwidth]
+    {figures/03_agg_returns_epoch.png}
+    \caption{}
+    \label{fig:agg_returns_epoch}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Non-stationarity}\label{subsec:non_stationarity}
+
+In general, in non-stationary complex systems crucial parameters or
+distributions of observables change in an erratic, unpredictable way over time.
+In financial markets, the $K \times K$ correlation matrix $C$ as a whole
+changes in time is an example of non-stationary. Fig.
+\ref{fig:correlation_matrices} shows two large correlation matrices of
+logarithmic differences of stock prices for companies in the Standard \&
+Poor's 500 (S\&P 500) stock market index ordered according to the Global
+Industry Classification Standard (GICS). The time series were measured in
+successive quarters.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\columnwidth]
+    {figures/03_correlation_matrix.png}
+    \caption{Correlation matrices of $K = 421$ companies for the fourth quarter
+             of 2005 (left) and the first quarter of 2006 (right), the darker,
+             the stronger the correlation. The companies are sorted according
+             to industrial sectors.}
+    \label{fig:correlation_matrices}
+\end{figure}
+
+In Fig. \ref{fig:correlation_matrices} it can be seen that the matrices look
+different for the successive quarters, because the business relations between
+the companies and the market expectations of the traders change in time.
+Despite the difference, the coarse structure remains similar, indicating some
+stability of the industrial sectors.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{General considerations}\label{subsec:general_considerations}
@@ -203,6 +246,30 @@ $D = \mathbb{1}_{N}$ the distribution reads
     {\Lambda_{k}}\right)
     \end{split}
 \end{equation}
+
+For a visual comparison of the distributions, we plot the GG, GA, AG and AA
+distributions in the Markovian case in the same figure. In Fig. \ref{fig:distributions_comparison}
+we consider $K = 100$ positions with shape parameters $L = 55$, $l = 55$, as
+well as $N = 5$ which is a typical value from an empirical viewpoint. In the top
+are the probability densities in linear scale and in the bottom are the probability
+densities in logarithmic scales. From figure, it can be seen the more algebraic,
+the stronger peaked is the distribution and heavier are the tails.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\columnwidth]
+    {figures/03_distributions_comparison.png}
+    \caption{Probability densities $\left\langle p \right\rangle_{YY'}^{\left(k\right)}$,
+             in the Markovian case versus the rotated amplitudes $\tilde{r}$,
+             normalized to unit standard deviation. The four cases Gaussian-Gaussian,
+             Gaussian-Algebraic, Algebraic-Gaussian and Algebraic-Algebraic are
+             labeled $YY' = GG$, $GA$, $AG$ and $AA$, respectively. Number of
+             positions $K = 100$, shape parameters $L = 55$ and $l = 55$, strength
+             parameter for fluctuations of correlations $N = 5$. (Top) Linear scale,
+             abscissa between $-2$ and $+2$ and (bottom) logarithmic scale, abscissa
+             between $-8$ and $+8$.}
+    \label{fig:distributions_comparison}
+\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Graphical representations}\label{subsec:graphical_distributions}

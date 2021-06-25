@@ -1,10 +1,190 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
+
+\bibitem{non_stat_1}
+R~K~P Zia and Per~Arne Rikvold.
+\newblock Fluctuations and correlations in an individual-based model of
+  biological coevolution.
+\newblock {\em Journal of Physics A: Mathematical and General},
+  37(19):5135--5155, apr 2004.
+
+\bibitem{non_stat_2}
+R~K~P Zia and B~Schmittmann.
+\newblock A possible classification of nonequilibrium steady states.
+\newblock {\em Journal of Physics A: Mathematical and General},
+  39(24):L407--L413, may 2006.
+
+\bibitem{comp_sys_1}
+J.~B. Gao.
+\newblock Recurrence time statistics for chaotic systems and their
+  applications.
+\newblock {\em Phys. Rev. Lett.}, 83:3178--3181, Oct 1999.
+
+\bibitem{comp_sys_2}
+Rainer Hegger, Holger Kantz, Lorenzo Matassini, and Thomas Schreiber.
+\newblock Coping with nonstationarity by overembedding.
+\newblock {\em Phys. Rev. Lett.}, 84:4092--4095, May 2000.
+
+\bibitem{comp_sys_3}
+Pedro Bernaola-Galv\'an, Plamen~Ch. Ivanov, Lu\'{\i}s A.~Nunes Amaral, and
+  H.~Eugene Stanley.
+\newblock Scale invariance in the nonstationarity of human heart rate.
+\newblock {\em Phys. Rev. Lett.}, 87:168105, Oct 2001.
+
+\bibitem{comp_sys_4}
+Christoph Rieke, Karsten Sternickel, Ralph~G. Andrzejak, Christian~E. Elger,
+  Peter David, and Klaus Lehnertz.
+\newblock Measuring nonstationarity by analyzing the loss of recurrence in
+  dynamical systems.
+\newblock {\em Phys. Rev. Lett.}, 88:244102, May 2002.
+
+\bibitem{state_crisis_1}
+Geert Bekaert and Campbell~R. Harvey.
+\newblock Time-varying world market integration.
+\newblock {\em The Journal of Finance}, 50(2):403--444, 1995.
+
+\bibitem{state_crisis_2}
+François Longin and Bruno Solnik.
+\newblock Is the correlation in international equity returns constant:
+  1960–1990?
+\newblock {\em Journal of International Money and Finance}, 14(1):3--26, 1995.
+
+\bibitem{state_crisis_3}
+J.-P. Onnela, A.~Chakraborti, K.~Kaski, J.~Kert\'esz, and A.~Kanto.
+\newblock Dynamics of market correlations: Taxonomy and portfolio analysis.
+\newblock {\em Phys. Rev. E}, 68:056110, Nov 2003.
+
+\bibitem{state_crisis_4}
+Yiting Zhang, Gladys Hui~Ting Lee, Jian~Cheng Wong, Jun~Liang Kok, Manamohan
+  Prusty, and Siew~Ann Cheong.
+\newblock Will the us economy recover in 2010? a minimal spanning tree study.
+\newblock {\em Physica A: Statistical Mechanics and its Applications},
+  390(11):2020--2050, 2011.
+
+\bibitem{state_crisis_5}
+Dong-Ming Song, Michele Tumminello, Wei-Xing Zhou, and Rosario~N. Mantegna.
+\newblock Evolution of worldwide stock markets, correlation structure, and
+  correlation-based graphs.
+\newblock {\em Phys. Rev. E}, 84:026108, Aug 2011.
+
+\bibitem{state_crisis_6}
+Leonidas Sandoval and Italo De~Paula Franca.
+\newblock Correlation of financial markets in times of crisis.
+\newblock {\em Physica A: Statistical Mechanics and its Applications},
+  391(1):187--208, 2012.
+
+\bibitem{state_crisis_7}
+Michael~C. Münnix, Takashi Shimada, Rudi Schäfer, Francois Leyvraz, Thomas~H.
+  Selgman, Thomas Guhr, and H.~Eugene Stanley.
+\newblock Identifying states of a financial market.
+\newblock {\em Scientific Reports}, 2, 2012.
 
 \bibitem{non_stationarity_fin_guhr}
 Thilo~A. Schmitt, Desislava Chetalova, Rudi Schäfer, and Thomas Guhr.
 \newblock Non-stationarity in financial time series: Generic features and tail
   behavior.
 \newblock {\em {EPL} (Europhysics Letters)}, 103(5):58003, sep 2013.
+
+\bibitem{exact_distributions_guhr}
+Thomas Guhr and Andreas Schell.
+\newblock Exact multivariate amplitude distributions for non-stationary
+  gaussian or algebraic fluctuations of covariances or correlations.
+\newblock {\em Journal of Physics A: Mathematical and Theoretical},
+  54(12):125002, mar 2021.
+
+\bibitem{random_matrix_1}
+Thomas Guhr, Axel Müller–Groeling, and Hans~A. Weidenmüller.
+\newblock Random-matrix theories in quantum physics: common concepts.
+\newblock {\em Physics Reports}, 299(4):189--425, 1998.
+
+\bibitem{random_matrix_2}
+Madan~Lal Mehta.
+\newblock {\em Random Matrices}.
+\newblock Elsevier, 2004.
+
+\bibitem{wishart}
+John Wishart.
+\newblock The generalised product moment distribution in samples from a normal
+  multivariate population.
+\newblock {\em Biometrika}, 20A(1/2):32--52, 1928.
+
+\bibitem{matrix_fin_01}
+Jean-Philippe Bouchaud and Marc Potters.
+\newblock {\em Thery of Financial Risks, from statistical physics to risk
+  management}.
+\newblock Cambridge University Press, 2000.
+
+\bibitem{matrix_fin_02}
+Laurent Laloux, Pierre Cizeau, Jean-Philippe Bouchaud, and Marc Potters.
+\newblock Noise dressing of financial correlation matrices.
+\newblock {\em Phys. Rev. Lett.}, 83:1467--1470, Aug 1999.
+
+\bibitem{matrix_fin_03}
+Laurent Laloux, Pierre Cizeau, Marc Potters, and Jean-Philippe Bouchaud.
+\newblock Random matrix theory and financial correlations.
+\newblock {\em International Journal of Theoretical and Applied Finance},
+  03(03):391--397, 2000.
+
+\bibitem{matrix_fin_04}
+Vasiliki Plerou, Parameswaran Gopikrishnan, Bernd Rosenow, Lu\'{\i}s A.~Nunes
+  Amaral, and H.~Eugene Stanley.
+\newblock Universal and nonuniversal properties of cross correlations in
+  financial time series.
+\newblock {\em Phys. Rev. Lett.}, 83:1471--1474, Aug 1999.
+
+\bibitem{matrix_fin_05}
+Vasiliki Plerou, Parameswaran Gopikrishnan, Bernd Rosenow, Lu\'{\i}s A.~Nunes
+  Amaral, Thomas Guhr, and H.~Eugene Stanley.
+\newblock Random matrix approach to cross correlations in financial data.
+\newblock {\em Phys. Rev. E}, 65:066126, Jun 2002.
+
+\bibitem{matrix_fin_06}
+Szilárd Pafka and Imre Kondor.
+\newblock Estimated correlation matrices and portfolio optimization.
+\newblock {\em Physica A: Statistical Mechanics and its Applications},
+  343:623--634, 2004.
+
+\bibitem{matrix_fin_07}
+M.~Potters, J.-P. Bouchaud, and L.~Laloux.
+\newblock Financial applications of random matrix theory: Old laces and new
+  pieces.
+\newblock {\em Acta Physica Polonica Series B}, B35:2767--2784, 2005.
+
+\bibitem{matrix_fin_08}
+S.~Drozdz, J.~Kwapien, and P.~Oswiecimka.
+\newblock Empirics versus rmt in financial cross-correlations.
+\newblock {\em Acta Physica Polonica Series B}, B39:4027--4039, 2008.
+
+\bibitem{matrix_fin_09}
+J.~Kwapień, S.~Drożdż, and P.~Oświecimka.
+\newblock The bulk of the stock market correlation matrix is not pure noise.
+\newblock {\em Physica A: Statistical Mechanics and its Applications},
+  359:589--606, 2006.
+
+\bibitem{matrix_fin_10}
+G.~Biroli and J.-P. Bouchaud~M. Potters.
+\newblock The student ensemble of correlation matrices: Eigenvalue spectrum and
+  and kullback-leibler entropy.
+\newblock {\em Acta Physica Polonica Series B}, B39:4009--4026, 2008.
+
+\bibitem{matrix_fin_11}
+Zdzisław Burda, Jerzy Jurkiewicz, Maciej~A. Nowak, Gabor Papp, and Ismail
+  Zahed.
+\newblock Free lévy matrices and financial correlations.
+\newblock {\em Physica A: Statistical Mechanics and its Applications},
+  343:694--700, 2004.
+
+\bibitem{matrix_fin_12}
+G.~Akemann and P.~Vivo.
+\newblock Power law deformation of wishart-laguerre ensembles of random
+  matrices.
+\newblock {\em J. Stat. Mech.}, 0809:P09002, 2008.
+
+\bibitem{matrix_fin_13}
+Zdzisław Burda, Andrzej Jarosz, Maciej~A. Nowak, Jerzy Jurkiewicz, Gábor
+  Papp, and Ismail Zahed.
+\newblock Applying free random variables to random matrix analysis of financial
+  data. part i: The gaussian case.
+\newblock {\em Quantitative Finance}, 11(7):1103--1124, 2011.
 
 \bibitem{subtle_nature}
 Jean-Philippe Bouchaud.
@@ -21,13 +201,6 @@ Anirban Chakraborti, Ioane Toke, Marco Patriarca, and Frédéric Abergel.
 William~G. Schwert.
 \newblock Why does stock market volatility change over time?
 \newblock {\em The Journal of Finance}, 44(5):1115--1153.
-
-\bibitem{exact_distributions_guhr}
-Thomas Guhr and Andreas Schell.
-\newblock Exact multivariate amplitude distributions for non-stationary
-  gaussian or algebraic fluctuations of covariances or correlations.
-\newblock {\em Journal of Physics A: Mathematical and Theoretical},
-  54(12):125002, mar 2021.
 
 \bibitem{credit_risk_guhr}
 Thilo~A. Schmitt, Desislava Chetalova, Rudi Schäfer, and Thomas Guhr.
