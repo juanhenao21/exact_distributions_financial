@@ -95,8 +95,8 @@ def main() -> None:
     local_normalization_tools.initial_message()
 
     # Initial year and time step
-    dates: List[List[str]] = [['1992-01', '2012-12'], ['2012-01', '2020-12']]
-    time_steps: List[str] = ['1d']
+    dates: List[List[str]] = [['2021-07-19', '2021-07-23']]
+    time_steps: List[str] = ['1m', '1h', '1d']
     windows: List[str] = ['25']
 
     # Basic folders

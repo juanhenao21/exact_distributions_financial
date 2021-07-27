@@ -195,9 +195,18 @@ def ln_aggregated_dist_returns_pair_data(dates: List[str], time_step: str,
         # Add the index as a column to group the return values
         two_col['DateCol'] = two_col.index
         # Add a column grouping the returns in the time window
-        two_col['Group'] = two_col.groupby(
-            pd.Grouper(key='DateCol', freq=window + 'B'))['DateCol'] \
-            .transform('first')
+        if time_step == '1m':
+            two_col['Group'] = two_col.groupby(
+                pd.Grouper(key='DateCol', freq=window + 'S'))['DateCol'] \
+                .transform('first')
+        elif time_step == '1h':
+            two_col['Group'] = two_col.groupby(
+                pd.Grouper(key='DateCol', freq=window + 'H'))['DateCol'] \
+                .transform('first')
+        elif time_step == '1d':
+            two_col['Group'] = two_col.groupby(
+                pd.Grouper(key='DateCol', freq=window + 'B'))['DateCol'] \
+                .transform('first')
 
         for local_data in two_col.groupby(by=['Group']):
 
