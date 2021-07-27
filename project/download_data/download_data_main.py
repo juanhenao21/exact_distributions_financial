@@ -35,8 +35,7 @@ import download_data_tools
 
 def exact_distributions_download_data(tickers: List[str], dates: List[str],
                                       time_step: str) -> None:
-    """Downloads the prices of a ticker for an interval of years in a time
-       step.
+    """Downloads the prices of a ticker for a time interval in a time step.
 
     :param tickers: list of the string abbreviation of the stocks to be
      analyzed (i.e. ['AAPL', 'MSFT']).
@@ -141,22 +140,24 @@ def main() -> None:
     #                      'WFM', 'WMB', 'WEC', 'XEL', 'XRX', 'XLNX', 'XL',
     #                      'ZION']
 
-    # dates_1: List[str] = ['1972-01', '1992-12']
-    # dates_2: List[str] = ['1992-01', '2012-12']
-    # dates_3: List[str] = ['2012-01', '2020-12']
-    dates: List[str] = ['2021-07-19', '2021-07-23']
-    time_step_1: str = '1m'
-    time_step_2: str = '1h'
-    time_step_3: str = '1d'
+    dates_1m: List[str] = ['2021-07-19', '2021-07-23']
+    dates_1h: List[str] = ['2021-06-01', '2021-07-31']
+    dates_1d: List[str] = ['1990-01-01', '2020-12-31']
+    dates_1mo: List[str] = ['1990-01-01', '2020-12-31']
+    time_step_1m: str = '1m'
+    time_step_1h: str = '1h'
+    time_step_1d: str = '1d'
+    time_step_1mo: str = '1mo'
 
     # Basic folders
     download_data_tools.start_folders()
 
     # Run analysis
     # Download data
-    exact_distributions_download_data(stocks, dates, time_step_1)
-    exact_distributions_download_data(stocks, dates, time_step_2)
-    exact_distributions_download_data(stocks, dates, time_step_3)
+    # exact_distributions_download_data(stocks, dates_1m, time_step_1m)
+    # exact_distributions_download_data(stocks, dates_1h, time_step_1h)
+    # exact_distributions_download_data(stocks, dates_1d, time_step_1d)
+    exact_distributions_download_data(stocks, dates_1mo, time_step_1mo)
 
     print('Ay vamos!!!')
 
