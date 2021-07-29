@@ -37,8 +37,9 @@ def save_data(data: pd.DataFrame, dates: List[str], time_step: str) -> None:
     """ Saves the data downloaded.
 
     :param dates: List of the interval of dates to be analyzed
-     (i.e. ['1980-01', '2020-12']).
-    :param time_step: time step of the data (i.e. '1m', '2m', '5m', ...).
+     (i.e. ['1980-01-01', '2020-12-31']).
+    :param time_step: time step of the data (i.e. '1m', '1h', '1d', '1wk',
+     '1mo').
     :return: None -- The function prints a message and does not return a value.
     """
 
@@ -61,8 +62,9 @@ def function_header_print_data(function_name: str, tickers: List[str],
     :param ticker: string of the abbreviation of the stock to be analyzed
      (i.e. 'AAPL').
     :param dates: List of the interval of dates to be analyzed
-     (i.e. ['1980-01', '2020-12']).
-    :param time_step: time step of the data (i.e. '1m', '2m', '5m', ...).
+     (i.e. ['1980-01-01', '2020-12-31']).
+    :param time_step: time step of the data (i.e. '1m', '1h', '1d', '1wk',
+     '1mo').
     :return: None -- The function prints a message and does not return a value.
     """
 
