@@ -64,6 +64,7 @@ def returns_data(dates: List[str], time_step: str) -> None:
         print('No data')
         print(error)
         print()
+
 # -----------------------------------------------------------------------------
 
 
