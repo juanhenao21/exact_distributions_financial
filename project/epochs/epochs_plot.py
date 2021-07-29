@@ -1,7 +1,7 @@
 '''Local normalization plot module.
 
 The functions in the module plot the data obtained in the
-local_normalization_analysis module.
+epochs_analysis module.
 
 This script requires the following modules:
     * gc
@@ -11,20 +11,20 @@ This script requires the following modules:
     * numpy
     * pandas
     * seaborn
-    * local_normalization_tools
+    * epochs_tools
 
 The module contains the following functions:
-    * ln_volatility_plot - plots the local normalized volatility of five
+    * epochs_volatility_plot - plots the local normalized volatility of five
       stocks.
-    * ln_volatility_one_stock_plot - plots the local normalized volatility of
-      one stocks.
-    * ln_normalized_returns_plot - plots the local normalized returns of five
-      stocks.
-    * ln_normalized_returns_distribution_plot - plots the normalized returns
-      distribution of five stocks.
-    * ln_matrix_correlation_plot - plots the local normalized correlation
+    * epochs_volatility_one_stock_plot - plots the local normalized volatility
+      of one stocks.
+    * epochs_normalized_returns_plot - plots the local normalized returns of
+      five stocks.
+    * epochs_normalized_returns_distribution_plot - plots the normalized
+      returns distribution of five stocks.
+    * epochs_matrix_correlation_plot - plots the local normalized correlation
       matrix.
-    * ln_aggregated_dist_returns_market_plot - plots the aggregated
+    * epochs_aggregated_dist_returns_market_plot - plots the aggregated
       distribution of returns for a market.
     * main - the main function of the script.
 
@@ -43,33 +43,35 @@ import numpy as np  # type: ignore
 import pandas as pd  # type: ignore
 import seaborn as sns  # type: ignore
 
-import local_normalization_tools
+import epochs_tools
 
 # -----------------------------------------------------------------------------
 
 
-def ln_volatility_plot(dates: List[str], time_step: str, window: str) -> None:
+def epochs_volatility_plot(dates: List[str], time_step: str,
+                           window: str) -> None:
     """Plots the local normalized volatility of five stocks.
 
     :param dates: List of the interval of dates to be analyzed
-     (i.e. ['1980-01', '2020-12']).
-    :param time_step: time step of the data (i.e. '1m', '2m', '5m', ...).
-    :param window: window time to compute the volatility (i.e. '60', ...).
+     (i.e. ['1980-01-01', '2020-12-31']).
+    :param time_step: time step of the data (i.e. '1m', '1h', '1d', '1wk',
+     '1mo').
+    :param window: window time to compute the volatility (i.e. '25').
     :return: None -- The function saves the plot in a file and does not return
      a value.
     """
 
-    function_name: str = ln_volatility_plot.__name__
-    local_normalization_tools \
+    function_name: str = epochs_volatility_plot.__name__
+    epochs_tools \
         .function_header_print_plot(function_name, dates, time_step, window)
 
     try:
 
         # Load data
         volatility_data: pd.DataFrame = pickle.load(open(
-                        f'../data/local_normalization/ln_volatility_data'
-                        + f'_{dates[0]}_{dates[1]}_step_{time_step}_win'
-                        + f'_{window}.pickle', 'rb')).iloc[:, :5]
+                        f'../data/epochs/epochs_volatility_data_{dates[0]}'
+                        + f'_{dates[1]}_step_{time_step}_win_{window}.pickle',
+                        'rb')).iloc[:, :5]
 
         plot_vol: np.ndarray = volatility_data \
             .plot(subplots=True, sharex=True, figsize=(16, 16), grid=True,
@@ -82,7 +84,7 @@ def ln_volatility_plot(dates: List[str], time_step: str, window: str) -> None:
         figure_vol: plt.Figure = plot_vol[0].get_figure()
 
         # Plotting
-        local_normalization_tools \
+        epochs_tools \
             .save_plot(figure_vol, function_name, dates, time_step, window)
 
         plt.close()
@@ -99,29 +101,30 @@ def ln_volatility_plot(dates: List[str], time_step: str, window: str) -> None:
 # -----------------------------------------------------------------------------
 
 
-def ln_volatility_one_stock_plot(dates: List[str], time_step: str,
-                                 window: str) -> None:
+def epochs_volatility_one_stock_plot(dates: List[str], time_step: str,
+                                     window: str) -> None:
     """plots the local normalized volatility of one stocks.
 
     :param dates: List of the interval of dates to be analyzed
-     (i.e. ['1980-01', '2020-12']).
-    :param time_step: time step of the data (i.e. '1m', '2m', '5m', ...).
-    :param window: window time to compute the volatility (i.e. '60', ...).
+     (i.e. ['1980-01-01', '2020-12-31']).
+    :param time_step: time step of the data (i.e. '1m', '1h', '1d', '1wk',
+     '1mo').
+    :param window: window time to compute the volatility (i.e. '25').
     :return: None -- The function saves the plot in a file and does not return
      a value.
     """
 
-    function_name: str = ln_volatility_one_stock_plot.__name__
-    local_normalization_tools \
+    function_name: str = epochs_volatility_one_stock_plot.__name__
+    epochs_tools \
         .function_header_print_plot(function_name, dates, time_step, window)
 
     try:
 
         # Load data
         volatility_data: pd.DataFrame = pickle.load(open(
-                        f'../data/local_normalization/ln_volatility_data'
-                        + f'_{dates[0]}_{dates[1]}_step_{time_step}_win'
-                        + f'_{window}.pickle', 'rb'))
+                        f'../data/epochs/epochs_volatility_data_{dates[0]}'
+                        + f'_{dates[1]}_step_{time_step}_win_{window}.pickle',
+                        'rb'))
 
         figure_vol: plt.Figure = plt.figure()
 
@@ -134,7 +137,7 @@ def ln_volatility_one_stock_plot(dates: List[str], time_step: str,
         plt.tight_layout()
 
         # Plotting
-        local_normalization_tools \
+        epochs_tools \
             .save_plot(figure_vol, function_name, dates, time_step, window)
 
         plt.close()
@@ -151,28 +154,29 @@ def ln_volatility_one_stock_plot(dates: List[str], time_step: str,
 # -----------------------------------------------------------------------------
 
 
-def ln_normalized_returns_plot(dates: List[str], time_step: str,
-                               window: str) -> None:
+def epochs_normalized_returns_plot(dates: List[str], time_step: str,
+                                   window: str) -> None:
     """Plots the local normalized returns of five stocks.
 
     :param dates: List of the interval of dates to be analyzed
-     (i.e. ['1980-01', '2020-12']).
-    :param time_step: time step of the data (i.e. '1m', '2m', '5m', ...).
-    :param window: window time to compute the volatility (i.e. '60', ...).
+     (i.e. ['1980-01-01', '2020-12-31']).
+    :param time_step: time step of the data (i.e. '1m', '1h', '1d', '1wk',
+     '1mo').
+    :param window: window time to compute the volatility (i.e. '25').
     :return: None -- The function saves the plot in a file and does not return
      a value.
     """
 
-    function_name: str = ln_normalized_returns_plot.__name__
-    local_normalization_tools \
+    function_name: str = epochs_normalized_returns_plot.__name__
+    epochs_tools \
         .function_header_print_plot(function_name, dates, time_step, window)
 
     try:
 
         # Load data
         norm_returns_data: pd.DataFrame = pickle.load(open(
-            f'../data/local_normalization/ln_normalized_returns_data'
-            + f'_{dates[0]}_{dates[1]}_step_{time_step}_win_{window}.pickle',
+            f'../data/epochs/epochs_normalized_returns_data_{dates[0]}'
+            + f'_{dates[1]}_step_{time_step}_win_{window}.pickle',
             'rb')).iloc[:, :5]
 
         plot_ret: np.ndarray = norm_returns_data \
@@ -186,7 +190,7 @@ def ln_normalized_returns_plot(dates: List[str], time_step: str,
         figure_ret: plt.Figure = plot_ret[0].get_figure()
 
         # Plotting
-        local_normalization_tools \
+        epochs_tools \
             .save_plot(figure_ret, function_name, dates, time_step, window)
 
         plt.close()
@@ -204,20 +208,22 @@ def ln_normalized_returns_plot(dates: List[str], time_step: str,
 # -----------------------------------------------------------------------------
 
 
-def ln_normalized_returns_distribution_plot(dates: List[str], time_step: str,
-                                            window: str) -> None:
+def epochs_normalized_returns_distribution_plot(dates: List[str],
+                                                time_step: str,
+                                                window: str) -> None:
     """Plots the normalized returns distribution of five stocks.
 
     :param dates: List of the interval of dates to be analyzed
-     (i.e. ['1980-01', '2020-12']).
-    :param time_step: time step of the data (i.e. '1m', '2m', '5m', ...).
-    :param window: window time to compute the volatility (i.e. '60', ...).
+     (i.e. ['1980-01-01', '2020-12-31']).
+    :param time_step: time step of the data (i.e. '1m', '1h', '1d', '1wk',
+     '1mo').
+    :param window: window time to compute the volatility (i.e. '25').
     :return: None -- The function saves the plot in a file and does not return
      a value.
     """
 
-    function_name: str = ln_normalized_returns_distribution_plot.__name__
-    local_normalization_tools \
+    function_name: str = epochs_normalized_returns_distribution_plot.__name__
+    epochs_tools \
         .function_header_print_plot(function_name + 'lin', dates, time_step,
                                     window)
 
@@ -225,12 +231,12 @@ def ln_normalized_returns_distribution_plot(dates: List[str], time_step: str,
 
         # Load data
         norm_returns_data: pd.DataFrame = pickle.load(open(
-            f'../data/local_normalization/ln_normalized_returns_data'
-            + f'_{dates[0]}_{dates[1]}_step_{time_step}_win_{window}.pickle',
+            f'../data/epochs/epochs_normalized_returns_data_{dates[0]}'
+            + f'_{dates[1]}_step_{time_step}_win_{window}.pickle',
             'rb')).iloc[:, :5]
 
         x_gauss: np.ndarray = np.arange(-6, 6, 0.001)
-        gaussian: np.ndarray = local_normalization_tools \
+        gaussian: np.ndarray = epochs_tools \
             .gaussian_distribution(0, 1, x_gauss)
 
         # Linear plot
@@ -251,7 +257,7 @@ def ln_normalized_returns_distribution_plot(dates: List[str], time_step: str,
         figure_lin: plt.Figure = plot_lin.get_figure()
 
         # Plotting
-        local_normalization_tools \
+        epochs_tools \
             .save_plot(figure_lin, function_name + '_lin', dates, time_step,
                        window)
 
@@ -279,7 +285,7 @@ def ln_normalized_returns_distribution_plot(dates: List[str], time_step: str,
         figure_log: plt.Figure = plot_log.get_figure()
 
         # Plotting
-        local_normalization_tools \
+        epochs_tools \
             .save_plot(figure_log, function_name + '_log', dates, time_step,
                        window)
 
@@ -297,20 +303,21 @@ def ln_normalized_returns_distribution_plot(dates: List[str], time_step: str,
 # ----------------------------------------------------------------------------
 
 
-def ln_correlation_matrix_plot(dates: List[str], time_step: str,
-                               window: str) -> None:
+def epochs_correlation_matrix_plot(dates: List[str], time_step: str,
+                                   window: str) -> None:
     """Plots the local normalized correlation matrix.
 
     :param dates: List of the interval of dates to be analyzed
-     (i.e. ['1980-01', '2020-12']).
-    :param time_step: time step of the data (i.e. '1m', '2m', '5m', ...).
-    :param window: window time to compute the volatility (i.e. '60', ...).
+     (i.e. ['1980-01-01', '2020-12-31']).
+    :param time_step: time step of the data (i.e. '1m', '1h', '1d', '1wk',
+     '1mo').
+    :param window: window time to compute the volatility (i.e. '25').
     :return: None -- The function saves the plot in a file and does not return
      a value.
     """
 
-    function_name: str = ln_correlation_matrix_plot.__name__
-    local_normalization_tools \
+    function_name: str = epochs_correlation_matrix_plot.__name__
+    epochs_tools \
         .function_header_print_plot(function_name, dates, time_step, window)
 
     try:
@@ -319,9 +326,8 @@ def ln_correlation_matrix_plot(dates: List[str], time_step: str,
 
         # Load data
         correlations: pd.DataFrame = pickle.load(open(
-            f'../data/local_normalization/ln_correlation_matrix_data'
-            + f'_{dates[0]}_{dates[1]}_step_{time_step}_win_{window}.pickle',
-            'rb'))
+            f'../data/epochs/epochs_correlation_matrix_data_{dates[0]}'
+            + f'_{dates[1]}_step_{time_step}_win_{window}.pickle', 'rb'))
 
         sns.heatmap(correlations, cmap='Blues')  # , vmin=-1, vmax=1)
 
@@ -334,8 +340,7 @@ def ln_correlation_matrix_plot(dates: List[str], time_step: str,
         figure.tight_layout()
 
         # Plotting
-        local_normalization_tools \
-            .save_plot(figure, function_name, dates, time_step, window)
+        epochs_tools.save_plot(figure, function_name, dates, time_step, window)
 
         plt.close()
         del correlations
@@ -350,34 +355,36 @@ def ln_correlation_matrix_plot(dates: List[str], time_step: str,
 # -----------------------------------------------------------------------------
 
 
-def ln_aggregated_dist_returns_market_plot(dates: List[str], time_step: str,
-                                           window: str) -> None:
+def epochs_aggregated_dist_returns_market_plot(dates: List[str],
+                                               time_step: str,
+                                               window: str) -> None:
     """Plots the aggregated distribution of returns for a market.
 
     :param dates: List of the interval of dates to be analyzed
-     (i.e. ['1980-01', '2020-12']).
-    :param time_step: time step of the data (i.e. '1m', '2m', '5m', ...).
-    :param window: window time to compute the volatility (i.e. '60', ...).
+     (i.e. ['1980-01-01', '2020-12-31']).
+    :param time_step: time step of the data (i.e. '1m', '1h', '1d', '1wk',
+     '1mo').
+    :param window: window time to compute the volatility (i.e. '25').
     :return: None -- The function saves the plot in a file and does not return
      a value.
     """
 
-    function_name: str = ln_aggregated_dist_returns_market_plot.__name__
-    local_normalization_tools \
+    function_name: str = epochs_aggregated_dist_returns_market_plot.__name__
+    epochs_tools \
         .function_header_print_plot(function_name, dates, time_step, window)
 
     try:
 
         # Load data
         agg_returns_data: pd.Series = pickle.load(open(
-            '../data/local_normalization/ln_aggregated_dist_returns_market'
-            + f'_data_{dates[0]}_{dates[1]}_step_{time_step}_win_{window}'
-            + f'.pickle', 'rb'))
+            '../data/epochs/epochs_aggregated_dist_returns_market_data'
+            + f'_{dates[0]}_{dates[1]}_step_{time_step}_win_{window}.pickle',
+            'rb'))
 
         agg_returns_data = agg_returns_data.rename('Agg. returns')
 
         x_gauss: np.ndarray = np.arange(-10, 10, 0.1)
-        gaussian: np.ndarray = local_normalization_tools \
+        gaussian: np.ndarray = epochs_tools \
             .gaussian_distribution(0, 1, x_gauss)
 
         figure_log: plt.Figure = plt.figure(figsize=(16, 9))
@@ -402,7 +409,7 @@ def ln_aggregated_dist_returns_market_plot(dates: List[str], time_step: str,
         figure_log = plot_log.get_figure()
 
         # Plotting
-        local_normalization_tools \
+        epochs_tools \
             .save_plot(figure_log, function_name + '_log', dates, time_step,
                        window)
 
@@ -428,7 +435,16 @@ def main() -> None:
     :return: None.
     """
 
-    ln_aggregated_dist_returns_market_plot(['1992-01', '2012-12'], '1d', '25')
+    epochs_aggregated_dist_returns_market_plot(['2021-07-19', '2021-07-23'],
+                                               '1m', '25')
+    epochs_aggregated_dist_returns_market_plot(['2021-06-01', '2021-07-31'],
+                                               '1h', '25')
+    # epochs_aggregated_dist_returns_market_plot(['1990-01-01', '2020-12-31'],
+    #                                            '1d', '25')
+    epochs_aggregated_dist_returns_market_plot(['1990-01-01', '2020-12-31'],
+                                               '1wk', '25')
+    epochs_aggregated_dist_returns_market_plot(['1990-01-01', '2020-12-31'],
+                                               '1mo', '25')
 
 # -----------------------------------------------------------------------------
 
