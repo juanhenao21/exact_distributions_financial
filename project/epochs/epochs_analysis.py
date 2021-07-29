@@ -1,4 +1,4 @@
-'''Local normalization analysis module.
+'''Epochs analysis module.
 
 The functions in the module use local normalization to compute the returns, the
 normalized returns and the correlation matrix of financial time series.
@@ -11,23 +11,25 @@ This script requires the following modules:
     * typing
     * numpy
     * pandas
-    * local_normalization_tools
+    * epochs_tools
 
 The module contains the following functions:
-    * ln_volatility_data - uses local normalization to compute the volatility
-      of the time series.
-    * ln_normalized_returns_data - uses local normalization to normalize the
-      returns of the time series.
-    * ln_correlation_matrix_data - uses local normalization to compute the
+    * returns_data - computes the returns of the time series.
+    * epochs_volatility_data - uses local normalization to compute the
+      volatility of the time series.
+    * epochs_normalized_returns_data - uses local normalization to normalize
+      the returns of the time series.
+    * epochs_correlation_matrix_data - uses local normalization to compute the
       correlation matrix of the normalized returns.
-    * ln_aggregated_dist_returns_pair_data - uses local normalization to
+    * epochs_aggregated_dist_returns_pair_data - uses local normalization to
       compute the aggregated distribution of returns for a pair of stocks.
-    * ln_aggregated_dist_returns_market_data - uses local normalization to
+    * epochs_aggregated_dist_returns_market_data - uses local normalization to
       compute the aggregated distribution of returns for a market.
     * main - the main function of the script.
 
 ..moduleauthor:: Juan Camilo Henao Londono <www.github.com/juanhenao21>
 '''
+
 # -----------------------------------------------------------------------------
 # Modules
 
@@ -41,38 +43,40 @@ from typing import Any, Iterable, List, Tuple
 import numpy as np  # type: ignore
 import pandas as pd  # type: ignore
 
-import local_normalization_tools
+import epochs_tools
 
 # -----------------------------------------------------------------------------
 
 
-def ln_volatility_data(dates: List[str], time_step: str, window: str) -> None:
-    """Uses local normalization to compute the volatility of the time series.
+def returns_data(dates: List[str], time_step: str) -> None:
+    """Computes the returns of the time series.
 
     :param dates: List of the interval of dates to be analyzed
-     (i.e. ['1980-01', '2020-12']).
-    :param time_step: time step of the data (i.e. '1m', '2m', '5m').
-    :param window: window time to compute the volatility (i.e. '60').
+     (i.e. ['1980-01-01', '2020-12-01']).
+    :param time_step: time step of the data (i.e. '1m', '1h', '1d', 'wk',
+     '1mo').
     :return: None -- The function saves the data in a file and does not return
      a value.
     """
 
-    function_name: str = ln_volatility_data.__name__
-    local_normalization_tools \
-        .function_header_print_data(function_name, dates, time_step, window)
+    function_name: str = returns_data.__name__
+    epochs_tools \
+        .function_header_print_data(function_name, dates, time_step, '')
 
     try:
 
         # Load data
         data: pd.DataFrame = pickle.load(open(
-            f'../data/exact_distributions_correlation/returns_data_{dates[0]}'
-            + f'_{dates[1]}_step_{time_step}.pickle', 'rb'))
+            f'../data/original_data/original_data_{dates[0]}_{dates[1]}_step'
+            + f'_{time_step}.pickle', 'rb'))
 
-        std_df: pd.DataFrame = data.rolling(window=int(window)).std().dropna()
+        returns_df: pd.DataFrame = data.pct_change().dropna()
+
+        # print(returns_df)
 
         # Saving data
-        local_normalization_tools \
-            .save_data(std_df, function_name, dates, time_step, window)
+        epochs_tools \
+            .save_data(returns_df, function_name, dates, time_step, '')
 
     except FileNotFoundError as error:
         print('No data')
@@ -82,28 +86,66 @@ def ln_volatility_data(dates: List[str], time_step: str, window: str) -> None:
 # -----------------------------------------------------------------------------
 
 
-def ln_normalized_returns_data(dates: List[str], time_step: str,
-                               window: str) -> None:
-    """Uses local normalization to normalize the returns of the time series.
+def epochs_volatility_data(dates: List[str], time_step: str,
+                           window: str) -> None:
+    """Uses local normalization to compute the volatility of the time series.
 
     :param dates: List of the interval of dates to be analyzed
-     (i.e. ['1980-01', '2020-12']).
-    :param time_step: time step of the data (i.e. '1m', '2m', '5m', ...).
-    :param window: window time to compute the volatility (i.e. '60').
+     (i.e. ['1980-01-01', '2020-12-31']).
+    :param time_step: time step of the data (i.e. '1m', '1h', '1d', '1wk',
+     '1mo').
+    :param window: window time to compute the volatility (i.e. '25').
     :return: None -- The function saves the data in a file and does not return
      a value.
     """
 
-    function_name: str = ln_normalized_returns_data.__name__
-    local_normalization_tools \
+    function_name: str = epochs_volatility_data.__name__
+    epochs_tools \
         .function_header_print_data(function_name, dates, time_step, window)
 
     try:
 
         # Load data
         data: pd.DataFrame = pickle.load(open(
-            f'../data/exact_distributions_correlation/returns_data_{dates[0]}'
-            + f'_{dates[1]}_step_{time_step}.pickle', 'rb'))
+            f'../data/epochs/returns_data_{dates[0]}_{dates[1]}_step'
+            + f'_{time_step}_win_.pickle', 'rb'))
+
+        std_df: pd.DataFrame = data.rolling(window=int(window)).std().dropna()
+
+        # Saving data
+        epochs_tools.save_data(std_df, function_name, dates, time_step, window)
+
+    except FileNotFoundError as error:
+        print('No data')
+        print(error)
+        print()
+
+# -----------------------------------------------------------------------------
+
+
+def epochs_normalized_returns_data(dates: List[str], time_step: str,
+                                   window: str) -> None:
+    """Uses local normalization to normalize the returns of the time series.
+
+    :param dates: List of the interval of dates to be analyzed
+     (i.e. ['1980-01-01', '2020-12-31']).
+    :param time_step: time step of the data (i.e. '1m', '1h', '1d', 'wk',
+     '1mo').
+    :param window: window time to compute the volatility (i.e. '60').
+    :return: None -- The function saves the data in a file and does not return
+     a value.
+    """
+
+    function_name: str = epochs_normalized_returns_data.__name__
+    epochs_tools \
+        .function_header_print_data(function_name, dates, time_step, window)
+
+    try:
+
+        # Load data
+        data: pd.DataFrame = pickle.load(open(
+            f'../data/epochs/returns_data_{dates[0]}_{dates[1]}_step'
+            + f'_{time_step}_win_.pickle', 'rb'))
 
         data_win = data.iloc[int(window) - 1:]
         data_mean = data.rolling(window=int(window)).mean().dropna()
@@ -112,7 +154,7 @@ def ln_normalized_returns_data(dates: List[str], time_step: str,
         normalized_df: pd.DataFrame = (data_win - data_mean) / data_std
 
         # Saving data
-        local_normalization_tools \
+        epochs_tools \
             .save_data(normalized_df, function_name, dates, time_step, window)
 
     except FileNotFoundError as error:
@@ -123,35 +165,35 @@ def ln_normalized_returns_data(dates: List[str], time_step: str,
 # -----------------------------------------------------------------------------
 
 
-def ln_correlation_matrix_data(dates: List[str], time_step: str,
-                               window: str) -> None:
+def epochs_correlation_matrix_data(dates: List[str], time_step: str,
+                                   window: str) -> None:
     """uses local normalization to compute the correlation matrix of the
        normalized returns.
 
     :param dates: List of the interval of dates to be analyzed
-     (i.e. ['1980-01', '2020-12']).
-    :param time_step: time step of the data (i.e. '1m', '2m', '5m', ...).
-    :param window: window time to compute the volatility (i.e. '60').
+     (i.e. ['1980-01-01', '2020-12-31']).
+    :param time_step: time step of the data (i.e. '1m', '1h', '1d', '1wk',
+     '1mo').
+    :param window: window time to compute the volatility (i.e. '25').
     :return: None -- The function saves the data in a file and does not return
      a value.
     """
 
-    function_name: str = ln_correlation_matrix_data.__name__
-    local_normalization_tools \
+    function_name: str = epochs_correlation_matrix_data.__name__
+    epochs_tools \
         .function_header_print_data(function_name, dates, time_step, window)
 
     try:
 
         # Load data
         data: pd.DataFrame = pickle.load(open(
-            f'../data/local_normalization/ln_normalized_returns_data'
-            + f'_{dates[0]}_{dates[1]}_step_{time_step}_win_{window}.pickle',
-            'rb'))
+            f'../data/epochs/epochs_normalized_returns_data_{dates[0]}'
+            + f'_{dates[1]}_step_{time_step}_win_{window}.pickle', 'rb'))
 
         corr_matrix_df: pd.DataFrame = data.corr()
 
         # Saving data
-        local_normalization_tools \
+        epochs_tools \
             .save_data(corr_matrix_df, function_name, dates, time_step, window)
 
     except FileNotFoundError as error:
@@ -167,17 +209,18 @@ def ln_correlation_matrix_data(dates: List[str], time_step: str,
 # ----------------------------------------------------------------------------
 
 
-def ln_aggregated_dist_returns_pair_data(dates: List[str], time_step: str,
-                                         cols: List[str],
-                                         window: str) -> List[float]:
+def epochs_aggregated_dist_returns_pair_data(dates: List[str], time_step: str,
+                                             cols: List[str],
+                                             window: str) -> List[float]:
     """Uses local normalization to compute the aggregated distribution of
        returns for a pair of stocks.
 
     :param dates: List of the interval of dates to be analyzed
-     (i.e. ['1980-01', '2020-12']).
-    :param time_step: time step of the data (i.e. '1m', '2m', '5m', ...).
+     (i.e. ['1980-01-01', '2020-12-31']).
+    :param time_step: time step of the data (i.e. '1m', '1h', '1d', '1wk',
+     '1mo').
     :param cols: pair of stocks to be analized (i. e. ('AAPL', 'MSFT')).
-    :param window: window time to compute the volatility (i.e. '60').
+    :param window: window time to compute the volatility (i.e. '25').
     :return: pd.Series -- The function returns a pandas dataframe.
     """
 
@@ -185,9 +228,8 @@ def ln_aggregated_dist_returns_pair_data(dates: List[str], time_step: str,
 
         # Load data
         two_col: pd.DataFrame = pickle.load(open(
-            f'../data/exact_distributions_correlation/returns_data_{dates[0]}'
-            + f'_{dates[1]}_step_{time_step}.pickle', 'rb')) \
-            [[cols[0], cols[1]]]
+            f'../data/epochs/returns_data_{dates[0]}_{dates[1]}_step'
+            + f'_{time_step}_win_.pickle', 'rb'))[[cols[0], cols[1]]]
 
         # List to extend with the returns values of each pair
         agg_ret_mkt_list: List[float] = []
@@ -196,24 +238,36 @@ def ln_aggregated_dist_returns_pair_data(dates: List[str], time_step: str,
         two_col['DateCol'] = two_col.index
         # Add a column grouping the returns in the time window
         if time_step == '1m':
+            two_col['DateCol'] = pd.to_datetime(two_col['DateCol'])
             two_col['Group'] = two_col.groupby(
-                pd.Grouper(key='DateCol', freq=window + 'S'))['DateCol'] \
+                pd.Grouper(key='DateCol', freq=window + 'T'))['DateCol'] \
                 .transform('first')
         elif time_step == '1h':
-            two_col['Group'] = two_col.groupby(
-                pd.Grouper(key='DateCol', freq=window + 'H'))['DateCol'] \
-                .transform('first')
+            two_col['DateCol'] = pd.to_datetime(two_col['DateCol'])
+            two_col['Group'] = np.arange(len(two_col)) // 25
         elif time_step == '1d':
             two_col['Group'] = two_col.groupby(
                 pd.Grouper(key='DateCol', freq=window + 'B'))['DateCol'] \
                 .transform('first')
+        elif time_step == '1wk':
+            two_col['Group'] = two_col.groupby(
+                pd.Grouper(key='DateCol', freq=window + 'W-WED'))['DateCol'] \
+                .transform('first')
+            two_col = two_col.drop(pd.Timestamp('1990-01-09'))
+        elif time_step == '1mo':
+            two_col['Group'] = two_col.groupby(
+                pd.Grouper(key='DateCol', freq=window + 'BM'))['DateCol'] \
+                .transform('first')
+            two_col = two_col.drop(pd.Timestamp('1990-02-28'))
+        else:
+            raise Exception('There is something wrong with the time_step!')
 
         for local_data in two_col.groupby(by=['Group']):
 
             # Use the return columns
             local_data_df: pd.DataFrame = local_data[1][[cols[0], cols[1]]]
 
-            local_data_df= \
+            local_data_df = \
                 (local_data_df - local_data_df.mean()) / local_data_df.std()
 
             cov_two_col: pd.DataFrame = local_data_df.corr()
@@ -268,28 +322,30 @@ def ln_aggregated_dist_returns_pair_data(dates: List[str], time_step: str,
 # ----------------------------------------------------------------------------
 
 
-def ln_aggregated_dist_returns_market_data(dates: List[str], time_step: str,
-                                           window: str) -> None:
+def epochs_aggregated_dist_returns_market_data(dates: List[str],
+                                               time_step: str,
+                                               window: str) -> None:
     """Computes the aggregated distribution of returns for a market.
 
     :param dates: List of the interval of dates to be analyzed
-     (i.e. ['1980-01', '2020-12']).
-    :param time_step: time step of the data (i.e. '1m', '2m', '5m', ...).
-    :param window: window time to compute the volatility (i.e. '60').
+     (i.e. ['1980-01-01', '2020-12-31']).
+    :param time_step: time step of the data (i.e. '1m', '1h', '1d', '1wk',
+     '1mo').
+    :param window: window time to compute the volatility (i.e. '25').
     :return: None -- The function saves the data in a file and does not return
      a value.
     """
 
-    function_name: str = ln_aggregated_dist_returns_market_data.__name__
-    local_normalization_tools \
+    function_name: str = epochs_aggregated_dist_returns_market_data.__name__
+    epochs_tools \
         .function_header_print_data(function_name, dates, time_step, window)
 
     try:
 
         # Load name of the stocks
         stocks_name: pd.DataFrame = pickle.load(open(
-            f'../data/exact_distributions_correlation/returns_data_{dates[0]}'
-            + f'_{dates[1]}_step_{time_step}.pickle', 'rb')).columns[:80]
+            f'../data/epochs/returns_data_{dates[0]}_{dates[1]}_step'
+            + f'_{time_step}_win_.pickle', 'rb')).columns[:80]
 
         agg_ret_mkt_list: List[List[float]] = []
 
@@ -301,7 +357,7 @@ def ln_aggregated_dist_returns_market_data(dates: List[str], time_step: str,
         # Parallel computing
         with mp.Pool(processes=mp.cpu_count()) as pool:
             agg_ret_mkt_list.extend(pool.starmap(
-                ln_aggregated_dist_returns_pair_data, args_prod))
+                epochs_aggregated_dist_returns_pair_data, args_prod))
 
         # Flatten the list
         agg_ret_mkt_list_flat: List[float] = \
@@ -312,9 +368,8 @@ def ln_aggregated_dist_returns_market_data(dates: List[str], time_step: str,
         print(f'std  = {agg_ret_mkt_series.std()}')
 
         # Saving data
-        local_normalization_tools \
-            .save_data(agg_ret_mkt_series, function_name, dates, time_step,
-                       window)
+        epochs_tools.save_data(agg_ret_mkt_series, function_name, dates,
+                               time_step, window)
 
         del agg_ret_mkt_list
         del agg_ret_mkt_series
