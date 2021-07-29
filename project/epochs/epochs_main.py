@@ -1,4 +1,4 @@
-'''Portfolio optimization local normalization main module.
+'''Epochs main module.
 
 The functions in the module compute the returns and correlation matrix of
 financial time series.
@@ -7,9 +7,9 @@ This script requires the following modules:
     * typing
     * multiprocessing
     * itertools
-    * local_normalization_analysis
-    * local_normalization_plot
-    * local_normalization_tools
+    * epochs_analysis
+    * epochs_plot
+    * epochs_tools
 
 The module contains the following functions:
     * data_plot_generator
@@ -25,9 +25,9 @@ from typing import List
 import multiprocessing as mp
 from itertools import product as iprod
 
-import local_normalization_analysis
-import local_normalization_plot
-import local_normalization_tools
+import epochs_analysis
+import epochs_plot
+import epochs_tools
 
 # -----------------------------------------------------------------------------
 
@@ -71,6 +71,14 @@ def data_plot_generator(dates: List[List[str]], time_steps: List[str],
     #                  .ln_correlation_matrix_plot, iprod(dates, time_steps,
     #                                                     windows))
 
+    # dates = ['2021-07-19', '2021-07-23']
+    dates = ['2021-06-01', '2021-07-31']
+    # dates = ['1990-01-01', '2020-12-31']
+    time_step = '1h'
+    # time_step = '1mo'
+    # pairs = ['T', 'CMCSA']
+    pairs = ['AAPL', 'MSFT']
+    win = '25'
     for date in dates:
         for time_step in time_steps:
             for window in windows:
