@@ -5,7 +5,6 @@ in several intervals.
 
 This script requires the following modules:
     * typing
-    * calendar
     * datetime
     * pandas
     * yfinance
@@ -23,7 +22,6 @@ The module contains the following functions:
 
 from typing import List
 
-from calendar import monthrange
 from datetime import datetime as dt
 import pandas as pd  # type: ignore
 import yfinance as yf  # type: ignore
@@ -41,7 +39,8 @@ def exact_distributions_download_data(tickers: List[str], dates: List[str],
      analyzed (i.e. ['AAPL', 'MSFT']).
     :param dates: List of the interval of dates to be analyzed
      (i.e. ['1980-01-01', '2020-12-31']).
-    :param time_step: time step of the data (i.e. '1m', '2m', '5m', ...).
+    :param time_step: time step of the data (i.e. '1m', '1h', '1d', '1wk',
+     '1mo').
     :return: None -- The function saves the data in a file and does not return
      a value.
     """
@@ -63,6 +62,15 @@ def exact_distributions_download_data(tickers: List[str], dates: List[str],
         init_date: dt = dt(year=init_year, month=init_month, day=init_day)
         fin_date: dt = dt(year=fin_year, month=fin_month, day=fin_day)
 
+        if time_step == '1wk':
+            time_step = '1d'
+            time_step_ori = '1wk'
+        elif time_step == '1mo':
+            time_step = '1d'
+            time_step_ori = '1mo'
+        else:
+            time_step_ori = time_step
+
         # Not all the periods can be combined with the time steps.
         raw_data: pd.DataFrame = \
             yf.download(tickers=tickers, start=init_date, end=fin_date,
@@ -75,7 +83,23 @@ def exact_distributions_download_data(tickers: List[str], dates: List[str],
             raw_data = raw_data.dropna(axis=1, thresh=len(raw_data) - 10) \
                 .fillna(method='ffill')
 
-        download_data_tools.save_data(raw_data, dates, time_step)
+        if time_step == '1m':
+            raw_data.index = raw_data.index.strftime('%Y-%m-%d %H:%M')
+        elif time_step == '1h':
+            raw_data.index = raw_data.index.strftime('%Y-%m-%d %H')
+        else:
+            raw_data.index = \
+                pd.to_datetime(raw_data.index.strftime('%Y-%m-%d'))
+            raw_data = raw_data.resample('B').ffill()
+
+        if time_step_ori == '1wk':
+            offset = pd.tseries.frequencies.to_offset('-6d')
+            raw_data = raw_data.resample('W-MON').first()
+            raw_data.index = raw_data.index + offset
+        elif time_step_ori == '1mo':
+            raw_data = raw_data.resample('BM').last()
+
+        download_data_tools.save_data(raw_data, dates, time_step_ori)
 
     except AssertionError as error:
         print('No data')
@@ -140,13 +164,15 @@ def main() -> None:
     #                      'WFM', 'WMB', 'WEC', 'XEL', 'XRX', 'XLNX', 'XL',
     #                      'ZION']
 
-    dates_1m: List[str] = ['2021-07-19', '2021-07-23']
+    dates_1m: List[str] = ['2021-07-19', '2021-07-24']
     dates_1h: List[str] = ['2021-06-01', '2021-07-31']
     dates_1d: List[str] = ['1990-01-01', '2020-12-31']
+    dates_1wk: List[str] = ['1990-01-01', '2020-12-31']
     dates_1mo: List[str] = ['1990-01-01', '2020-12-31']
     time_step_1m: str = '1m'
     time_step_1h: str = '1h'
     time_step_1d: str = '1d'
+    time_step_1wk: str = '1wk'
     time_step_1mo: str = '1mo'
 
     # Basic folders
@@ -154,10 +180,11 @@ def main() -> None:
 
     # Run analysis
     # Download data
-    # exact_distributions_download_data(stocks, dates_1m, time_step_1m)
-    # exact_distributions_download_data(stocks, dates_1h, time_step_1h)
-    # exact_distributions_download_data(stocks, dates_1d, time_step_1d)
-    exact_distributions_download_data(stocks, dates_1mo, time_step_1mo)
+    exact_distributions_download_data(stocks, dates_1m, time_step_1m)
+    exact_distributions_download_data(stocks, dates_1h, time_step_1h)
+    exact_distributions_download_data(stocks[:180], dates_1d, time_step_1d)
+    exact_distributions_download_data(stocks[:180], dates_1wk, time_step_1wk)
+    exact_distributions_download_data(stocks[:180], dates_1mo, time_step_1mo)
 
     print('Ay vamos!!!')
 
