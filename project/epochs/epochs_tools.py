@@ -209,21 +209,26 @@ def gaussian_distribution(mean: float, variance: float,
 # -----------------------------------------------------------------------------
 
 
-def algebraic_distribution(variance: float, K: int, l: int, m: int,
+def algebraic_distribution(K_value: int, l_value: int,
                            x_values: np.ndarray) -> np.ndarray:
     """Compute the algebraic distribution values.
 
         :param variance: variance of the algebraic distribution.
-        :param K: number of companies analyzed.
-        :param l: shape parameter.
-        :param m: shape parameter.
+        :param K_value: number of companies analyzed.
+        :param l_value: shape parameter.
         :param x_values: array of the values to compute the Gaussian
          distribution
     """
 
-    return (np.sqrt(2 / m)) ** K * (gamma(l) / gamma(l - K / 2)) \
-        (1 / np.sqrt(2 * np.pi * variance)) \
-        * (1 / (1 + (1 / m) * x_values * x_values * (1 / variance)))
+    m = 2 * l_value - K_value - 2
+
+    assert m > 0
+
+    return (1 / np.sqrt(2 * np.pi)) \
+        * (np.sqrt(2 / m)) \
+        * (gamma(l_value - (K_value - 1) / 2) / gamma(l_value - K_value / 2)) \
+        * (1 / (1 + (1 / m) * x_values * x_values)
+        ** (l_value - (K_value - 1) / 2))
 
 # -----------------------------------------------------------------------------
 
