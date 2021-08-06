@@ -26,6 +26,8 @@ The module contains the following functions:
       matrix.
     * epochs_aggregated_dist_returns_market_plot - plots the aggregated
       distribution of returns for a market.
+    * epochs_log_log_agg_dist_returns_market_plot - plots the aggregated
+      distribution of returns for a market in a log-log figure for different l.
     * main - the main function of the script.
 
 .. moduleauthor:: Juan Camilo Henao Londono <www.github.com/juanhenao21>
@@ -383,9 +385,11 @@ def epochs_aggregated_dist_returns_market_plot(dates: List[str],
 
         agg_returns_data = agg_returns_data.rename('Agg. returns')
 
-        x_gauss: np.ndarray = np.arange(-10, 10, 0.1)
+        x_values: np.ndarray = np.arange(-10, 10, 0.1)
         gaussian: np.ndarray = epochs_tools \
-            .gaussian_distribution(0, 1, x_gauss)
+            .gaussian_distribution(0, 1, x_values)
+        algebraic: np.ndarray = epochs_tools \
+            .algebraic_distribution(1, 2, x_values)
 
         figure_log: plt.Figure = plt.figure(figsize=(16, 9))
 
@@ -393,11 +397,12 @@ def epochs_aggregated_dist_returns_market_plot(dates: List[str],
         plot_log = agg_returns_data.plot(kind='density', style='-', logy=True,
                                          figsize=(16, 9), legend=True, lw=3)
 
-        plt.semilogy(x_gauss, gaussian, 'o', lw=3, label='Gaussian')
+        plt.semilogy(x_values, gaussian, '-', lw=3, label='Gaussian')
+        plt.semilogy(x_values, algebraic, '-', lw=3, label='Algebraic')
 
         plt.legend(fontsize=20)
-        plt.title(f'Local norm. dist. returns from {dates[0]} to'
-                  + f' {dates[1]} - {time_step}', fontsize=30)
+        plt.title(f'Epochs from {dates[0]} to {dates[1]} - {time_step}',
+                  fontsize=30)
         plt.xlabel(f'Aggregated returns - window {window}', fontsize=25)
         plt.ylabel('PDF', fontsize=25)
         plt.xticks(fontsize=15)
@@ -427,6 +432,89 @@ def epochs_aggregated_dist_returns_market_plot(dates: List[str],
 # -----------------------------------------------------------------------------
 
 
+def epochs_log_log_agg_dist_returns_market_plot(dates: List[str],
+                                                time_step: str,
+                                                window: str,
+                                                l_values: List[float]) -> None:
+    """Plots the aggregated distribution of returns for a market in a log-log
+       figure for diferent l values.
+
+    :param dates: List of the interval of dates to be analyzed
+     (i.e. ['1980-01-01', '2020-12-31']).
+    :param time_step: time step of the data (i.e. '1m', '1h', '1d', '1wk',
+     '1mo').
+    :param window: window time to compute the volatility (i.e. '25').
+    :param l_values: List of the values of the shape parameter l
+     (i.e. [2, 4, 6, 8]).
+    :return: None -- The function saves the plot in a file and does not return
+     a value.
+    """
+
+    function_name: str = epochs_log_log_agg_dist_returns_market_plot.__name__
+    epochs_tools \
+        .function_header_print_plot(function_name, dates, time_step, window)
+
+    try:
+
+        # Load data
+        agg_returns_data: pd.Series = pickle.load(open(
+            '../data/epochs/epochs_aggregated_dist_returns_market_data'
+            + f'_{dates[0]}_{dates[1]}_step_{time_step}_win_{window}.pickle',
+            'rb'))
+
+        agg_returns_data = agg_returns_data.rename('Agg. returns')
+
+        x_values: np.ndarray = np.arange(-10, 10, 0.1)
+        gaussian: np.ndarray = epochs_tools \
+            .gaussian_distribution(0, 1, x_values)
+
+        figure_log: plt.Figure = plt.figure(figsize=(16, 9))
+
+        # Log plot
+        for l_value in l_values:
+            K_value = 1
+            m_value = 2 * l_value - K_value - 2
+            algebraic: np.ndarray = epochs_tools \
+                .algebraic_distribution(1, l_value, x_values)
+            plt.loglog(x_values, algebraic, '-', lw=3,
+                         label=f'A - K = 1 - l = {l_value} - m = {m_value}')
+
+        plt.loglog(x_values, gaussian, '-', lw=3, label='Gaussian')
+        plot_log = agg_returns_data.plot(kind='density', style='-', loglog=True,
+                                         figsize=(16, 9), legend=True, lw=3)
+
+        plt.legend(fontsize=20)
+        plt.title(f'Epochs from {dates[0]} to {dates[1]} - {time_step}',
+                  fontsize=30)
+        plt.xlabel(f'Aggregated returns - window {window}', fontsize=25)
+        plt.ylabel('PDF', fontsize=25)
+        plt.xticks(fontsize=15)
+        plt.yticks(fontsize=15)
+        plt.xlim(1, 6)
+        plt.ylim(10 ** -5, 1)
+        plt.grid(True)
+        plt.tight_layout()
+        figure_log = plot_log.get_figure()
+
+        # Plotting
+        epochs_tools \
+            .save_plot(figure_log, function_name + '_loglog', dates, time_step,
+                       window)
+
+        plt.close()
+        del agg_returns_data
+        del figure_log
+        del plot_log
+        gc.collect()
+
+    except FileNotFoundError as error:
+        print('No data')
+        print(error)
+        print()
+
+# -----------------------------------------------------------------------------
+
+
 def main() -> None:
     """The main function of the script.
 
@@ -435,16 +523,9 @@ def main() -> None:
     :return: None.
     """
 
-    epochs_aggregated_dist_returns_market_plot(['2021-07-19', '2021-07-23'],
-                                               '1m', '25')
-    epochs_aggregated_dist_returns_market_plot(['2021-06-01', '2021-07-31'],
-                                               '1h', '25')
-    # epochs_aggregated_dist_returns_market_plot(['1990-01-01', '2020-12-31'],
-    #                                            '1d', '25')
-    epochs_aggregated_dist_returns_market_plot(['1990-01-01', '2020-12-31'],
-                                               '1wk', '25')
-    epochs_aggregated_dist_returns_market_plot(['1990-01-01', '2020-12-31'],
-                                               '1mo', '25')
+    l_values = np.linspace(2, 171, 5).astype(int)
+    epochs_log_log_agg_dist_returns_market_plot(['1990-01-01', '2020-12-31'],
+                                                '1d', '25', l_values)
 
 # -----------------------------------------------------------------------------
 
