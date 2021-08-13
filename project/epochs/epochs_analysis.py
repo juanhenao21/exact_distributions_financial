@@ -17,7 +17,7 @@ The module contains the following functions:
     * returns_data - computes the returns of the time series.
     * epochs_volatility_data - uses local normalization to compute the
       volatility of the time series.
-    * epochs_normalized_returns_data - uses local normalization to normalize
+    * epochs_normalized_returns_data - uses rolling normalization to normalize
       the returns of the time series.
     * epochs_correlation_matrix_data - uses local normalization to compute the
       correlation matrix of the normalized returns.
@@ -125,7 +125,7 @@ def epochs_volatility_data(dates: List[str], time_step: str,
 
 def epochs_normalized_returns_data(dates: List[str], time_step: str,
                                    window: str) -> None:
-    """Uses local normalization to normalize the returns of the time series.
+    """Uses rolling normalization to normalize the returns of the time series.
 
     :param dates: List of the interval of dates to be analyzed
      (i.e. ['1980-01-01', '2020-12-31']).
@@ -221,7 +221,7 @@ def epochs_aggregated_dist_returns_pair_data(dates: List[str], time_step: str,
      '1mo').
     :param cols: pair of stocks to be analized (i. e. ('AAPL', 'MSFT')).
     :param window: window time to compute the volatility (i.e. '25').
-    :return: pd.Series -- The function returns a pandas dataframe.
+    :return: List[float] -- The function returns a list with float numbers.
     """
 
     try:
@@ -389,6 +389,12 @@ def main() -> None:
 
     :return: None.
     """
+
+    dates_1m = ['2021-07-19', '2021-08-07']
+    dates_1h = ['2021-06-01', '2021-07-31']
+    dates = ['1990-01-01', '2020-12-31']
+
+    win = '25'
 
 # -----------------------------------------------------------------------------
 
