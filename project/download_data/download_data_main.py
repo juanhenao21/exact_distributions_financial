@@ -180,11 +180,30 @@ def main() -> None:
 
     # Run analysis
     # Download data
-    exact_distributions_download_data(stocks, dates_1m, time_step_1m)
-    exact_distributions_download_data(stocks, dates_1h, time_step_1h)
-    exact_distributions_download_data(stocks[:180], dates_1d, time_step_1d)
-    exact_distributions_download_data(stocks[:180], dates_1wk, time_step_1wk)
-    exact_distributions_download_data(stocks[:180], dates_1mo, time_step_1mo)
+    # exact_distributions_download_data(stocks, dates_1m, time_step_1m)
+    # exact_distributions_download_data(stocks, dates_1h, time_step_1h)
+    # exact_distributions_download_data(stocks[:180], dates_1d, time_step_1d)
+    # exact_distributions_download_data(stocks[:180], dates_1wk, time_step_1wk)
+    # exact_distributions_download_data(stocks[:180], dates_1mo, time_step_1mo)
+
+    import pickle
+
+    x = pickle.load(open('../data/original_data/original_data_2021-07-19_2021-07-24_step_1m.pickle', 'rb'))
+    y = pickle.load(open('../data/original_data/original_data_2021-07-26_2021-07-31_step_1m.pickle', 'rb'))
+    z = pickle.load(open('../data/original_data/original_data_2021-08-02_2021-08-07_step_1m.pickle', 'rb'))
+
+    print(x.shape)
+    print(y.shape)
+    print(z.shape)
+
+    w = pd.concat([x, y, z])
+
+    w = w.dropna(axis=1)
+    print(w.head())
+    print(w.tail())
+    print(w.shape)
+
+    pickle.dump(w, open('../data/original_data/original_data_2021-07-19_2021-08-07_step_1m.pickle', 'wb'))
 
     print('Ay vamos!!!')
 
