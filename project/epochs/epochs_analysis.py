@@ -219,7 +219,7 @@ def epochs_aggregated_dist_returns_pair_data(dates: List[str], time_step: str,
      (i.e. ['1980-01-01', '2020-12-31']).
     :param time_step: time step of the data (i.e. '1m', '1h', '1d', '1wk',
      '1mo').
-    :param cols: pair of stocks to be analized (i. e. ('AAPL', 'MSFT')).
+    :param cols: pair of stocks to be analized (i. e. ['AAPL', 'MSFT']).
     :param window: window time to compute the volatility (i.e. '25').
     :return: List[float] -- The function returns a list with float numbers.
     """
@@ -324,7 +324,8 @@ def epochs_aggregated_dist_returns_pair_data(dates: List[str], time_step: str,
 
 def epochs_aggregated_dist_returns_market_data(dates: List[str],
                                                time_step: str,
-                                               window: str) -> None:
+                                               window: str,
+                                               K_value: str) -> None:
     """Computes the aggregated distribution of returns for a market.
 
     :param dates: List of the interval of dates to be analyzed
@@ -332,6 +333,7 @@ def epochs_aggregated_dist_returns_market_data(dates: List[str],
     :param time_step: time step of the data (i.e. '1m', '1h', '1d', '1wk',
      '1mo').
     :param window: window time to compute the volatility (i.e. '25').
+    :param K_value: number of companies to be used (i.e. '80', 'all').
     :return: None -- The function saves the data in a file and does not return
      a value.
     """
@@ -343,9 +345,16 @@ def epochs_aggregated_dist_returns_market_data(dates: List[str],
     try:
 
         # Load name of the stocks
-        stocks_name: pd.DataFrame = pickle.load(open(
-            f'../data/epochs/returns_data_{dates[0]}_{dates[1]}_step'
-            + f'_{time_step}_win_.pickle', 'rb')).columns[:80]
+        if K_value == 'all':
+            stocks_name: pd.DataFrame = pickle.load(open(
+                f'../data/epochs/returns_data_{dates[0]}_{dates[1]}_step'
+                + f'_{time_step}_win_.pickle', 'rb'))
+
+        else:
+            stocks_name: pd.DataFrame = pickle.load(open(
+                f'../data/epochs/returns_data_{dates[0]}_{dates[1]}_step'
+                + f'_{time_step}_win_.pickle', 'rb')).sample(n=int(K_value),
+                                                             axis='columns')
 
         agg_ret_mkt_list: List[List[float]] = []
 
@@ -395,6 +404,8 @@ def main() -> None:
     dates = ['1990-01-01', '2020-12-31']
 
     win = '25'
+
+    epochs_aggregated_dist_returns_market_data(dates, '1mo', win, '4')
 
 # -----------------------------------------------------------------------------
 
