@@ -33,61 +33,33 @@ import epochs_tools
 
 
 def data_plot_generator(dates: List[List[str]], time_steps: List[str],
-                        windows: List[str]) -> None:
+                        windows: List[str], K_values: List[str]) -> None:
     """Generates all the analysis and plots from the data.
 
     :param dates: list of lists of the string of the dates to be analyzed
      (i.e. [['1980-01', '2020-12'], ['1980-01', '2020-12']).
     :param time_steps: list of the string of the time step of the data
      (i.e. ['1m', '2m', '5m']).
-    :param windows: list of the string of the windows to compute the volatility
-      of the data (i.e. ['60', '90']).
+    :param windows: list of the string of the windows to be analyzed
+     (i.e. ['60', '90']).
+    :param K_values: list of the string of the number of companies to be
+     analyzed (i.e. ['40', '80']).
     :return: None -- The function saves the data in a file and does not return
      a value.
     """
 
-    # Parallel computing
-    # with mp.Pool(processes=mp.cpu_count()) as pool:
-    #     # Specific functions
-    #     pool.starmap(local_normalization_analysis
-    #                  .ln_volatility_data, iprod(dates, time_steps, windows))
-    #     pool.starmap(local_normalization_analysis
-    #                  .ln_normalized_returns_data, iprod(dates, time_steps,
-    #                                                     windows))
-    #     pool.starmap(local_normalization_analysis
-    #                  .ln_correlation_matrix_data, iprod(dates, time_steps,
-    #                                                     windows))
+    for idx, val in enumerate(dates):
 
-    #     # Plot
-    #     pool.starmap(local_normalization_plot
-    #                  .ln_volatility_plot, iprod(dates, time_steps, windows))
-    #     pool.starmap(local_normalization_plot
-    #                  .ln_normalized_returns_plot, iprod(dates, time_steps,
-    #                                                     windows))
-    #     pool.starmap(local_normalization_plot
-    #                  .ln_normalized_returns_distribution_plot,
-    #                  iprod(dates, time_steps, windows))
-    #     pool.starmap(local_normalization_plot
-    #                  .ln_correlation_matrix_plot, iprod(dates, time_steps,
-    #                                                     windows))
+        epochs_analysis.returns_data(dates[idx], time_steps[idx])
 
-    # dates = ['2021-07-19', '2021-07-23']
-    dates = ['2021-06-01', '2021-07-31']
-    # dates = ['1990-01-01', '2020-12-31']
-    time_step = '1h'
-    # time_step = '1mo'
-    # pairs = ['T', 'CMCSA']
-    pairs = ['AAPL', 'MSFT']
-    win = '25'
-    for date in dates:
-        for time_step in time_steps:
-            for window in windows:
-                local_normalization_analysis \
-                    .ln_aggregated_dist_returns_market_data(date, time_step,
-                                                            window)
-                local_normalization_plot \
-                    .ln_aggregated_dist_returns_market_plot(date, time_step,
-                                                            window)
+    for K_value in K_values:
+        for window in windows:
+            for idx, val in enumerate(dates):
+
+                epochs_analysis. \
+                epochs_aggregated_dist_returns_market_data(dates[idx],
+                                                           time_steps[idx],
+                                                           window, K_value)
 
 # -----------------------------------------------------------------------------
 
@@ -100,19 +72,26 @@ def main() -> None:
     :return: None.
     """
 
-    local_normalization_tools.initial_message()
+    epochs_tools.initial_message()
 
     # Initial year and time step
-    dates: List[List[str]] = [['2021-07-19', '2021-07-23']]
-    time_steps: List[str] = ['1m', '1h', '1d']
-    windows: List[str] = ['25']
+
+    dates_1m = ['2021-07-19', '2021-08-14']
+    dates_1h = ['2021-06-01', '2021-07-31']
+    dates_other = ['1990-01-01', '2020-12-31']
+
+    dates: List[List[str]] = [dates_1m, dates_1h, dates_other,
+                              dates_other, dates_other]
+    time_steps: List[str] = ['1m', '1h', '1d', '1wk', '1mo']
+    windows: List[str] = ['10', '15', '20', '25', '30']
+    K_values: List[str] = ['10', '20', '50', 'all']
 
     # Basic folders
-    local_normalization_tools.start_folders()
+    epochs_tools.start_folders()
 
     # Run analysis
     # Analysis and plot
-    data_plot_generator(dates, time_steps, windows)
+    data_plot_generator(dates, time_steps, windows, K_values)
 
     print('Ay vamos!!!')
 
