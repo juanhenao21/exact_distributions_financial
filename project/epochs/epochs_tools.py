@@ -42,7 +42,7 @@ from scipy.special import gamma  # type: ignore
 
 
 def save_data(data: Any, function_name: str, dates: List[str], time_step: str,
-              window: str) -> None:
+              window: str, K_value: str) -> None:
     """Saves computed data in pickle files.
 
     Saves the data generated in the functions of the epochs_analysis module in
@@ -55,6 +55,7 @@ def save_data(data: Any, function_name: str, dates: List[str], time_step: str,
     :param time_step: time step of the data (i.e. '1m', '1h', '1d', '1wk',
      '1mo').
     :param window: window time to use in the computation (i.e. '25').
+    :param K_value: number of companies to be used (i.e. '80', 'all').
     :return: None -- The function saves the data in a file and does not return
      a value.
     """
@@ -63,7 +64,8 @@ def save_data(data: Any, function_name: str, dates: List[str], time_step: str,
 
     pickle.dump(data, open(
         f'../data/epochs/{function_name}_{dates[0]}_{dates[1]}_step'
-                + f'_{time_step}_win_{window}.pickle', 'wb'), protocol=4)
+                + f'_{time_step}_win_{window}_K_{K_value}.pickle', 'wb'),
+                protocol=4)
 
     print('Data Saved')
     print()
@@ -72,7 +74,7 @@ def save_data(data: Any, function_name: str, dates: List[str], time_step: str,
 
 
 def save_plot(figure: plt.Figure, function_name: str, dates: List[str],
-              time_step: str, window: str) -> None:
+              time_step: str, window: str, K_value: str) -> None:
     """Saves plot in png files.
 
     Saves the plot generated in the functions of the epochs_analysis module in
@@ -85,6 +87,7 @@ def save_plot(figure: plt.Figure, function_name: str, dates: List[str],
     :param time_step: time step of the data (i.e. '1m', '1h', '1d', '1wk',
      '1mo').
     :param window: window time to compute the volatility (i.e. '25').
+    :param K_value: number of companies to be used (i.e. '80', 'all').
     :return: None -- The function save the plot in a file and does not return
      a value.
     """
@@ -92,7 +95,7 @@ def save_plot(figure: plt.Figure, function_name: str, dates: List[str],
     # Saving plot data
 
     figure.savefig(f'../plot/epochs/{function_name}_{dates[0]}_{dates[1]}'
-                   + f'_step_{time_step}_win_{window}.png')
+                   + f'_step_{time_step}_win_{window}_K_{K_value}.png')
 
     print('Plot Saved')
     print()
@@ -101,7 +104,8 @@ def save_plot(figure: plt.Figure, function_name: str, dates: List[str],
 
 
 def function_header_print_data(function_name: str, dates: List[str],
-                               time_step: str, window: str) -> None:
+                               time_step: str, window: str,
+                               K_value: str) -> None:
     """Prints a header of a function that generates data when it is running.
 
     :param function_name: name of the function that generates the data.
@@ -110,6 +114,7 @@ def function_header_print_data(function_name: str, dates: List[str],
     :param time_step: time step of the data (i.e. '1m', '1h', '1d', '1wk',
      '1mo').
     :param window: window time to compute the volatility (i.e. '25').
+    :param K_value: number of companies to be used (i.e. '80', 'all').
     :return: None -- The function prints a message and does not return a
      value.
     """
@@ -119,14 +124,15 @@ def function_header_print_data(function_name: str, dates: List[str],
 
     print(f'Computing the results of the data in the interval time from the '
           + f'years {dates[0]} to {dates[1]} in time steps of {time_step} '
-          + f'with a time window of {window}')
+          + f'with a time window of {window} for {K_value} companies')
     print()
 
 # -----------------------------------------------------------------------------
 
 
 def function_header_print_plot(function_name: str, dates: List[str],
-                               time_step: str, window: str) -> None:
+                               time_step: str, window: str,
+                               K_value: str) -> None:
     """Prints a header of a function that generates a plot when it is running.
 
     :param function_name: name of the function that generates the data.
@@ -135,6 +141,7 @@ def function_header_print_plot(function_name: str, dates: List[str],
     :param time_step: time step of the data (i.e. '1m', '1h', '1d', '1wk',
      '1mo').
     :param window: window time to compute the volatility (i.e. '25').
+    :param K_value: number of companies to be used (i.e. '80', 'all').
     :return: None -- The function prints a message and does not return a
      value.
     """
@@ -144,7 +151,7 @@ def function_header_print_plot(function_name: str, dates: List[str],
 
     print(f'Computing the plots of the data in the interval time from the '
           + f'years {dates[0]} to {dates[1]} in time steps of {time_step} '
-          + f'with a time window of {window}')
+          + f'with a time window of {window} for {K_value} companies')
     print()
 
 # -----------------------------------------------------------------------------
