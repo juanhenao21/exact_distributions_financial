@@ -61,7 +61,7 @@ def returns_data(dates: List[str], time_step: str) -> None:
 
     function_name: str = returns_data.__name__
     epochs_tools \
-        .function_header_print_data(function_name, dates, time_step, '')
+        .function_header_print_data(function_name, dates, time_step, '', '')
 
     try:
 
@@ -76,7 +76,7 @@ def returns_data(dates: List[str], time_step: str) -> None:
 
         # Saving data
         epochs_tools \
-            .save_data(returns_df, function_name, dates, time_step, '')
+            .save_data(returns_df, function_name, dates, time_step, '', '')
 
     except FileNotFoundError as error:
         print('No data')
@@ -229,7 +229,7 @@ def epochs_aggregated_dist_returns_pair_data(dates: List[str], time_step: str,
         # Load data
         two_col: pd.DataFrame = pickle.load(open(
             f'../data/epochs/returns_data_{dates[0]}_{dates[1]}_step'
-            + f'_{time_step}_win_.pickle', 'rb'))[[cols[0], cols[1]]]
+            + f'_{time_step}_win__K_.pickle', 'rb'))[[cols[0], cols[1]]]
 
         # List to extend with the returns values of each pair
         agg_ret_mkt_list: List[float] = []
@@ -244,7 +244,7 @@ def epochs_aggregated_dist_returns_pair_data(dates: List[str], time_step: str,
                 .transform('first')
         elif time_step == '1h':
             two_col['DateCol'] = pd.to_datetime(two_col['DateCol'])
-            two_col['Group'] = np.arange(len(two_col)) // 25
+            two_col['Group'] = np.arange(len(two_col)) // int(window)
         elif time_step == '1d':
             two_col['Group'] = two_col.groupby(
                 pd.Grouper(key='DateCol', freq=window + 'B'))['DateCol'] \
@@ -261,6 +261,10 @@ def epochs_aggregated_dist_returns_pair_data(dates: List[str], time_step: str,
             two_col = two_col.drop(pd.Timestamp('1990-02-28'))
         else:
             raise Exception('There is something wrong with the time_step!')
+
+        # Remove groups that are smaller than the window to avoid linalg errors
+        two_col = two_col.groupby('Group') \
+            .filter(lambda x: len(x) >= int(window) - 5)
 
         for local_data in two_col.groupby(by=['Group']):
 
@@ -340,7 +344,8 @@ def epochs_aggregated_dist_returns_market_data(dates: List[str],
 
     function_name: str = epochs_aggregated_dist_returns_market_data.__name__
     epochs_tools \
-        .function_header_print_data(function_name, dates, time_step, window)
+        .function_header_print_data(function_name, dates, time_step, window,
+                                    K_value)
 
     try:
 
@@ -348,12 +353,12 @@ def epochs_aggregated_dist_returns_market_data(dates: List[str],
         if K_value == 'all':
             stocks_name: pd.DataFrame = pickle.load(open(
                 f'../data/epochs/returns_data_{dates[0]}_{dates[1]}_step'
-                + f'_{time_step}_win_.pickle', 'rb'))
+                + f'_{time_step}_win__K_.pickle', 'rb'))
 
         else:
             stocks_name: pd.DataFrame = pickle.load(open(
                 f'../data/epochs/returns_data_{dates[0]}_{dates[1]}_step'
-                + f'_{time_step}_win_.pickle', 'rb')).sample(n=int(K_value),
+                + f'_{time_step}_win__K_.pickle', 'rb')).sample(n=int(K_value),
                                                              axis='columns')
 
         agg_ret_mkt_list: List[List[float]] = []
@@ -378,7 +383,7 @@ def epochs_aggregated_dist_returns_market_data(dates: List[str],
 
         # Saving data
         epochs_tools.save_data(agg_ret_mkt_series, function_name, dates,
-                               time_step, window)
+                               time_step, window, K_value)
 
         del agg_ret_mkt_list
         del agg_ret_mkt_series
@@ -403,9 +408,9 @@ def main() -> None:
     dates_1h = ['2021-06-01', '2021-07-31']
     dates = ['1990-01-01', '2020-12-31']
 
-    win = '25'
+    win = '10'
 
-    epochs_aggregated_dist_returns_market_data(dates, '1mo', win, '4')
+    epochs_aggregated_dist_returns_market_data(dates_1h, '1h', win, '10')
 
 # -----------------------------------------------------------------------------
 
