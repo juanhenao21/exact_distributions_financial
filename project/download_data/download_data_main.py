@@ -164,7 +164,7 @@ def main() -> None:
     #                      'WFM', 'WMB', 'WEC', 'XEL', 'XRX', 'XLNX', 'XL',
     #                      'ZION']
 
-    dates_1m: List[str] = ['2021-07-19', '2021-07-24']
+    dates_1m: List[str] = ['2021-08-09', '2021-08-14']
     dates_1h: List[str] = ['2021-06-01', '2021-07-31']
     dates_1d: List[str] = ['1990-01-01', '2020-12-31']
     dates_1wk: List[str] = ['1990-01-01', '2020-12-31']
@@ -191,19 +191,21 @@ def main() -> None:
     x = pickle.load(open('../data/original_data/original_data_2021-07-19_2021-07-24_step_1m.pickle', 'rb'))
     y = pickle.load(open('../data/original_data/original_data_2021-07-26_2021-07-31_step_1m.pickle', 'rb'))
     z = pickle.load(open('../data/original_data/original_data_2021-08-02_2021-08-07_step_1m.pickle', 'rb'))
+    r = pickle.load(open('../data/original_data/original_data_2021-08-09_2021-08-14_step_1m.pickle', 'rb'))
 
     print(x.shape)
     print(y.shape)
     print(z.shape)
+    print(r.shape)
 
-    w = pd.concat([x, y, z])
+    w = pd.concat([x, y, z, r])
 
     w = w.dropna(axis=1)
     print(w.head())
     print(w.tail())
     print(w.shape)
 
-    pickle.dump(w, open('../data/original_data/original_data_2021-07-19_2021-08-07_step_1m.pickle', 'wb'))
+    pickle.dump(w, open('../data/original_data/original_data_2021-07-19_2021-08-14_step_1m.pickle', 'wb'))
 
     print('Ay vamos!!!')
 
