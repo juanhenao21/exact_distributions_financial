@@ -72,8 +72,6 @@ def returns_data(dates: List[str], time_step: str) -> None:
 
         returns_df: pd.DataFrame = data.pct_change().dropna()
 
-        # print(returns_df)
-
         # Saving data
         epochs_tools \
             .save_data(returns_df, function_name, dates, time_step, '', '')
@@ -274,7 +272,7 @@ def epochs_aggregated_dist_returns_pair_data(dates: List[str], time_step: str,
             local_data_df = \
                 (local_data_df - local_data_df.mean()) / local_data_df.std()
 
-            cov_two_col: pd.DataFrame = local_data_df.corr()
+            cov_two_col: pd.DataFrame = local_data_df.cov()
             # eig_vec:  eigenvector, eig_val: eigenvalues
             eig_val, eig_vec = np.linalg.eig(cov_two_col)
 
