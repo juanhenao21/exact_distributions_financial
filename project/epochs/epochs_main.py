@@ -61,6 +61,10 @@ def data_plot_generator(dates: List[List[str]], time_steps: List[str],
                                                            time_steps[idx],
                                                            window, K_value)
 
+    epochs_plot.epochs_var_win_all_empirical_dist_returns_market_plot()
+    epochs_plot.epochs_var_K_all_empirical_dist_returns_market_plot()
+    epochs_plot.epochs_var_time_step_all_empirical_dist_returns_market_plot()
+
 # -----------------------------------------------------------------------------
 
 
@@ -83,8 +87,8 @@ def main() -> None:
     dates: List[List[str]] = [dates_1m, dates_1h, dates_other,
                               dates_other, dates_other]
     time_steps: List[str] = ['1m', '1h', '1d', '1wk', '1mo']
-    windows: List[str] = ['10', '15', '20', '25', '30']
-    K_values: List[str] = ['10', '20', '50', 'all']
+    windows: List[str] = ['10', '25', '40', '55']
+    K_values: List[str] = ['20', '50']
 
     # Basic folders
     epochs_tools.start_folders()
