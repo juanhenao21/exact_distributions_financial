@@ -90,6 +90,9 @@ def aggregated_dist_returns_market_data(dates: List[str],
             f'../data/exact_distributions_covariance/returns_data_{dates[0]}'
             + f'_{dates[1]}_step_{time_step}.pickle', 'rb'))
 
+        returns_vals = (returns_vals - returns_vals.mean()) \
+            / returns_vals.std()
+
         cov: pd.DataFrame = returns_vals.cov()
         # eig_vec:  eigenvector, eig_val: eigenvalues
         eig_val, eig_vec = np.linalg.eig(cov)
