@@ -109,7 +109,7 @@ def aggregated_dist_returns_market_plot(dates: List[str],
         agg_returns_data: pd.Series = pickle.load(open(
             '../data/exact_distributions_covariance/aggregated_dist_returns'
             + f'_market_data_{dates[0]}_{dates[1]}_step_{time_step}.pickle',
-            'rb'))
+            'rb'))[::10]
 
         agg_returns_data = agg_returns_data.rename('Agg. returns')
 
@@ -121,7 +121,7 @@ def aggregated_dist_returns_market_plot(dates: List[str],
         plot_log = agg_returns_data.plot(kind='density', style='-', logy=True,
                                          figsize=(16, 9), legend=True, lw=3)
 
-        plt.semilogy(x_gauss, gaussian, 'o', lw=3, label='Gaussian')
+        plt.semilogy(x_gauss, gaussian, '-', lw=3, label='Gaussian')
 
         plt.legend(fontsize=20)
         plt.title(f'Aggregated distribution returns from {dates[0]} to'
@@ -130,8 +130,8 @@ def aggregated_dist_returns_market_plot(dates: List[str],
         plt.ylabel('PDF', fontsize=25)
         plt.xticks(fontsize=15)
         plt.yticks(fontsize=15)
-        plt.xlim(-10, 10)
-        plt.ylim(10 ** -9, 1)
+        plt.xlim(-6, 6)
+        plt.ylim(10 ** -4, 1)
         plt.grid(True)
         plt.tight_layout()
         figure_log: plt.Figure = plot_log.get_figure()
@@ -139,9 +139,9 @@ def aggregated_dist_returns_market_plot(dates: List[str],
         left, bottom, width, height = [0.36, 0.13, 0.35, 0.3]
         ax2 = figure_log.add_axes([left, bottom, width, height])
         agg_returns_data.plot(kind='density', style='-', legend=False, lw=3)
-        ax2.plot(x_gauss, gaussian, 'o')
+        ax2.plot(x_gauss, gaussian, '-')
         plt.xlim(-2, 2)
-        plt.ylim(0, 0.6)
+        plt.ylim(0, 1)
         plt.grid(True)
 
         # Plotting

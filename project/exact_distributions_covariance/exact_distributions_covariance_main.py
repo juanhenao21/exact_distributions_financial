@@ -73,8 +73,8 @@ def main() -> None:
     exact_distributions_covariance_tools.initial_message()
 
     # Initial year and time step
-    dates: List[List[str]] = [['1972-01', '1992-12'], ['1992-01', '2012-12'],
-                              ['2012-01', '2020-12']]
+    dates: List[List[str]] = [['1990-01-01', '2020-12-31']]
+    # dates: List[List[str]] = [['2021-07-19', '2021-08-07']]
     time_steps: List[str] = ['1d']
 
     # Basic folders
