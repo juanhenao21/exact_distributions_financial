@@ -90,6 +90,9 @@ def aggregated_dist_returns_market_data(dates: List[str],
             f'../data/exact_distributions_covariance/returns_data_{dates[0]}'
             + f'_{dates[1]}_step_{time_step}.pickle', 'rb'))
 
+        print('Size of time series and number of companies: ',
+              returns_vals.shape)
+
         returns_vals = (returns_vals - returns_vals.mean()) \
             / returns_vals.std()
 
