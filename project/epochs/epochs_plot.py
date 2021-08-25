@@ -602,8 +602,8 @@ def epochs_var_time_step_all_empirical_dist_returns_market_plot() -> None:
 
 def epochs_aggregated_dist_returns_market_plot(dates: List[str],
                                                time_step: str,
-                                               window: str,
-                                               K_value: str) -> None:
+                                               window: str, K_value: str,
+                                               l_value: str) -> None:
     """Plots the aggregated distribution of returns for a market.
 
     :param dates: List of the interval of dates to be analyzed
@@ -612,6 +612,7 @@ def epochs_aggregated_dist_returns_market_plot(dates: List[str],
      '1mo').
     :param window: window time to compute the volatility (i.e. '25').
     :param K_value: number of companies to be used (i.e. '80', 'all').
+    :param l_value: value of the shape parameter l (i.e. '2').
     :return: None -- The function saves the plot in a file and does not return
      a value.
     """
@@ -634,19 +635,17 @@ def epochs_aggregated_dist_returns_market_plot(dates: List[str],
         gaussian: np.ndarray = epochs_tools \
             .gaussian_distribution(0, 1, x_values)
         algebraic: np.ndarray = epochs_tools \
-            .algebraic_distribution(1, 4, x_values)
-        algebraik: np.ndarray = epochs_tools \
-            .algebraic_distribution(1, 5, x_values)
+            .algebraic_distribution(int(K_value), int(l_value), x_values)
 
         figure_log: plt.Figure = plt.figure(figsize=(16, 9))
 
         # Log plot
         plot_log = agg_returns_data.plot(kind='density', style='-', logy=True,
-                                         figsize=(16, 9), legend=True, lw=3)
+                                         figsize=(16, 9), legend=True, lw=5)
 
         plt.semilogy(x_values, gaussian, '-', lw=3, label='Gaussian')
-        plt.semilogy(x_values, algebraic, '-', lw=3, label='A - K = 1 - l = 4 - m = 5')
-        plt.semilogy(x_values, algebraik, '-', lw=3, label='A - K = 1 - l = 5 - m = 7')
+        plt.semilogy(x_values, algebraic, '-', lw=3,
+                     label=f'A - K = {K_value} - l = {l_value} - m = {2 * int(l_value) - int(K_value) - 2}')
 
         plt.legend(fontsize=20)
         plt.title(f'Epochs from {dates[0]} to {dates[1]} - {time_step}',
@@ -721,10 +720,9 @@ def epochs_log_log_agg_dist_returns_market_plot(dates: List[str],
 
         # Log plot
         for l_value in l_values:
-            K_value = '1'
             m_value = 2 * l_value - int(K_value) - 2
             algebraic: np.ndarray = epochs_tools \
-                .algebraic_distribution(1, l_value, x_values)
+                .algebraic_distribution(int(K_value), l_value, x_values)
             plt.loglog(x_values, algebraic, '-', lw=1,
                          label=f'A - K = {K_value} - l = {l_value} - m = {m_value}')
 
@@ -878,13 +876,13 @@ def main() -> None:
 
     win = '25'
 
-    l_values = np.arange(4, 6).astype(int)
+    l_values = np.arange(28, 31).astype(int)
     # epochs_log_log_agg_dist_returns_market_plot(['1990-01-01', '2020-12-31'],
     #                                             '1d', '25', '1', l_values)
     # epochs_log_log_agg_dist_returns_market_plot(['1990-01-01', '2020-12-31'],
     #                                             '1d', '55', '1', l_values)
 
-    # l_values = np.linspace(2, 30, 10).astype(int)
+    # l_values = np.linspace(27, 45, 5).astype(int)
     # epochs_log_log_agg_dist_returns_market_plot(['1990-01-01', '2020-12-31'],
     #                                             '1d', '25', '50', l_values)
     # epochs_log_log_agg_dist_returns_market_plot(['1990-01-01', '2020-12-31'],
@@ -894,7 +892,7 @@ def main() -> None:
     # epochs_var_K_all_empirical_dist_returns_market_plot()
     # epochs_var_time_step_all_empirical_dist_returns_market_plot()
 
-    epochs_aggregated_dist_returns_market_plot(dates, '1d', '55', '50')
+    epochs_aggregated_dist_returns_market_plot(dates, '1d', '55', '50', '30')
 
 # -----------------------------------------------------------------------------
 
