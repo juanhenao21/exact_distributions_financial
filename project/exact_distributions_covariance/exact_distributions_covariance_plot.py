@@ -141,7 +141,7 @@ def aggregated_dist_returns_market_plot(dates: List[str],
         agg_returns_data.plot(kind='density', style='-', legend=False, lw=3)
         ax2.plot(x_gauss, gaussian, '-')
         plt.xlim(-2, 2)
-        plt.ylim(0, 1)
+        plt.ylim(0, 0.7)
         plt.grid(True)
 
         # Plotting
@@ -162,13 +162,15 @@ def aggregated_dist_returns_market_plot(dates: List[str],
 # -----------------------------------------------------------------------------
 
 
-def pdf_gg_plot(dates: List[str], time_step: str) -> None:
+def pdf_gg_plot(dates: List[str], time_step: str, N_values: List[int]) -> None:
     """Plots the Gaussian-Gaussian PDF and compares with agg. returns of a
        market.
 
     :param dates: List of the interval of dates to be analyzed
      (i.e. ['1980-01', '2020-12']).
-    :param time_step: time step of the data (i.e. '1m', '2m', '5m', ...).
+    :param time_step: time step of the data
+     (i.e. '1m', '1h', '1d', '1wk', '1mo')
+    :param N_values: list of the values of the parameter N (i.e. [3, 4, 5, 6]).
     :return: None -- The function saves the plot in a file and does not return
      a value.
     """
@@ -183,7 +185,7 @@ def pdf_gg_plot(dates: List[str], time_step: str) -> None:
         agg_returns_data: pd.Series = pickle.load(open(
             '../data/exact_distributions_covariance/aggregated_dist_returns'
             + f'_market_data_{dates[0]}_{dates[1]}_step_{time_step}.pickle',
-            'rb'))
+            'rb'))[::10]
 
         agg_returns_data = agg_returns_data.rename('Agg. returns')
 
@@ -191,40 +193,113 @@ def pdf_gg_plot(dates: List[str], time_step: str) -> None:
 
         # Log plot
         plot_log = agg_returns_data.plot(kind='density', style='-', logy=True,
-                                         figsize=(16, 9), legend=True, lw=3)
+                                         figsize=(16, 9), legend=True, lw=5)
 
-        if dates[0] == '1972-01':
-            N = 5.5
-        elif dates[0] == '1992-01':
-            N = 4
-        else:
-            N = 6
+        for N_val in N_values:
 
-        gg_distribution: np.ndarray = exact_distributions_covariance_tools\
-            .pdf_gaussian_gaussian(x_val, N, 1)
-        plt.semilogy(x_val, gg_distribution, 'o', lw=3,
-                        label=f'GG - N = {N}')
+            gg_distribution: np.ndarray = exact_distributions_covariance_tools\
+                .pdf_gaussian_gaussian(x_val, N_val, 1)
+            plt.semilogy(x_val, gg_distribution, '-', lw=1,
+                            label=f'GG - N = {N_val}')
 
-        plt.legend(fontsize=20)
+        plt.legend(fontsize=20, loc='upper left')
         plt.title(f'Aggregated distribution returns from {dates[0]} to'
                   + f' {dates[1]} - {time_step}', fontsize=30)
         plt.xlabel('Aggregated returns', fontsize=25)
         plt.ylabel('PDF', fontsize=25)
         plt.xticks(fontsize=15)
         plt.yticks(fontsize=15)
-        plt.xlim(-10, 10)
-        plt.ylim(10 ** -9, 1)
+        plt.xlim(-6, 6)
+        plt.ylim(10 ** -4, 1)
         plt.grid(True)
         plt.tight_layout()
         figure_log: plt.Figure = plot_log.get_figure()
 
         left, bottom, width, height = [0.36, 0.13, 0.35, 0.3]
         ax2 = figure_log.add_axes([left, bottom, width, height])
-        agg_returns_data.plot(kind='density', style='-', legend=False, lw=3)
-        ax2.plot(x_val, gg_distribution, 'o')
+        agg_returns_data.plot(kind='density', style='-', legend=False, lw=5)
+
+        for N_val in N_values:
+
+            gg_distribution: np.ndarray = exact_distributions_covariance_tools\
+                .pdf_gaussian_gaussian(x_val, N_val, 1)
+            ax2.plot(x_val, gg_distribution, '-', lw=1)
+
         plt.xlim(-2, 2)
-        plt.ylim(0, 0.6)
+        plt.ylim(0, 0.7)
         plt.grid(True)
+
+        # Plotting
+        exact_distributions_covariance_tools \
+            .save_plot(figure_log, function_name, dates, time_step)
+
+        plt.close()
+        del agg_returns_data
+        del figure_log
+        del plot_log
+        gc.collect()
+
+    except FileNotFoundError as error:
+        print('No data')
+        print(error)
+        print()
+
+# -----------------------------------------------------------------------------
+
+
+def pdf_loglog_gg_plot(dates: List[str], time_step: str,
+                       N_values: List[int]) -> None:
+    """Plots the log-log Gaussian-Gaussian PDF and compares with agg. returns
+       of a market.
+
+    :param dates: List of the interval of dates to be analyzed
+     (i.e. ['1980-01', '2020-12']).
+    :param time_step: time step of the data
+     (i.e. '1m', '1h', '1d', '1wk', '1mo')
+    :param N_values: list of the values of the parameter N (i.e. [3, 4, 5, 6]).
+    :return: None -- The function saves the plot in a file and does not return
+     a value.
+    """
+
+    function_name: str = pdf_loglog_gg_plot.__name__
+    exact_distributions_covariance_tools \
+        .function_header_print_plot(function_name, dates, time_step)
+
+    try:
+
+        # Load data
+        agg_returns_data: pd.Series = pickle.load(open(
+            '../data/exact_distributions_covariance/aggregated_dist_returns'
+            + f'_market_data_{dates[0]}_{dates[1]}_step_{time_step}.pickle',
+            'rb'))[::10]
+
+        agg_returns_data = agg_returns_data.rename('Agg. returns')
+
+        x_val: np.ndarray = np.arange(-10, 10, 0.1)
+
+        # Log plot
+        plot_log = agg_returns_data.plot(kind='density', style='-', loglog=True,
+                                         figsize=(16, 9), legend=True, lw=5)
+
+        for N_val in N_values:
+
+            gg_distribution: np.ndarray = exact_distributions_covariance_tools\
+                .pdf_gaussian_gaussian(x_val, N_val, 1)
+            plt.loglog(x_val, gg_distribution, '-', lw=1,
+                            label=f'GG - N = {N_val}')
+
+        plt.legend(fontsize=20, loc='upper right')
+        plt.title(f'Aggregated distribution returns from {dates[0]} to'
+                  + f' {dates[1]} - {time_step}', fontsize=30)
+        plt.xlabel('Aggregated returns', fontsize=25)
+        plt.ylabel('PDF', fontsize=25)
+        plt.xticks(fontsize=15)
+        plt.yticks(fontsize=15)
+        plt.xlim(3, 6)
+        plt.ylim(10 ** -4, 10 ** -2)
+        plt.grid(True)
+        plt.tight_layout()
+        figure_log: plt.Figure = plot_log.get_figure()
 
         # Plotting
         exact_distributions_covariance_tools \
@@ -813,33 +888,22 @@ def main() -> None:
     :return: None.
     """
 
-    dates_1 = ['1972-01', '1992-12']
-    dates_2 = ['1992-01', '2012-12']
-    dates_3 = ['2012-01', '2020-12']
+    dates_1 = ['1990-01-01', '2020-12-31']
+    dates_1 = ['2021-07-19', '2021-08-14']
+    N_values = [2, 3, 4]
 
-    pdf_gg_plot(dates_1, '1d')
-    pdf_gg_plot(dates_2, '1d')
-    pdf_gg_plot(dates_3, '1d')
+    pdf_gg_plot(dates_1, '1m', N_values)
+    pdf_loglog_gg_plot(dates_1, '1m', N_values)
 
-    pdf_ga_plot(dates_1, '1d')
-    pdf_ga_plot(dates_2, '1d')
-    pdf_ga_plot(dates_3, '1d')
+    # pdf_ga_plot(dates_1, '1d')
 
-    pdf_ag_plot(dates_1, '1d')
-    pdf_ag_plot(dates_2, '1d')
-    pdf_ag_plot(dates_3, '1d')
+    # pdf_ag_plot(dates_1, '1d')
 
-    pdf_aa_plot(dates_1, '1d')
-    pdf_aa_plot(dates_2, '1d')
-    pdf_aa_plot(dates_3, '1d')
+    # pdf_aa_plot(dates_1, '1d')
 
-    pdf_lin_all_distributions_plot(dates_1, '1d')
-    pdf_lin_all_distributions_plot(dates_2, '1d')
-    pdf_lin_all_distributions_plot(dates_3, '1d')
+    # pdf_lin_all_distributions_plot(dates_1, '1d')
 
-    pdf_log_all_distributions_plot(dates_1, '1d')
-    pdf_log_all_distributions_plot(dates_2, '1d')
-    pdf_log_all_distributions_plot(dates_3, '1d')
+    # pdf_log_all_distributions_plot(dates_1, '1d')
 
 # -----------------------------------------------------------------------------
 
