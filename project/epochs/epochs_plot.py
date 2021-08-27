@@ -402,7 +402,7 @@ def epochs_var_win_all_empirical_dist_returns_market_plot() -> None:
                         + f'_step_{time_steps[idx]}_win_{window}_K_{K_value}'
                         + '.pickle', 'rb'))[::10]
 
-                    agg_returns = agg_returns.rename(f'Win {window}')
+                    agg_returns = agg_returns.rename(f'Epoch {window}')
 
                     plot_log = agg_returns.plot(kind='density', style='-',
                                                 logy=True, figsize=(16, 9),

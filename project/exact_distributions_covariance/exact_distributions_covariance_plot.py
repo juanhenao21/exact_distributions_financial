@@ -319,13 +319,17 @@ def pdf_loglog_gg_plot(dates: List[str], time_step: str,
 # -----------------------------------------------------------------------------
 
 
-def pdf_ga_plot(dates: List[str], time_step: str) -> None:
+def pdf_ga_plot(dates: List[str], time_step: str, L_values: List[int],
+                N_values: List[int]) -> None:
     """Plots the Gaussian-Algebraic PDF and compares with agg. returns of a
        market.
 
     :param dates: List of the interval of dates to be analyzed
      (i.e. ['1980-01', '2020-12']).
-    :param time_step: time step of the data (i.e. '1m', '2m', '5m', ...).
+    :param time_step: time step of the data
+     (i.e. '1m', '1h', '1d', '1wk', '1mo')
+    :param L_value: value of the shape parameter L (i.e. '2').
+    :param N_values: list of the values of the parameter N (i.e. [3, 4, 5, 6]).
     :return: None -- The function saves the plot in a file and does not return
      a value.
     """
@@ -342,6 +346,11 @@ def pdf_ga_plot(dates: List[str], time_step: str) -> None:
             + f'_market_data_{dates[0]}_{dates[1]}_step_{time_step}.pickle',
             'rb'))
 
+        K_value: int = len(pickle.load(open(
+                        f'../data/exact_distributions_covariance/returns_data'
+                        + f'_{dates[0]}_{dates[1]}_step_{time_step}.pickle',
+                        'rb')).columns)
+
         agg_returns_data = agg_returns_data.rename('Agg. returns')
 
         x_val: np.ndarray = np.arange(-10, 10, 0.1)
@@ -350,18 +359,13 @@ def pdf_ga_plot(dates: List[str], time_step: str) -> None:
         plot_log = agg_returns_data.plot(kind='density', style='-', logy=True,
                                          figsize=(16, 9), legend=True, lw=3)
 
-        if dates[0] == '1972-01':
-            N = 5.5
-            K = 23
-            L = 55
-        elif dates[0] == '1992-01':
-            N = 5
-            K = 277
-            L = 150
-        else:
-            N = 7
-            K = 461
-            L = 280
+        for N_val in N_values:
+
+            ga_distribution: np.ndarray = exact_distributions_covariance_tools\
+                .pdf_gaussian_algebraic(x_val, K_value, L_value, N_val, 1)
+            plt.semilogy(x_val, ga_distribution, '-', lw=1,
+                            label=f'GA - N = {N_val}')
+
 
         ga_distribution: np.ndarray = \
             exact_distributions_covariance_tools \
@@ -889,13 +893,13 @@ def main() -> None:
     """
 
     dates_1 = ['1990-01-01', '2020-12-31']
-    dates_1 = ['2021-07-19', '2021-08-14']
+    # dates_1 = ['2021-07-19', '2021-08-14']
     N_values = [2, 3, 4]
 
-    pdf_gg_plot(dates_1, '1m', N_values)
-    pdf_loglog_gg_plot(dates_1, '1m', N_values)
+    # pdf_gg_plot(dates_1, '1d', N_values)
+    # pdf_loglog_gg_plot(dates_1, '1d', N_values)
 
-    # pdf_ga_plot(dates_1, '1d')
+    pdf_ga_plot(dates_1, '1d', N_values)
 
     # pdf_ag_plot(dates_1, '1d')
 
