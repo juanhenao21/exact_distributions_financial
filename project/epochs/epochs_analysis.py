@@ -276,7 +276,7 @@ def epochs_aggregated_dist_returns_pair_data(dates: List[str], time_step: str,
             # eig_vec:  eigenvector, eig_val: eigenvalues
             eig_val, eig_vec = np.linalg.eig(cov_two_col)
 
-            # rot: rotation, scal: scaling
+            # rot: rotation, scale: scaling
             rot, scale = eig_vec, np.diag(1 / np.sqrt(eig_val))
             # trans: transformation matrix
             # trans = rot . scale

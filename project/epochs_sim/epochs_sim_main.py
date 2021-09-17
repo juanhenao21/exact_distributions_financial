@@ -1,15 +1,14 @@
-'''Epochs main module.
+'''Epochs simulation main module.
 
-The functions in the module compute the returns and correlation matrix of
-financial time series.
+The functions in the module compute and plot simulated returns and their 
+rotation and aggregation. They also compute and plot key results from other
+methods.
 
 This script requires the following modules:
     * typing
-    * multiprocessing
-    * itertools
-    * epochs_analysis
-    * epochs_plot
-    * epochs_tools
+    * epochs_sim_analysis
+    * epochs_sim_plot
+    * epochs_sim_tools
 
 The module contains the following functions:
     * data_plot_generator
@@ -22,48 +21,29 @@ The module contains the following functions:
 # Modules
 
 from typing import List
-import multiprocessing as mp
-from itertools import product as iprod
 
-import epochs_analysis
-import epochs_plot
-import epochs_tools
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+import epochs_sim_analysis
+import epochs_sim_plot
+import epochs_sim_tools
 
 # -----------------------------------------------------------------------------
 
 
-def data_plot_generator(dates: List[List[str]], time_steps: List[str],
-                        windows: List[str], K_values: List[str]) -> None:
+def data_plot_generator() -> None:
     """Generates all the analysis and plots from the data.
 
-    :param dates: list of lists of the string of the dates to be analyzed
-     (i.e. [['1980-01', '2020-12'], ['1980-01', '2020-12']).
-    :param time_steps: list of the string of the time step of the data
-     (i.e. ['1m', '2m', '5m']).
-    :param windows: list of the string of the windows to be analyzed
-     (i.e. ['60', '90']).
-    :param K_values: list of the string of the number of companies to be
-     analyzed (i.e. ['40', '80']).
     :return: None -- The function saves the data in a file and does not return
      a value.
     """
 
-    for idx, val in enumerate(dates):
-
-        epochs_analysis.returns_data(dates[idx], time_steps[idx])
-
-    for K_value in K_values:
-        for window in windows:
-            for idx, val in enumerate(dates):
-
-                epochs_analysis. \
-                epochs_aggregated_dist_returns_market_data(dates[idx],
-                                                           time_steps[idx],
-                                                           window, K_value)
-
-    epochs_plot.epochs_var_win_all_empirical_dist_returns_market_plot()
-    epochs_plot.epochs_var_K_all_empirical_dist_returns_market_plot()
-    epochs_plot.epochs_var_time_step_all_empirical_dist_returns_market_plot()
+    for epochs_len in [10, 25, 40, 55]:
+        x = epochs_sim_analysis \
+            .epochs_sim_agg_returns_market_data(0.3, 2, 100, 40, epochs_len)
+        epochs_sim_plot.epochs_sim_agg_returns_market_plot(x, epochs_len)
 
 # -----------------------------------------------------------------------------
 
@@ -76,26 +56,14 @@ def main() -> None:
     :return: None.
     """
 
-    epochs_tools.initial_message()
-
-    # Initial year and time step
-
-    dates_1m = ['2021-07-19', '2021-08-14']
-    dates_1h = ['2021-06-01', '2021-07-31']
-    dates_other = ['1990-01-01', '2020-12-31']
-
-    dates: List[List[str]] = [dates_1m, dates_1h, dates_other,
-                              dates_other, dates_other]
-    time_steps: List[str] = ['1m', '1h', '1d', '1wk', '1mo']
-    windows: List[str] = ['10', '25', '40', '55']
-    K_values: List[str] = ['20', '50']
+    epochs_sim_tools.initial_message()
 
     # Basic folders
-    epochs_tools.start_folders()
+    epochs_sim_tools.start_folders()
 
     # Run analysis
     # Analysis and plot
-    data_plot_generator(dates, time_steps, windows, K_values)
+    data_plot_generator()
 
     print('Ay vamos!!!')
 
