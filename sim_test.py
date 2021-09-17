@@ -51,7 +51,7 @@ def epochs_agg_returns_pair_data(dataframe: pd.DataFrame) -> List[float]:
 
     cov_two_col: pd.DataFrame = dataframe.cov()
     # eig_vec:  eigenvector, eig_val: eigenvalues
-    eig_val, eig_vec = np.linalg.eig(cov_two_col)
+    eig_val, eig_vec = np.linalg.eigh(cov_two_col)
 
     # rot: rotation, scal: scaling
     rot, scale = eig_vec, np.diag(1 / np.sqrt(eig_val))
@@ -163,13 +163,17 @@ def gaussian_distribution(mean: float, variance: float,
 
 def main() -> None:
 
+    for epochs_len in [10, 25, 40, 55]:
+        x = epochs_agg_returns_market_data(0.3, 2, 100, 40, epochs_len)
+        epochs_agg_retuns_market_plot(x, epochs_len)
+
     # for epochs_len in [10, 25, 40, 55]:
-    #     x = epochs_agg_returns_market_data(0.3, 2, 100, 40, epochs_len)
+    #     x = epochs_agg_returns_market_data(0.3, 250, 100, 40, epochs_len)
     #     epochs_agg_retuns_market_plot(x, epochs_len)
 
-    x = returns_simulation(0.3, 2, 25)
-    ser = epochs_agg_returns_pair_data(x)
-    epochs_agg_retuns_market_plot(ser, 25)
+    # x = returns_simulation(0.3, 2, 25)
+    # ser = epochs_agg_returns_pair_data(x)
+    # epochs_agg_retuns_market_plot(ser, 25)
     # print(x)
 
 #------------------------------------------------------------------------------
