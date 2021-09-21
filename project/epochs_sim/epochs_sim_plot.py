@@ -48,8 +48,8 @@ def epochs_sim_agg_returns_market_plot(agg_ret: pd.Series,
     """
 
     function_name: str = epochs_sim_agg_returns_market_plot.__name__
-    # epochs_sim_tools \
-    #     .function_header_print_plot(function_name, dates, time_step, window, K_value)
+    epochs_sim_tools \
+        .function_header_print_plot(function_name, '', '', '', '', sim=True)
 
     agg_ret = agg_ret.rename('Agg. returns')
 
@@ -76,10 +76,8 @@ def epochs_sim_agg_returns_market_plot(agg_ret: pd.Series,
     figure_log = plot_lin.get_figure()
 
     # Plotting
-    figure_log.savefig(f'../plot/epochs_sim/epoch_epoch_{epochs_len}.png')
-    # epochs_sim_tools \
-    #     .save_plot(figure_log, function_name + '_log', dates, time_step,
-    #                 window, K_value)
+    epochs_sim_tools \
+        .save_plot(figure_log, function_name, '', '', epochs_len, '', sim=True)
 
     plt.close()
     del agg_ret

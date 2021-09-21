@@ -1,4 +1,4 @@
-'''Epochs tools module.
+'''Epochs simulation tools module.
 
 The functions in the module do small repetitive tasks, that are used along the
 whole implementation. These tools improve the way the tasks are standardized
@@ -41,8 +41,12 @@ from scipy.special import gamma  # type: ignore
 # -----------------------------------------------------------------------------
 
 
-def save_data(data: Any, function_name: str, dates: List[str], time_step: str,
-              window: str, K_value: str) -> None:
+def save_data(data: Any,
+              function_name: str,
+              dates: List[str],
+              time_step: str,
+              window: str,
+              K_value: str) -> None:
     """Saves computed data in pickle files.
 
     Saves the data generated in the functions of the epochs_analysis module in
@@ -73,8 +77,13 @@ def save_data(data: Any, function_name: str, dates: List[str], time_step: str,
 # -----------------------------------------------------------------------------
 
 
-def save_plot(figure: plt.Figure, function_name: str, dates: List[str],
-              time_step: str, window: str, K_value: str) -> None:
+def save_plot(figure: plt.Figure,
+              function_name: str,
+              dates: List[str],
+              time_step: str,
+              window: str,
+              K_value: str,
+              sim: bool = False) -> None:
     """Saves plot in png files.
 
     Saves the plot generated in the functions of the epochs_analysis module in
@@ -92,10 +101,15 @@ def save_plot(figure: plt.Figure, function_name: str, dates: List[str],
      a value.
     """
 
-    # Saving plot data
+    if sim:
+        figure.savefig(f'../plot/epochs_sim/{function_name}_win_{window}.png')
 
-    figure.savefig(f'../plot/epochs/{function_name}_{dates[0]}_{dates[1]}'
-                   + f'_step_{time_step}_win_{window}_K_{K_value}.png')
+    else:
+
+        # Saving plot data
+        figure.savefig(f'../plot/epochs_sim/{function_name}_{dates[0]}'
+                    + f'_{dates[1]}_step_{time_step}_win_{window}_K_{K_value}'
+                    + '.png')
 
     print('Plot Saved')
     print()
@@ -103,56 +117,86 @@ def save_plot(figure: plt.Figure, function_name: str, dates: List[str],
 # -----------------------------------------------------------------------------
 
 
-def function_header_print_data(function_name: str, dates: List[str],
-                               time_step: str, window: str,
-                               K_value: str) -> None:
+def function_header_print_data(function_name: str,
+                               dates: List[str],
+                               time_step: str,
+                               window: str,
+                               K_value: str,
+                               sim: bool = False) -> None:
     """Prints a header of a function that generates data when it is running.
 
-    :param function_name: name of the function that generates the data.
+    :param function_name: name of the function that generates the data
+    :type function_name: str
     :param dates: List of the interval of dates to be analyzed
      (i.e. ['1980-01-01', '2020-12-31']).
+    :type dates: List[str]
     :param time_step: time step of the data (i.e. '1m', '1h', '1d', '1wk',
      '1mo').
-    :param window: window time to compute the volatility (i.e. '25').
+    :type time_step: str
+    :param window: window time to compute the operation (i.e. '25').
+    :type window: str
     :param K_value: number of companies to be used (i.e. '80', 'all').
-    :return: None -- The function prints a message and does not return a
-     value.
+    :type K_value: str
+    :param sim: indicates if the function uses simulated data, defaults to
+     False
+    :type sim: bool, optional
     """
 
     print('Exact Distributions')
     print(function_name)
 
-    print(f'Computing the results of the data in the interval time from the '
-          + f'years {dates[0]} to {dates[1]} in time steps of {time_step} '
-          + f'with a time window of {window} for {K_value} companies')
-    print()
+    if sim:
+        print('Computing results from simulated data')
+        print()
+    else:
+
+        print(f'Computing the results of the data in the interval time from'
+            + f' the years {dates[0]} to {dates[1]} in time steps of'
+            + f' {time_step} with a time window of {window} for {K_value}'
+            + ' companies')
+        print()
 
 # -----------------------------------------------------------------------------
 
 
-def function_header_print_plot(function_name: str, dates: List[str],
-                               time_step: str, window: str,
-                               K_value: str) -> None:
+def function_header_print_plot(function_name: str,
+                               dates: List[str],
+                               time_step: str,
+                               window: str,
+                               K_value: str,
+                               sim: bool = False) -> None:
     """Prints a header of a function that generates a plot when it is running.
 
     :param function_name: name of the function that generates the data.
+    :type function_name: str
     :param dates: List of the interval of dates to be analyzed
      (i.e. ['1980-01-01', '2020-12-31']).
+    :type dates: List[str]
     :param time_step: time step of the data (i.e. '1m', '1h', '1d', '1wk',
      '1mo').
+    :type time_step: str
     :param window: window time to compute the volatility (i.e. '25').
+    :type window: str
     :param K_value: number of companies to be used (i.e. '80', 'all').
-    :return: None -- The function prints a message and does not return a
-     value.
+    :type K_value: str
+    :param sim: indicates if the function uses simulated data, defaults to
+     False
+    :type sim: bool, optional
     """
 
     print('Exact Distributions')
     print(function_name)
 
-    print(f'Computing the plots of the data in the interval time from the '
-          + f'years {dates[0]} to {dates[1]} in time steps of {time_step} '
-          + f'with a time window of {window} for {K_value} companies')
-    print()
+    if sim:
+        print('Plotting results from simulated data')
+        print()
+
+    else:
+
+        print(f'Computing the plots of the data in the interval time from the '
+            + f'years {dates[0]} to {dates[1]} in time steps of {time_step} '
+            + f'with a time window of {window} for {K_value} companies')
+        print()
 
 # -----------------------------------------------------------------------------
 
@@ -164,8 +208,8 @@ def start_folders() -> None:
     """
 
     try:
-        os.mkdir(f'../data/epochs')
-        os.mkdir(f'../plot/epochs')
+        os.mkdir(f'../data/epochs_sim')
+        os.mkdir(f'../plot/epochs_sim')
         print('Folder to save data created')
         print()
 
@@ -184,9 +228,9 @@ def initial_message() -> None:
     """
 
     print()
-    print('######')
-    print('Epochs')
-    print('######')
+    print('#################')
+    print('Epochs Simulation')
+    print('#################')
     print('AG Guhr')
     print('Faculty of Physics')
     print('University of Duisburg-Essen')
@@ -200,7 +244,8 @@ def initial_message() -> None:
 # -----------------------------------------------------------------------------
 
 
-def gaussian_distribution(mean: float, variance: float,
+def gaussian_distribution(mean: float,
+                          variance: float,
                           x_values: np.ndarray) -> np.ndarray:
     """Compute the Gaussian distribution values.
 
@@ -216,7 +261,8 @@ def gaussian_distribution(mean: float, variance: float,
 # -----------------------------------------------------------------------------
 
 
-def algebraic_distribution(K_value: int, l_value: int,
+def algebraic_distribution(K_value: int,
+                           l_value: int,
                            x_values: np.ndarray) -> np.ndarray:
     """Compute the algebraic distribution values.
 

@@ -40,10 +40,16 @@ def data_plot_generator() -> None:
      a value.
     """
 
-    for epochs_len in [10, 25, 40, 55]:
-        x = epochs_sim_analysis \
-            .epochs_sim_agg_returns_market_data(0.3, 2, 100, 40, epochs_len)
-        epochs_sim_plot.epochs_sim_agg_returns_market_plot(x, epochs_len)
+    # for epochs_len in [10, 25, 40, 55]:
+    #     returns_pairs = epochs_sim_analysis \
+    #         .epochs_sim_agg_returns_market_data(0.3, 2, 100, 40, epochs_len)
+    #     epochs_sim_plot.epochs_sim_agg_returns_market_plot(x, epochs_len)
+
+    for epochs_len in [10, 25, 100]:
+        returns_market = epochs_sim_analysis \
+            .returns_simulation(0.3, 250, epochs_len)
+        print(returns_market)
+        # epochs_sim_plot.epochs_sim_agg_returns_market_plot(x, epochs_len)
 
 # -----------------------------------------------------------------------------
 

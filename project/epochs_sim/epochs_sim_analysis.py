@@ -82,8 +82,8 @@ def returns_simulation(out_diag_val: float,
 # -----------------------------------------------------------------------------
 
 
-def epochs_agg_returns_pair_data(dataframe: pd.DataFrame) -> List[float]:
-    """Uses local normalization to compute the aggregated distribution of 
+def epochs_sim_agg_returns_pair_data(dataframe: pd.DataFrame) -> List[float]:
+    """Uses local normalization to compute the aggregated distribution of
        returns for a pair of simulated stocks.
 
     :param dataframe: dataframe with the simulated returns.
@@ -166,6 +166,10 @@ def epochs_sim_agg_returns_market_data(out_diag_val: float,
     :rtype: pd.Series
     """
 
+    function_name: str = epochs_sim_agg_returns_market_data.__name__
+    epochs_sim_tools \
+        .function_header_print_data(function_name, '', '', '', '', sim=True)
+
     agg_ret_mkt_list: List[List[float]] = []
 
     for _ in range(K_values):
@@ -173,7 +177,8 @@ def epochs_sim_agg_returns_market_data(out_diag_val: float,
 
             returns: pd.DataFrame = \
                 returns_simulation(out_diag_val, size_corr_matrix, epochs_len)
-            agg_ret_list: List[float] = epochs_agg_returns_pair_data(returns)
+            agg_ret_list: List[float] = \
+                epochs_sim_agg_returns_pair_data(returns)
             agg_ret_mkt_list.extend(agg_ret_list)
 
     agg_ret_mkt_series: pd.Series = pd.Series(agg_ret_mkt_list)
@@ -182,6 +187,72 @@ def epochs_sim_agg_returns_market_data(out_diag_val: float,
     print(f'std  = {agg_ret_mkt_series.std()}')
 
     return agg_ret_mkt_series
+
+# ----------------------------------------------------------------------------
+
+
+def epochs_sim_agg_returns_cov_market_data(returns: pd.DataFrame) -> None:
+    """Computes the aggregated distribution of returns for a market.
+
+    :param returns: dataframe with the simulated returns.
+    :type returns: pd.DataFrame
+    """
+
+    function_name: str = epochs_sim_agg_returns_cov_market_data.__name__
+    epochs_sim_tools \
+        .function_header_print_data(function_name, '', '', '', '', sim=True)
+
+    Aqui
+
+    try:
+
+        # Load data
+        returns_vals: pd.DataFrame = pickle.load(open(
+            f'../data/exact_distributions_covariance/returns_data_{dates[0]}'
+            + f'_{dates[1]}_step_{time_step}.pickle', 'rb'))
+
+        print('Size of time series and number of companies: ',
+              returns_vals.shape)
+
+        returns_vals = (returns_vals - returns_vals.mean()) \
+            / returns_vals.std()
+
+        cov: pd.DataFrame = returns_vals.cov()
+        # eig_vec:  eigenvector, eig_val: eigenvalues
+        eig_val, eig_vec = np.linalg.eig(cov)
+
+        # rot: rotation, scal: scaling
+        rot, scale = eig_vec, np.diag(1 / np.sqrt(eig_val))
+        # trans: transformation matrix
+        # trans = rot . scal
+        trans = rot.dot(scale)
+
+        trans_returns: pd.DataFrame = returns_vals.dot(trans)
+        trans_returns.columns = returns_vals.columns
+
+        one_col: List[pd.Series] = []
+
+        for col in trans_returns.columns:
+
+            one_col.append(trans_returns[col])
+
+        agg_returns = pd.concat(one_col, ignore_index=True)
+
+        print(f'Std. Dev. {dates} = {agg_returns.std()}')
+
+        # Saving data
+        exact_distributions_covariance_tools \
+            .save_data(agg_returns, function_name, dates, time_step)
+
+        del returns_vals
+        del trans_returns
+        del agg_returns
+        del one_col
+
+    except FileNotFoundError as error:
+        print('No data')
+        print(error)
+        print()
 
 # -----------------------------------------------------------------------------
 
