@@ -67,7 +67,7 @@ def save_data(data: Any,
     # Saving data
 
     pickle.dump(data, open(
-        f'../data/epochs/{function_name}_{dates[0]}_{dates[1]}_step'
+        f'../data/epochs_sim/{function_name}_{dates[0]}_{dates[1]}_step'
                 + f'_{time_step}_win_{window}_K_{K_value}.pickle', 'wb'),
                 protocol=4)
 
@@ -108,8 +108,8 @@ def save_plot(figure: plt.Figure,
 
         # Saving plot data
         figure.savefig(f'../plot/epochs_sim/{function_name}_{dates[0]}'
-                    + f'_{dates[1]}_step_{time_step}_win_{window}_K_{K_value}'
-                    + '.png')
+                       + f'_{dates[1]}_step_{time_step}_win_{window}_K'
+                       + '_{K_value}.png')
 
     print('Plot Saved')
     print()
@@ -151,9 +151,9 @@ def function_header_print_data(function_name: str,
     else:
 
         print(f'Computing the results of the data in the interval time from'
-            + f' the years {dates[0]} to {dates[1]} in time steps of'
-            + f' {time_step} with a time window of {window} for {K_value}'
-            + ' companies')
+              + f' the years {dates[0]} to {dates[1]} in time steps of'
+              + f' {time_step} with a time window of {window} for {K_value}'
+              + ' companies')
         print()
 
 # -----------------------------------------------------------------------------
@@ -194,8 +194,8 @@ def function_header_print_plot(function_name: str,
     else:
 
         print(f'Computing the plots of the data in the interval time from the '
-            + f'years {dates[0]} to {dates[1]} in time steps of {time_step} '
-            + f'with a time window of {window} for {K_value} companies')
+              + f'years {dates[0]} to {dates[1]} in time steps of {time_step} '
+              + f'with a time window of {window} for {K_value} companies')
         print()
 
 # -----------------------------------------------------------------------------
@@ -281,7 +281,7 @@ def algebraic_distribution(K_value: int,
         * (np.sqrt(2 / m)) \
         * (gamma(l_value - (K_value - 1) / 2) / gamma(l_value - K_value / 2)) \
         * (1 / (1 + (1 / m) * x_values * x_values)
-        ** (l_value - (K_value - 1) / 2))
+           ** (l_value - (K_value - 1) / 2))
 
 # -----------------------------------------------------------------------------
 
