@@ -365,8 +365,8 @@ def epochs_var_win_all_empirical_dist_returns_market_plot() -> None:
      a value.
     """
 
-    function_name: str = epochs_var_win_all_empirical_dist_returns_market_plot \
-        .__name__
+    function_name: str = \
+        epochs_var_win_all_empirical_dist_returns_market_plot.__name__
     epochs_tools \
         .function_header_print_plot(function_name, ['', ''], '', '', '')
 
@@ -527,8 +527,8 @@ def epochs_var_time_step_all_empirical_dist_returns_market_plot() -> None:
      a value.
     """
 
-    function_name: str = epochs_var_time_step_all_empirical_dist_returns_market_plot \
-        .__name__
+    function_name: str = \
+        epochs_var_time_step_all_empirical_dist_returns_market_plot.__name__
     epochs_tools \
         .function_header_print_plot(function_name, ['', ''], '', '', '')
 
@@ -619,15 +619,16 @@ def epochs_aggregated_dist_returns_market_plot(dates: List[str],
 
     function_name: str = epochs_aggregated_dist_returns_market_plot.__name__
     epochs_tools \
-        .function_header_print_plot(function_name, dates, time_step, window, K_value)
+        .function_header_print_plot(function_name, dates, time_step, window,
+                                    K_value)
 
     try:
 
         # Load data
         agg_returns_data: pd.Series = pickle.load(open(
             '../data/epochs/epochs_aggregated_dist_returns_market_data'
-            + f'_{dates[0]}_{dates[1]}_step_{time_step}_win_{window}_K_{K_value}.pickle',
-            'rb'))[::10]
+            + f'_{dates[0]}_{dates[1]}_step_{time_step}_win_{window}_K'
+            + f'_{K_value}.pickle', 'rb'))[::10]
 
         agg_returns_data = agg_returns_data.rename('Agg. returns')
 
@@ -645,7 +646,8 @@ def epochs_aggregated_dist_returns_market_plot(dates: List[str],
 
         plt.semilogy(x_values, gaussian, '-', lw=3, label='Gaussian')
         plt.semilogy(x_values, algebraic, '-', lw=3,
-                     label=f'A - K = {K_value} - l = {l_value} - m = {2 * int(l_value) - int(K_value) - 2}')
+                     label=f'A - K = {K_value} - l = {l_value} -'
+                     + f' m = {2 * int(l_value) - int(K_value) - 2}')
 
         plt.legend(fontsize=20)
         plt.title(f'Epochs from {dates[0]} to {dates[1]} - {time_step}',
@@ -682,7 +684,7 @@ def epochs_aggregated_dist_returns_market_plot(dates: List[str],
 def epochs_log_log_agg_dist_returns_market_plot(dates: List[str],
                                                 time_step: str, window: str,
                                                 K_value: str,
-                                                l_values: List[float]) -> None:
+                                                l_values: List[int]) -> None:
     """Plots the aggregated distribution of returns for a market in a log-log
        figure for diferent l values.
 
@@ -700,15 +702,16 @@ def epochs_log_log_agg_dist_returns_market_plot(dates: List[str],
 
     function_name: str = epochs_log_log_agg_dist_returns_market_plot.__name__
     epochs_tools \
-        .function_header_print_plot(function_name, dates, time_step, window, K_value)
+        .function_header_print_plot(function_name, dates, time_step, window,
+                                    K_value)
 
     try:
 
         # Load data
         agg_returns_data: pd.Series = pickle.load(open(
             '../data/epochs/epochs_aggregated_dist_returns_market_data'
-            + f'_{dates[0]}_{dates[1]}_step_{time_step}_win_{window}_K_{K_value}.pickle',
-            'rb'))[::10]
+            + f'_{dates[0]}_{dates[1]}_step_{time_step}_win_{window}_K'
+            + f'_{K_value}.pickle', 'rb'))[::10]
 
         agg_returns_data = agg_returns_data.rename('Agg. returns')
 
@@ -724,11 +727,12 @@ def epochs_log_log_agg_dist_returns_market_plot(dates: List[str],
             algebraic: np.ndarray = epochs_tools \
                 .algebraic_distribution(int(K_value), l_value, x_values)
             plt.loglog(x_values, algebraic, '-', lw=1,
-                         label=f'A - K = {K_value} - l = {l_value} - m = {m_value}')
+                       label=f'A - K={K_value} - l={l_value} - m={m_value}')
 
         plt.loglog(x_values, gaussian, '-', lw=10, label='Gaussian')
-        plot_log = agg_returns_data.plot(kind='density', style='-', loglog=True,
-                                         figsize=(16, 9), legend=True, lw=5)
+        plot_log = agg_returns_data.plot(kind='density', style='-',
+                                         loglog=True, figsize=(16, 9),
+                                         legend=True, lw=5)
 
         plt.legend(fontsize=20)
         plt.title(f'Epochs from {dates[0]} to {dates[1]} - {time_step}',
@@ -770,8 +774,8 @@ def epochs_log_log_all_empirical_dist_returns_market_plot() -> None:
      a value.
     """
 
-    function_name: str = epochs_log_log_all_empirical_dist_returns_market_plot \
-        .__name__
+    function_name: str = \
+        epochs_log_log_all_empirical_dist_returns_market_plot.__name__
     epochs_tools \
         .function_header_print_plot(function_name, ['', ''], '', '')
 
@@ -820,16 +824,21 @@ def epochs_log_log_all_empirical_dist_returns_market_plot() -> None:
         # Log plot
         plt.loglog(x_values, gaussian, '-', lw=10, label='Gaussian')
 
-        plot_log_m = agg_returns_min.plot(kind='density', style='-', loglog=True,
-                                         figsize=(16, 9), legend=True, lw=2)
-        plot_log_h = agg_returns_hour.plot(kind='density', style='-', loglog=True,
-                                         figsize=(16, 9), legend=True, lw=2)
-        plot_log_d = agg_returns_day.plot(kind='density', style='-', loglog=True,
-                                         figsize=(16, 9), legend=True, lw=2)
-        plot_log_wk = agg_returns_week.plot(kind='density', style='-', loglog=True,
-                                         figsize=(16, 9), legend=True, lw=2)
-        plot_log_mo = agg_returns_month.plot(kind='density', style='-', loglog=True,
-                                         figsize=(16, 9), legend=True, lw=2)
+        plot_log_m = agg_returns_min.plot(kind='density', style='-',
+                                          loglog=True, figsize=(16, 9),
+                                          legend=True, lw=2)
+        plot_log_h = agg_returns_hour.plot(kind='density', style='-',
+                                           loglog=True, figsize=(16, 9),
+                                           legend=True, lw=2)
+        plot_log_d = agg_returns_day.plot(kind='density', style='-',
+                                          loglog=True, figsize=(16, 9),
+                                          legend=True, lw=2)
+        plot_log_wk = agg_returns_week.plot(kind='density', style='-',
+                                            loglog=True, figsize=(16, 9),
+                                            legend=True, lw=2)
+        plot_log_mo = agg_returns_month.plot(kind='density', style='-',
+                                             loglog=True, figsize=(16, 9),
+                                             legend=True, lw=2)
 
         plt.legend(fontsize=20)
         plt.title(f'Rotated Epochs', fontsize=30)
@@ -849,7 +858,8 @@ def epochs_log_log_all_empirical_dist_returns_market_plot() -> None:
 
         # Plotting
         epochs_tools \
-            .save_plot(figure_log, function_name + '_loglog', ['', ''], '', window)
+            .save_plot(figure_log, function_name + '_loglog', ['', ''], '',
+                       window)
 
         plt.close()
         gc.collect()

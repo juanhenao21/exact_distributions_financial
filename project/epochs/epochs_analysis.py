@@ -311,8 +311,7 @@ def epochs_aggregated_dist_returns_pair_data(dates: List[str], time_step: str,
         agg_ret_mkt_list = [x for x in agg_ret_mkt_list if not math.isnan(x)
                             and not math.isinf(x)]
         # filter out values greater than 10 or smaller than -10
-        agg_ret_mkt_list = [x for x in agg_ret_mkt_list if x <= 10
-                            and x >= -10]
+        agg_ret_mkt_list = [x for x in agg_ret_mkt_list if -10 <= x <= 10]
 
         return agg_ret_mkt_list
 
@@ -320,6 +319,7 @@ def epochs_aggregated_dist_returns_pair_data(dates: List[str], time_step: str,
         print('No data')
         print(error)
         print()
+        return [0]
 
 # ----------------------------------------------------------------------------
 
@@ -354,10 +354,10 @@ def epochs_aggregated_dist_returns_market_data(dates: List[str],
                 + f'_{time_step}_win__K_.pickle', 'rb'))
 
         else:
-            stocks_name: pd.DataFrame = pickle.load(open(
+            stocks_name = pickle.load(open(
                 f'../data/epochs/returns_data_{dates[0]}_{dates[1]}_step'
-                + f'_{time_step}_win__K_.pickle', 'rb')).sample(n=int(K_value),
-                                                             axis='columns')
+                + f'_{time_step}_win__K_.pickle', 'rb'))\
+                .sample(n=int(K_value), axis='columns')
 
         agg_ret_mkt_list: List[List[float]] = []
 

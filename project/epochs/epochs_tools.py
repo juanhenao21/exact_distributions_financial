@@ -235,7 +235,7 @@ def algebraic_distribution(K_value: int, l_value: int,
         * (np.sqrt(2 / m)) \
         * (gamma(l_value - (K_value - 1) / 2) / gamma(l_value - K_value / 2)) \
         * (1 / (1 + (1 / m) * x_values * x_values)
-        ** (l_value - (K_value - 1) / 2))
+           ** (l_value - (K_value - 1) / 2))
 
 # -----------------------------------------------------------------------------
 

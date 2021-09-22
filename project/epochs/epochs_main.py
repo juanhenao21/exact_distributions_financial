@@ -5,8 +5,6 @@ financial time series.
 
 This script requires the following modules:
     * typing
-    * multiprocessing
-    * itertools
     * epochs_analysis
     * epochs_plot
     * epochs_tools
@@ -22,8 +20,6 @@ The module contains the following functions:
 # Modules
 
 from typing import List
-import multiprocessing as mp
-from itertools import product as iprod
 
 import epochs_analysis
 import epochs_plot
@@ -48,18 +44,18 @@ def data_plot_generator(dates: List[List[str]], time_steps: List[str],
      a value.
     """
 
-    for idx, val in enumerate(dates):
+    for idx, _ in enumerate(dates):
 
         epochs_analysis.returns_data(dates[idx], time_steps[idx])
 
     for K_value in K_values:
         for window in windows:
-            for idx, val in enumerate(dates):
+            for idx, _ in enumerate(dates):
 
                 epochs_analysis. \
-                epochs_aggregated_dist_returns_market_data(dates[idx],
-                                                           time_steps[idx],
-                                                           window, K_value)
+                    epochs_aggregated_dist_returns_market_data(dates[idx],
+                                                               time_steps[idx],
+                                                               window, K_value)
 
     epochs_plot.epochs_var_win_all_empirical_dist_returns_market_plot()
     epochs_plot.epochs_var_K_all_empirical_dist_returns_market_plot()
