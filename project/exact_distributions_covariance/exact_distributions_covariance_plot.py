@@ -894,12 +894,12 @@ def main() -> None:
 
     dates_1 = ['1990-01-01', '2020-12-31']
     # dates_1 = ['2021-07-19', '2021-08-14']
-    N_values = [2, 3, 4]
+    N_values = [1, 2, 3, 4, 5, 6]
 
-    # pdf_gg_plot(dates_1, '1d', N_values)
-    # pdf_loglog_gg_plot(dates_1, '1d', N_values)
+    pdf_gg_plot(dates_1, '1d', N_values)
+    pdf_loglog_gg_plot(dates_1, '1d', N_values)
 
-    pdf_ga_plot(dates_1, '1d', N_values)
+    # pdf_ga_plot(dates_1, '1d', N_values)
 
     # pdf_ag_plot(dates_1, '1d')
 
