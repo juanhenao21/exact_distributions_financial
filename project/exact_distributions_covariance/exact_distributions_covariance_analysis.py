@@ -98,7 +98,7 @@ def aggregated_dist_returns_market_data(dates: List[str],
 
         cov: pd.DataFrame = returns_vals.cov()
         # eig_vec:  eigenvector, eig_val: eigenvalues
-        eig_val, eig_vec = np.linalg.eig(cov)
+        eig_val, eig_vec = np.linalg.eigh(cov)
 
         # rot: rotation, scal: scaling
         rot, scale = eig_vec, np.diag(1 / np.sqrt(eig_val))
