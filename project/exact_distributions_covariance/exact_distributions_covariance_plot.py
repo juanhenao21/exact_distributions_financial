@@ -185,7 +185,7 @@ def pdf_gg_plot(dates: List[str], time_step: str, N_values: List[int]) -> None:
         agg_returns_data: pd.Series = pickle.load(open(
             '../data/exact_distributions_covariance/aggregated_dist_returns'
             + f'_market_data_{dates[0]}_{dates[1]}_step_{time_step}.pickle',
-            'rb'))[::10]
+            'rb'))
 
         agg_returns_data = agg_returns_data.rename('Agg. returns')
 
@@ -328,7 +328,7 @@ def pdf_ga_plot(dates: List[str], time_step: str, L_values: List[int],
      (i.e. ['1980-01', '2020-12']).
     :param time_step: time step of the data
      (i.e. '1m', '1h', '1d', '1wk', '1mo')
-    :param L_value: value of the shape parameter L (i.e. '2').
+    :param L_values: list of the values of the shape parameter L (i.e. [2, 3]).
     :param N_values: list of the values of the parameter N (i.e. [3, 4, 5, 6]).
     :return: None -- The function saves the plot in a file and does not return
      a value.
