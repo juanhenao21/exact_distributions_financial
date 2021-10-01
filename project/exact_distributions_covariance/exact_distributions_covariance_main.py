@@ -70,7 +70,7 @@ def main() -> None:
 
     # Initial year and time step
     dates_1m = ['2021-07-19', '2021-08-14']
-    dates_1h = ['2021-06-01', '2021-07-31']
+    dates_1h = ['2021-06-01', '2021-09-30']
     dates_other = ['1990-01-01', '2020-12-31']
     dates: List[List[str]] = [dates_1m, dates_1h, dates_other,
                               dates_other, dates_other]
