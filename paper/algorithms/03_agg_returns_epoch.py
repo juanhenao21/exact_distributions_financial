@@ -141,38 +141,37 @@ def epochs_algebraic_agg_dist_returns_market_plot(dates: List[List[str]],
 
             # Log plot
             plot_1 = agg.plot(kind='density', style=marker, logy=True, ax=ax1,
-                              legend=False, ms=5)
+                              legend=False, ms=7)
             plot_2 = agg.plot(kind='density', style=marker, loglog=True,
-                              ax=ax2, legend=False, ms=5)
+                              ax=ax2, legend=False, ms=7)
 
         x_values: np.ndarray = np.arange(-10, 10, 0.3)
 
         for l_value in l_values:
             algebraic: np.ndarray = epochs_tools \
                 .algebraic_distribution(int(K_value), l_value, x_values)
-            ax1.semilogy(x_values, algebraic, '-', lw=5, label=f'Algebraic {l_value}')
-            ax2.loglog(x_values, algebraic, '-', lw=5, label=f'Algebraic {l_value}')
-
+            ax1.semilogy(x_values, algebraic, '-', lw=5, alpha=0.5,
+                         label=f'Algebraic l = {l_value}')
+            ax2.loglog(x_values, algebraic, '-', lw=5, alpha=0.5,
+                       label=f'Algebraic l = {l_value}')
 
         gaussian: np.ndarray = epochs_tools \
             .gaussian_distribution(0, 1, x_values)
         ax1.semilogy(x_values, gaussian, '-', lw=5, label=f'Gaussian')
         ax2.loglog(x_values, gaussian, '-', lw=5, label=f'Gaussian')
 
-        ax1.set_xlabel(r'$\tilde{r}$', fontsize=30)
-        ax1.set_ylabel('PDF', fontsize=25)
-        ax1.tick_params(axis='both', labelsize=20)
+        ax1.set_xlabel(r'$\tilde{r}$', fontsize=20)
+        ax1.set_ylabel('PDF', fontsize=20)
+        ax1.tick_params(axis='both', labelsize=15)
         ax1.set_xlim(-6, 6)
         ax1.set_ylim(10 ** -5, 1)
         ax1.grid(True)
 
-        ax2.legend(loc='upper center', bbox_to_anchor=(0.5, -0.13), ncol=1,
-                   fontsize=30)
-        # ax2.legend(loc='upper center', bbox_to_anchor=(0.5, -0.09), ncol=2,
-        #        fontsize=20)
-        ax2.set_xlabel(r'$\tilde{r}$', fontsize=30)
-        ax2.set_ylabel('PDF', fontsize=25)
-        ax2.tick_params(axis='both', labelsize=20)
+        ax2.legend(loc='upper center', bbox_to_anchor=(0.5, -0.13), ncol=2,
+                   fontsize=20)
+        ax2.set_xlabel(r'$\tilde{r}$', fontsize=20)
+        ax2.set_ylabel('PDF', fontsize=20)
+        ax2.tick_params(axis='both', which='both', labelsize=15)
         ax2.set_xlim(3, 5)
         ax2.set_ylim(10 ** -5, 10 ** -2)
         ax2.grid(True)
@@ -206,15 +205,15 @@ def main() -> None:
     """
 
     dates: List[List[str]] = [['2021-07-19', '2021-08-14'],
-                              ['2021-06-01', '2021-07-31'],
                               ['1990-01-01', '2020-12-31'],
                               ['1990-01-01', '2020-12-31'],
                               ['1990-01-01', '2020-12-31']]
-    time_steps: List[List[str]] = ['1m']#, '1h', '1d', '1wk', '1mo']
+    time_steps: List[str] = ['1m', '1d', '1wk', '1mo']
 
     # epochs_gaussian_agg_dist_returns_market_plot(dates, time_steps, '25', '50')
-    epochs_algebraic_agg_dist_returns_market_plot(dates, time_steps, '55', '50',
-     [30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40])
+    epochs_algebraic_agg_dist_returns_market_plot(dates, time_steps,
+                                                  '55', '50',
+                                                  [29, 30, 33, 36])
 
 # -----------------------------------------------------------------------------
 
