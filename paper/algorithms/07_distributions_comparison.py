@@ -103,7 +103,7 @@ def distributions_plot(N: float, K: float, L: float, l: float) -> None:
     plt.tight_layout()
 
     # Save Plot
-    figure.savefig(f'../plot/03_distributions_comparison.png')
+    figure.savefig(f'../plot/07_distributions_comparison.png')
 
 # ----------------------------------------------------------------------------
 

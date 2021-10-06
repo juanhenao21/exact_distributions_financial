@@ -70,7 +70,7 @@ def epochs_gaussian_agg_dist_returns_market_plot(dates: List[List[str]],
 
             # Log plot
             plot = agg.plot(kind='density', style=marker, logy=True,
-                            legend=False, ms=6)
+                            legend=False, ms=10)
 
         x_gauss: np.ndarray = np.arange(-10, 10, 0.3)
         gaussian: np.ndarray = epochs_tools \
@@ -90,7 +90,7 @@ def epochs_gaussian_agg_dist_returns_market_plot(dates: List[List[str]],
         plt.tight_layout()
 
         # Save plot
-        figure.savefig(f'../plot/03_gaussian_agg_returns_epoch.png')
+        figure.savefig(f'../plot/05_gaussian_agg_returns_epoch.png')
 
         plt.close()
         del agg
@@ -179,7 +179,7 @@ def epochs_algebraic_agg_dist_returns_market_plot(dates: List[List[str]],
         plt.tight_layout()
 
         # Save plot
-        figure.savefig(f'../plot/03_algebraic_agg_returns_epoch.png')
+        figure.savefig(f'../plot/05_algebraic_agg_returns_epoch.png')
 
         plt.close()
         del agg
@@ -194,6 +194,86 @@ def epochs_algebraic_agg_dist_returns_market_plot(dates: List[List[str]],
         print()
 
 # ----------------------------------------------------------------------------
+
+
+def epochs_var_win_all_empirical_dist_returns_market_plot() -> None:
+    """Plots all the local normalized aggregated distributions of returns for a
+       market in different epochs window lengths.
+
+    :return: None -- The function saves the plot in a file and does not return
+     a value.
+    """
+
+    function_name: str = \
+        epochs_var_win_all_empirical_dist_returns_market_plot.__name__
+    epochs_tools \
+        .function_header_print_plot(function_name, ['', ''], '', '', '')
+
+    try:
+
+        dates = ['1990-01-01', '2020-12-31']
+
+        windows = ['10', '25', '40', '55']
+        K_values = ['50']
+        dates_vals = [dates]
+        time_steps = ['1d']
+
+        markers: List[str] = ['o', '^', 's', 'P', 'x']
+
+        for K_value in K_values:
+            for idx, date_val in enumerate(dates_vals):
+
+                figure_log: plt.Figure = plt.figure(figsize=(16, 9))
+
+
+                for window, marker in zip(windows, markers):
+
+                    # Load data
+                    agg_returns: pd.Series = pickle.load(open(
+                        '../../project/data/epochs/epochs_aggregated_dist_returns_market'
+                        + f'_data_{date_val[0]}_{date_val[1]}'
+                        + f'_step_{time_steps[idx]}_win_{window}_K_{K_value}'
+                        + '.pickle', 'rb'))
+
+                    agg_returns = agg_returns.rename(f'Epochs window {window}')
+
+                    plot_log = agg_returns.plot(kind='density', style=marker,
+                                                logy=True, figsize=(16, 9),
+                                                legend=True, ms=10)
+
+                    figure_log = plot_log.get_figure()
+
+                x_values: np.ndarray = np.arange(-10, 10, 0.1)
+                gaussian: np.ndarray = epochs_tools \
+                    .gaussian_distribution(0, 1, x_values)
+
+                # Log plot
+                plt.semilogy(x_values, gaussian, '-', lw=10, label='Gaussian')
+
+                plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.13), ncol=3,
+                        fontsize=25)
+                plt.xlabel(r'$\tilde{r}$', fontsize=25)
+                plt.ylabel('PDF', fontsize=25)
+                plt.xticks(fontsize=20)
+                plt.yticks(fontsize=20)
+                plt.xlim(-6, 6)
+                plt.ylim(10 ** -5, 1)
+                plt.grid(True)
+                plt.tight_layout()
+
+                # Plotting
+                figure_log.savefig(f'../plot/05_window_comparison.png')
+
+        plt.close()
+        gc.collect()
+
+    except FileNotFoundError as error:
+        print('No data')
+        print(error)
+        print()
+
+# -----------------------------------------------------------------------------
+
 
 
 def main() -> None:
@@ -211,9 +291,10 @@ def main() -> None:
     time_steps: List[str] = ['1m', '1d', '1wk', '1mo']
 
     # epochs_gaussian_agg_dist_returns_market_plot(dates, time_steps, '25', '50')
-    epochs_algebraic_agg_dist_returns_market_plot(dates, time_steps,
-                                                  '55', '50',
-                                                  [29, 30, 33, 36])
+    # epochs_algebraic_agg_dist_returns_market_plot(dates, time_steps,
+    #                                               '55', '50',
+    #                                               [29, 30, 33, 36])
+    epochs_var_win_all_empirical_dist_returns_market_plot()
 
 # -----------------------------------------------------------------------------
 
