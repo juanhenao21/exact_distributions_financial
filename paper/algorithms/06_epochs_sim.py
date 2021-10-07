@@ -1,6 +1,6 @@
-'''Aggegated returns epochs implementation.
+'''Aggegated returns epochs simulation implementation.
 
-Plots the figures of the aggregated returns epochs for the paper.
+Plots the figures of the aggregated returns epochs simulations for the paper.
 
 This script requires the following modules:
     * gc
@@ -13,8 +13,6 @@ This script requires the following modules:
     * epochs_tools
 
 The module contains the following functions:
-    * epochs_aggregated_dist_returns_market_plot - plots the aggregated
-      distribution of returns for a market.
     * main - the main function of the script.
 
 .. moduleauthor:: Juan Camilo Henao Londono <www.github.com/juanhenao21>
