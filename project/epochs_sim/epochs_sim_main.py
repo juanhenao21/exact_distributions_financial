@@ -36,13 +36,12 @@ def data_plot_generator() -> None:
      a value.
     """
 
-    # for epochs_len in [10, 25, 40, 55]:
-    #     returns_pairs = epochs_sim_analysis \
-    #         .epochs_sim_agg_returns_market_data(0.3, 2, 100, 40, epochs_len)
-    #     print(returns_pairs)
-    #     print(type(returns_pairs))
-    #     epochs_sim_plot \
-    #         .epochs_sim_agg_returns_market_plot(returns_pairs, epochs_len)
+    # Simulate the aggregated returns for different epochs lenghts
+    for epochs_len in [10, 25, 40, 55]:
+        returns_pairs = epochs_sim_analysis \
+            .epochs_sim_agg_returns_market_data(0.3, 2, 50, 40, epochs_len)
+        epochs_sim_plot \
+            .epochs_sim_agg_returns_market_plot(returns_pairs, epochs_len)
 
     # for epochs_len in [10, 25, 100]:
     #     returns_market = epochs_sim_analysis \
@@ -54,21 +53,21 @@ def data_plot_generator() -> None:
 
     # Initial year and time step
 
-    dates = [['1990-01-01', '2020-12-31']]
-    time_step = ['1d']
-    windows: List[str] = ['10', '25', '40', '55']
+    # dates = [['1990-01-01', '2020-12-31']]
+    # time_step = ['1d']
+    # windows: List[str] = ['10', '25', '40', '55']
 
-    for window in windows:
-        for idx, val in enumerate(dates):
+    # for window in windows:
+    #     for idx, val in enumerate(dates):
 
-            # epochs_sim_analysis \
-            #     .epochs_sim_no_rot_market_data(dates[idx],
-            #                                    time_step[idx],
-            #                                    window, 50)
-            epochs_sim_plot \
-                .epochs_aggregated_dist_returns_market_plot(val,
-                                                            time_step[idx],
-                                                            window, '50')
+    #         # epochs_sim_analysis \
+    #         #     .epochs_sim_no_rot_market_data(dates[idx],
+    #         #                                    time_step[idx],
+    #         #                                    window, 50)
+    #         epochs_sim_plot \
+    #             .epochs_aggregated_dist_returns_market_plot(val,
+    #                                                         time_step[idx],
+    #                                                         window, '50')
 
 # -----------------------------------------------------------------------------
 

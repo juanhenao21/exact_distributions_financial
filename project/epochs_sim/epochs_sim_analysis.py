@@ -89,15 +89,22 @@ def returns_simulation(out_diag_val: float,
 # -----------------------------------------------------------------------------
 
 
-def epochs_sim_agg_returns_pair_data(dataframe: pd.DataFrame) -> List[float]:
+def epochs_sim_agg_returns_pair_data(dataframe: pd.DataFrame,
+                                     normalized: bool =False) -> List[float]:
     """Uses local normalization to compute the aggregated distribution of
        returns for a pair of simulated stocks.
 
     :param dataframe: dataframe with the simulated returns.
     :type dataframe: pd.DataFrame
+    :param normalized: normalize the returns within the epochs, defaults to
+     False
+    :type normalized: bool, optional
     :return: simulated rotated returns.
     :rtype: List[float]
     """
+
+    if normalized:
+        dataframe = (dataframe - dataframe.mean()) / dataframe.std()
 
     cov_two_col: pd.DataFrame = dataframe.cov()
     # eig_vec:  eigenvector, eig_val: eigenvalues
@@ -154,7 +161,8 @@ def epochs_sim_agg_returns_market_data(out_diag_val: float,
                                        size_corr_matrix: int,
                                        K_values: int,
                                        epochs_num: int,
-                                       epochs_len: int) -> pd.Series:
+                                       epochs_len: int,
+                                       normalized: bool = False) -> pd.Series:
     """Uses local normalization to compute the aggregated distribution of
        returns for a simulated market.
 
@@ -168,6 +176,9 @@ def epochs_sim_agg_returns_market_data(out_diag_val: float,
     :type epochs_num: int
     :param epochs_len: length of the epochs.
     :type epochs_len: int
+    :param normalized: normalize the returns within the epochs, defaults to
+     False
+    :type normalized: bool, optional
     :return: simulated rotated and aggregated returns for a simulated market.
     :rtype: pd.Series
     """
@@ -184,7 +195,7 @@ def epochs_sim_agg_returns_market_data(out_diag_val: float,
             returns: pd.DataFrame = \
                 returns_simulation(out_diag_val, size_corr_matrix, epochs_len)
             agg_ret_list: List[float] = \
-                epochs_sim_agg_returns_pair_data(returns)
+                epochs_sim_agg_returns_pair_data(returns,normalized=normalized)
             agg_ret_mkt_list.extend(agg_ret_list)
 
     agg_ret_mkt_series: pd.Series = pd.Series(agg_ret_mkt_list)
