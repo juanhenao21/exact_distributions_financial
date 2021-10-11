@@ -32,7 +32,7 @@ from itertools import combinations as icomb
 import math
 import multiprocessing as mp
 import pickle
-import scipy.stats.multivariate_t as t_dist
+# from scipy.stats import multivariate_t
 from typing import Any, Iterable, List, Tuple
 
 import numpy as np  # type: ignore
@@ -90,9 +90,39 @@ def returns_simulation_gaussian(out_diag_val: float,
 # -----------------------------------------------------------------------------
 
 
+def multivariate_t_rvs(m, S, df=np.inf, n=1):
+    '''generate random variables of multivariate t distribution
+    Parameters
+    ----------
+    m : array_like
+        mean of random variable, length determines dimension of random variable
+    S : array_like
+        square array of covariance  matrix
+    df : int or float
+        degrees of freedom
+    n : int
+        number of observations, return random array will be (n, len(m))
+    Returns
+    -------
+    rvs : ndarray, (n, len(m))
+        each row is an independent draw of a multivariate t distributed
+        random variable
+    '''
+    m = np.asarray(m)
+    d = len(m)
+    if df == np.inf:
+        x = 1.
+    else:
+        x = np.random.chisquare(df, n)/df
+    z = np.random.multivariate_normal(np.zeros(d),S,(n,))
+    return m + z/np.sqrt(x)[:,None]   # same output format as random.multivariate_normal
+
+# -----------------------------------------------------------------------------
+
 def returns_simulation_algebraic(out_diag_val: float,
                                  size_corr_mat: int,
-                                 epochs_len: int) -> pd.DataFrame:
+                                 epochs_len: int,
+                                 df: int) -> pd.DataFrame:
     """Simulates the algebraic distributed returns of a time series
 
     :param out_diag_val: numerical value of the off diagonal elements.
@@ -101,6 +131,8 @@ def returns_simulation_algebraic(out_diag_val: float,
     :type size_corr_mat: int
     :param epochs_len: length of the epochs.
     :type epochs_len: int
+    :param df: degress of freedom.
+    :type df: int
     :return: dataframe with the simulated returns.
     :rtype: pd.DataFrame
     """
@@ -109,28 +141,20 @@ def returns_simulation_algebraic(out_diag_val: float,
                                                       size_corr_mat))
     np.fill_diagonal(corr_matrix, 1)
 
-    eig_val_corr: np.ndarray
-    eig_vec_corr: np.ndarray
-    eig_val_corr, eig_vec_corr = np.linalg.eigh(corr_matrix)
-
-    eig_val_corr_mat: np.ndarray = np.diag(np.sqrt(eig_val_corr))
-
     ret_epochs_list: List[np.ndarray] = []
 
     for _ in range(epochs_len):
 
         ret_vals: np.ndarray =  \
-            t_dist(np.zeros(size_corr_mat), corr_matrix, df=10, random_state=1)
+            multivariate_t_rvs(np.array([0, 0]), corr_matrix, df=df)
 
-        print(ret_vals)
-        ret_epochs_list.append(ret_vals)
+        ret_epochs_list.append(ret_vals[0])
 
     ret_epochs: np.ndarray = np.array(ret_epochs_list)
 
     ret_epochs_df: pd.DataFrame = \
         pd.DataFrame(ret_epochs, columns=[f'Stock_{i}'
                                           for i in range(size_corr_mat)])
-    print(ret_epochs_df)
 
     return ret_epochs_df
 
@@ -211,7 +235,8 @@ def epochs_sim_agg_returns_market_data(out_diag_val: float,
                                        epochs_num: int,
                                        epochs_len: int,
                                        normalized: bool = False,
-                                       kind: str = 'gaussian') -> pd.Series:
+                                       kind: str = 'gaussian',
+                                       df: int = 10) -> pd.Series:
     """Uses local normalization to compute the aggregated distribution of
        returns for a simulated market.
 
@@ -249,7 +274,8 @@ def epochs_sim_agg_returns_market_data(out_diag_val: float,
                                                 epochs_len)
             else:
                 returns: pd.DataFrame = \
-                    returns_simulation_algebraic()
+                    returns_simulation_algebraic(out_diag_val, size_corr_matrix,
+                                                epochs_len, df)
 
             agg_ret_list: List[float] = \
                 epochs_sim_agg_returns_pair_data(returns,normalized=normalized)
@@ -490,7 +516,7 @@ def main() -> None:
     """
 
     epochs_len = 10
-    returns_pairs = returns_simulation_algebraic(0.3, 2, epochs_len)
+    returns_pairs = returns_simulation_algebraic(0.3, 2, epochs_len, 10)
 
 # -----------------------------------------------------------------------------
 
