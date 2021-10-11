@@ -229,6 +229,8 @@ def epochs_aggregated_dist_returns_pair_data(dates: List[str], time_step: str,
             f'../data/epochs/returns_data_{dates[0]}_{dates[1]}_step'
             + f'_{time_step}_win__K_.pickle', 'rb'))[[cols[0], cols[1]]]
 
+        two_col = (two_col - two_col.mean()) / two_col.std()
+
         # List to extend with the returns values of each pair
         agg_ret_mkt_list: List[float] = []
 
@@ -269,8 +271,8 @@ def epochs_aggregated_dist_returns_pair_data(dates: List[str], time_step: str,
             # Use the return columns
             local_data_df: pd.DataFrame = local_data[1][[cols[0], cols[1]]]
 
-            local_data_df = \
-                (local_data_df - local_data_df.mean()) / local_data_df.std()
+            # local_data_df = \
+            #     (local_data_df - local_data_df.mean()) / local_data_df.std()
 
             cov_two_col: pd.DataFrame = local_data_df.cov()
             # eig_vec:  eigenvector, eig_val: eigenvalues
