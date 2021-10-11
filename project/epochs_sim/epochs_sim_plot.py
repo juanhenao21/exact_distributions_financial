@@ -38,7 +38,9 @@ import epochs_sim_tools
 
 
 def epochs_sim_agg_returns_market_plot(agg_ret: pd.Series,
-                                       epochs_len: int) -> None:
+                                       epochs_len: int,
+                                       K_value: int,
+                                       kind: int = 'gaussian') -> None:
     """Plots the aggregated distribution of simulated returns for a market.
 
     :param agg_ret: simulated rotated and aggregated returns from a simulated
@@ -55,13 +57,19 @@ def epochs_sim_agg_returns_market_plot(agg_ret: pd.Series,
     agg_ret = agg_ret.rename('Agg. returns')
 
     x_values: np.ndarray = np.arange(-6, 6, 0.001)
-    gaussian: np.ndarray = epochs_sim_tools \
-        .gaussian_distribution(0, 1, x_values)
 
     plot_lin = agg_ret.plot(kind='density', style='-', logy=True,
                             figsize=(16, 9), legend=True, lw=5)
 
-    plt.semilogy(x_values, gaussian, '-', lw=3, label='Gaussian')
+    if kind == 'gaussian':
+        gaussian: np.ndarray = epochs_sim_tools \
+            .gaussian_distribution(0, 1, x_values)
+        plt.semilogy(x_values, gaussian, '-', lw=3, label='Gaussian')
+    else:
+        algebraic: np.ndarray = epochs_sim_tools \
+            .algebraic_distribution(K_value, (10 + K_value) / 2, x_values)
+        plt.semilogy(x_values, algebraic, '-', lw=3, label='Algebraic')
+
 
     plt.legend(fontsize=20)
     plt.title(f'Simulation', fontsize=30)
