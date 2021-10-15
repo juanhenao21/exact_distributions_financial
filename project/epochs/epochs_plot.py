@@ -373,13 +373,13 @@ def epochs_var_win_all_empirical_dist_returns_market_plot() -> None:
     try:
 
         dates_1m = ['2021-07-19', '2021-08-14']
-        dates_1h = ['2021-06-01', '2021-07-31']
+        # dates_1h = ['2021-06-01', '2021-07-31']
         dates = ['1990-01-01', '2020-12-31']
 
         windows = ['10', '25', '40', '55']
         K_values = ['20', '50']
-        dates_vals = [dates_1m, dates_1h, dates, dates, dates]
-        time_steps = ['1m', '1h', '1d', '1wk', '1mo']
+        dates_vals = [dates_1m, dates, dates, dates]
+        time_steps = ['1m', '1d', '1wk', '1mo']
 
         for K_value in K_values:
             for idx, date_val in enumerate(dates_vals):
@@ -454,13 +454,13 @@ def epochs_var_K_all_empirical_dist_returns_market_plot() -> None:
     try:
 
         dates_1m = ['2021-07-19', '2021-08-14']
-        dates_1h = ['2021-06-01', '2021-07-31']
+        # dates_1h = ['2021-06-01', '2021-07-31']
         dates = ['1990-01-01', '2020-12-31']
 
         windows = ['10', '25', '40', '55']
         K_values = ['20', '50']
-        dates_vals = [dates_1m, dates_1h, dates, dates, dates]
-        time_steps = ['1m', '1h', '1d', '1wk', '1mo']
+        dates_vals = [dates_1m, dates, dates, dates]
+        time_steps = ['1m', '1d', '1wk', '1mo']
 
         for window in windows:
             for idx, date_val in enumerate(dates_vals):
@@ -535,13 +535,13 @@ def epochs_var_time_step_all_empirical_dist_returns_market_plot() -> None:
     try:
 
         dates_1m = ['2021-07-19', '2021-08-14']
-        dates_1h = ['2021-06-01', '2021-07-31']
+        # dates_1h = ['2021-06-01', '2021-07-31']
         dates = ['1990-01-01', '2020-12-31']
 
         windows = ['10', '25', '40', '55']
         K_values = ['20', '50']
-        dates_vals = [dates_1m, dates_1h, dates, dates, dates]
-        time_steps = ['1m', '1h', '1d', '1wk', '1mo']
+        dates_vals = [dates_1m, dates, dates, dates]
+        time_steps = ['1m', '1d', '1wk', '1mo']
 
         for window in windows:
             for K_value in K_values:
@@ -792,10 +792,10 @@ def epochs_log_log_all_empirical_dist_returns_market_plot() -> None:
             '../data/epochs/epochs_aggregated_dist_returns_market_data'
             + f'_{dates_1m[0]}_{dates_1m[1]}_step_1m_win_{window}.pickle',
             'rb'))[::5]
-        agg_returns_hour: pd.Series = pickle.load(open(
-            '../data/epochs/epochs_aggregated_dist_returns_market_data'
-            + f'_{dates_1h[0]}_{dates_1h[1]}_step_1h_win_{window}.pickle',
-            'rb'))[::5]
+        # agg_returns_hour: pd.Series = pickle.load(open(
+        #     '../data/epochs/epochs_aggregated_dist_returns_market_data'
+        #     + f'_{dates_1h[0]}_{dates_1h[1]}_step_1h_win_{window}.pickle',
+        #     'rb'))[::5]
         agg_returns_day: pd.Series = pickle.load(open(
             '../data/epochs/epochs_aggregated_dist_returns_market_data'
             + f'_{dates[0]}_{dates[1]}_step_1d_win_{window}.pickle',
@@ -827,9 +827,9 @@ def epochs_log_log_all_empirical_dist_returns_market_plot() -> None:
         plot_log_m = agg_returns_min.plot(kind='density', style='-',
                                           loglog=True, figsize=(16, 9),
                                           legend=True, lw=2)
-        plot_log_h = agg_returns_hour.plot(kind='density', style='-',
-                                           loglog=True, figsize=(16, 9),
-                                           legend=True, lw=2)
+        # plot_log_h = agg_returns_hour.plot(kind='density', style='-',
+        #                                    loglog=True, figsize=(16, 9),
+        #                                    legend=True, lw=2)
         plot_log_d = agg_returns_day.plot(kind='density', style='-',
                                           loglog=True, figsize=(16, 9),
                                           legend=True, lw=2)
@@ -851,7 +851,7 @@ def epochs_log_log_all_empirical_dist_returns_market_plot() -> None:
         plt.grid(True)
         plt.tight_layout()
         figure_log = plot_log_m.get_figure()
-        figure_log = plot_log_h.get_figure()
+        # figure_log = plot_log_h.get_figure()
         figure_log = plot_log_d.get_figure()
         figure_log = plot_log_wk.get_figure()
         figure_log = plot_log_mo.get_figure()
