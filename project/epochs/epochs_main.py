@@ -55,11 +55,17 @@ def data_plot_generator(dates: List[List[str]], time_steps: List[str],
                 epochs_analysis. \
                     epochs_aggregated_dist_returns_market_data(dates[idx],
                                                                time_steps[idx],
-                                                               window, K_value)
+                                                               window, K_value,
+                                                               norm='long')
+                epochs_analysis. \
+                    epochs_aggregated_dist_returns_market_data(dates[idx],
+                                                               time_steps[idx],
+                                                               window, K_value,
+                                                               norm='short')
 
-    epochs_plot.epochs_var_win_all_empirical_dist_returns_market_plot()
-    epochs_plot.epochs_var_K_all_empirical_dist_returns_market_plot()
-    epochs_plot.epochs_var_time_step_all_empirical_dist_returns_market_plot()
+    # epochs_plot.epochs_var_win_all_empirical_dist_returns_market_plot()
+    # epochs_plot.epochs_var_K_all_empirical_dist_returns_market_plot()
+    # epochs_plot.epochs_var_time_step_all_empirical_dist_returns_market_plot()
 
 # -----------------------------------------------------------------------------
 
@@ -79,10 +85,10 @@ def main() -> None:
     dates_1m = ['2021-07-19', '2021-08-14']
     dates_other = ['1990-01-01', '2020-12-31']
 
-    dates: List[List[str]] = [dates_1m, dates_other, dates_other, dates_other]
-    time_steps: List[str] = ['1m', '1d', '1wk', '1mo']
+    dates: List[List[str]] = [dates_other]
+    time_steps: List[str] = ['1d']
     windows: List[str] = ['10', '25', '40', '55']
-    K_values: List[str] = ['20', '50']
+    K_values: List[str] = ['20', '50', 'all']
 
     # Basic folders
     epochs_tools.start_folders()

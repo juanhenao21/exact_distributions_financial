@@ -207,9 +207,11 @@ def epochs_correlation_matrix_data(dates: List[str], time_step: str,
 # ----------------------------------------------------------------------------
 
 
-def epochs_aggregated_dist_returns_pair_data(dates: List[str], time_step: str,
+def epochs_aggregated_dist_returns_pair_data(dates: List[str],
+                                             time_step: str,
                                              cols: List[str],
-                                             window: str) -> List[float]:
+                                             window: str,
+                                             norm: str = 'long') ->List[float]:
     """Uses local normalization to compute the aggregated distribution of
        returns for a pair of stocks.
 
@@ -219,6 +221,8 @@ def epochs_aggregated_dist_returns_pair_data(dates: List[str], time_step: str,
      '1mo').
     :param cols: pair of stocks to be analized (i. e. ['AAPL', 'MSFT']).
     :param window: window time to compute the volatility (i.e. '25').
+    :norm: define if the normalization is made in the complete time series or
+     in each epoch. Default 'long', 'short' is the other option.
     :return: List[float] -- The function returns a list with float numbers.
     """
 
@@ -229,7 +233,8 @@ def epochs_aggregated_dist_returns_pair_data(dates: List[str], time_step: str,
             f'../data/epochs/returns_data_{dates[0]}_{dates[1]}_step'
             + f'_{time_step}_win__K_.pickle', 'rb'))[[cols[0], cols[1]]]
 
-        two_col = (two_col - two_col.mean()) / two_col.std()
+        if norm == 'long':
+            two_col = (two_col - two_col.mean()) / two_col.std()
 
         # List to extend with the returns values of each pair
         agg_ret_mkt_list: List[float] = []
@@ -271,8 +276,9 @@ def epochs_aggregated_dist_returns_pair_data(dates: List[str], time_step: str,
             # Use the return columns
             local_data_df: pd.DataFrame = local_data[1][[cols[0], cols[1]]]
 
-            # local_data_df = \
-            #     (local_data_df - local_data_df.mean()) / local_data_df.std()
+            if norm == 'short':
+                local_data_df = \
+                    (local_data_df - local_data_df.mean()) /local_data_df.std()
 
             cov_two_col: pd.DataFrame = local_data_df.cov()
             # eig_vec:  eigenvector, eig_val: eigenvalues
@@ -329,7 +335,8 @@ def epochs_aggregated_dist_returns_pair_data(dates: List[str], time_step: str,
 def epochs_aggregated_dist_returns_market_data(dates: List[str],
                                                time_step: str,
                                                window: str,
-                                               K_value: str) -> None:
+                                               K_value: str,
+                                               norm: str = 'long') -> None:
     """Computes the aggregated distribution of returns for a market.
 
     :param dates: List of the interval of dates to be analyzed
@@ -338,6 +345,8 @@ def epochs_aggregated_dist_returns_market_data(dates: List[str],
      '1mo').
     :param window: window time to compute the volatility (i.e. '25').
     :param K_value: number of companies to be used (i.e. '80', 'all').
+    :norm: define if the normalization is made in the complete time series or
+     in each epoch. Default 'long', 'short' is the other option.
     :return: None -- The function saves the data in a file and does not return
      a value.
     """
@@ -366,7 +375,7 @@ def epochs_aggregated_dist_returns_market_data(dates: List[str],
         # Combination of stock pairs
         stocks_comb: Iterable[Tuple[Any, ...]] = icomb(stocks_name, 2)
         args_prod: Iterable[Any] = iprod([dates], [time_step], stocks_comb,
-                                         [window])
+                                         [window], [norm])
 
         # Parallel computing
         with mp.Pool(processes=mp.cpu_count()) as pool:
@@ -382,8 +391,8 @@ def epochs_aggregated_dist_returns_market_data(dates: List[str],
         print(f'std  = {agg_ret_mkt_series.std()}')
 
         # Saving data
-        epochs_tools.save_data(agg_ret_mkt_series, function_name, dates,
-                               time_step, window, K_value)
+        epochs_tools.save_data(agg_ret_mkt_series, function_name + '_' + norm,
+                                dates, time_step, window, K_value)
 
         del agg_ret_mkt_list
         del agg_ret_mkt_series
