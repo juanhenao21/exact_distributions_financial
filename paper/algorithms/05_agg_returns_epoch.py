@@ -63,8 +63,8 @@ def epochs_gaussian_agg_dist_returns_market_plot(dates: List[List[str]],
             # Load data
             agg: pd.Series = pickle.load(open(
                 '../../project/data/epochs/epochs_aggregated_dist_returns'
-                + f'_market_data_{date[0]}_{date[1]}_step_{time_step}_win'
-                + f'_{window}_K_{K_value}.pickle', 'rb'))
+                + f'_market_data_short_{date[0]}_{date[1]}_step_{time_step}'
+                + f'_win_{window}_K_{K_value}.pickle', 'rb'))
 
             agg = agg.rename(f'Agg. returns {time_step}')
 
@@ -78,7 +78,7 @@ def epochs_gaussian_agg_dist_returns_market_plot(dates: List[List[str]],
 
         plt.semilogy(x_gauss, gaussian, '-', lw=10, label='Gaussian')
 
-        plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.13), ncol=3,
+        plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.13), ncol=2,
                    fontsize=30)
         plt.xlabel(r'$\tilde{r}$', fontsize=40)
         plt.ylabel('PDF', fontsize=40)
@@ -90,7 +90,7 @@ def epochs_gaussian_agg_dist_returns_market_plot(dates: List[List[str]],
         plt.tight_layout()
 
         # Save plot
-        figure.savefig(f'../plot/05_gaussian_agg_returns_epoch.png')
+        figure.savefig(f'../plot/05_gaussian_agg_returns_short_epoch.png')
 
         plt.close()
         del agg
@@ -125,8 +125,7 @@ def epochs_algebraic_agg_dist_returns_market_plot(dates: List[List[str]],
 
     try:
 
-        figure, (ax1, ax2) = plt.subplots(2, 1, figsize=(9, 16))
-        ax1.get_shared_y_axes().join(ax2)
+        figure, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 9))
 
         markers: List[str] = ['o', '^', 's', 'P', 'x']
 
@@ -134,8 +133,8 @@ def epochs_algebraic_agg_dist_returns_market_plot(dates: List[List[str]],
             # Load data
             agg: pd.Series = pickle.load(open(
                 '../../project/data/epochs/epochs_aggregated_dist_returns'
-                + f'_market_data_{date[0]}_{date[1]}_step_{time_step}_win'
-                + f'_{window}_K_{K_value}.pickle', 'rb'))
+                + f'_market_data_short_{date[0]}_{date[1]}_step_{time_step}'
+                + f'_win_{window}_K_{K_value}.pickle', 'rb'))
 
             agg = agg.rename(f'Agg. returns {time_step}')
 
@@ -167,7 +166,7 @@ def epochs_algebraic_agg_dist_returns_market_plot(dates: List[List[str]],
         ax1.set_ylim(10 ** -5, 1)
         ax1.grid(True)
 
-        ax2.legend(loc='upper center', bbox_to_anchor=(0.5, -0.13), ncol=2,
+        ax2.legend(loc='upper center', bbox_to_anchor=(1.4, 0.6), ncol=1,
                    fontsize=20)
         ax2.set_xlabel(r'$\tilde{r}$', fontsize=20)
         ax2.set_ylabel('PDF', fontsize=20)
@@ -179,7 +178,7 @@ def epochs_algebraic_agg_dist_returns_market_plot(dates: List[List[str]],
         plt.tight_layout()
 
         # Save plot
-        figure.savefig(f'../plot/05_algebraic_agg_returns_epoch.png')
+        figure.savefig(f'../plot/05_algebraic_agg_returns_short_epoch.png')
 
         plt.close()
         del agg
@@ -196,7 +195,11 @@ def epochs_algebraic_agg_dist_returns_market_plot(dates: List[List[str]],
 # ----------------------------------------------------------------------------
 
 
-def epochs_var_win_all_empirical_dist_returns_market_plot() -> None:
+def epochs_var_win_all_empirical_dist_returns_market_plot(
+                                            dates: List[str],
+                                            time_steps: List[str],
+                                            windows: List[str],
+                                            K_values: List[str]) -> None:
     """Plots all the local normalized aggregated distributions of returns for a
        market in different epochs window lengths.
 
@@ -211,58 +214,93 @@ def epochs_var_win_all_empirical_dist_returns_market_plot() -> None:
 
     try:
 
-        dates = ['1990-01-01', '2020-12-31']
-
-        windows = ['10', '25', '40', '55']
-        K_values = ['50']
-        dates_vals = [dates]
-        time_steps = ['1d']
+        figure, ((ax1, ax2), (ax3, ax4)) = \
+            plt.subplots(2, 2, figsize=(16, 9), sharex='col', sharey='row',
+                         gridspec_kw={'hspace': 0, 'wspace': 0})
 
         markers: List[str] = ['o', '^', 's', 'P', 'x']
 
-        for K_value in K_values:
-            for idx, date_val in enumerate(dates_vals):
+        for idx, date_val in enumerate(dates):
 
-                figure_log: plt.Figure = plt.figure(figsize=(16, 9))
+            for K_value, marker in zip(K_values, markers):
 
+                # Load data
+                agg_10: pd.Series = pickle.load(open(
+                    '../../project/data/epochs/epochs_aggregated_dist'
+                    + f'_returns_market_data_short_{date_val[0]}'
+                    + f'_{date_val[1]}_step_{time_steps[idx]}_win_10'
+                    + f'_K_{K_value}.pickle', 'rb'))
+                agg_25: pd.Series = pickle.load(open(
+                    '../../project/data/epochs/epochs_aggregated_dist'
+                    + f'_returns_market_data_short_{date_val[0]}'
+                    + f'_{date_val[1]}_step_{time_steps[idx]}_win_25'
+                    + f'_K_{K_value}.pickle', 'rb'))
+                agg_40: pd.Series = pickle.load(open(
+                    '../../project/data/epochs/epochs_aggregated_dist'
+                    + f'_returns_market_data_short_{date_val[0]}'
+                    + f'_{date_val[1]}_step_{time_steps[idx]}_win_40'
+                    + f'_K_{K_value}.pickle', 'rb'))
+                agg_55: pd.Series = pickle.load(open(
+                    '../../project/data/epochs/epochs_aggregated_dist'
+                    + f'_returns_market_data_short_{date_val[0]}'
+                    + f'_{date_val[1]}_step_{time_steps[idx]}_win_55'
+                    + f'_K_{K_value}.pickle', 'rb'))
 
-                for window, marker in zip(windows, markers):
+                agg_10 = agg_10.rename(f'K = {K_value}')
+                agg_25 = agg_25.rename(f'K = {K_value}')
+                agg_40 = agg_40.rename(f'K = {K_value}')
+                agg_55 = agg_55.rename(f'K = {K_value}')
 
-                    # Load data
-                    agg_returns: pd.Series = pickle.load(open(
-                        '../../project/data/epochs/epochs_aggregated_dist_returns_market'
-                        + f'_data_{date_val[0]}_{date_val[1]}'
-                        + f'_step_{time_steps[idx]}_win_{window}_K_{K_value}'
-                        + '.pickle', 'rb'))
+                plot_10 = agg_10.plot(kind='density', style=marker, ax=ax1,
+                                      logy=True, figsize=(16, 9), ms=10)
+                plot_25 = agg_25.plot(kind='density', style=marker, ax=ax2,
+                                      logy=True, figsize=(16, 9), ms=10)
+                plot_40 = agg_40.plot(kind='density', style=marker, ax=ax3,
+                                      logy=True, figsize=(16, 9), ms=10)
+                plot_55 = agg_55.plot(kind='density', style=marker, ax=ax4,
+                                      logy=True, figsize=(16, 9), ms=10)
 
-                    agg_returns = agg_returns.rename(f'Epochs window {window}')
+                figure_log = plot_10.get_figure()
+                figure_log = plot_25.get_figure()
+                figure_log = plot_40.get_figure()
+                figure_log = plot_55.get_figure()
 
-                    plot_log = agg_returns.plot(kind='density', style=marker,
-                                                logy=True, figsize=(16, 9),
-                                                legend=True, ms=10)
+            x_values: np.ndarray = np.arange(-10, 10, 0.1)
+            gaussian: np.ndarray = epochs_tools \
+                .gaussian_distribution(0, 1, x_values)
 
-                    figure_log = plot_log.get_figure()
+            # Log plot
+            ax1.semilogy(x_values, gaussian, '-', lw=10, label='Gaussian')
+            ax2.semilogy(x_values, gaussian, '-', lw=10, label='Gaussian')
+            ax3.semilogy(x_values, gaussian, '-', lw=10, label='Gaussian')
+            ax4.semilogy(x_values, gaussian, '-', lw=10, label='Gaussian')
 
-                x_values: np.ndarray = np.arange(-10, 10, 0.1)
-                gaussian: np.ndarray = epochs_tools \
-                    .gaussian_distribution(0, 1, x_values)
+            for ax in [ax1, ax2, ax3, ax4]:
+                ax.set
+                ax.set_xlabel(r'$\tilde{r}$', fontsize=25)
+                ax.set_ylabel('PDF', fontsize=25)
+                ax.tick_params(axis='x', labelsize=20)
+                ax.tick_params(axis='y', labelsize=20)
+                ax.set_xlim(-6, 6)
+                ax.set_ylim(10 ** -5, 1)
+                ax.grid(True)
+            # for ax in [ax1, ax3]:
+            #     labels_y = ax.get_yticklabels()
+            #     labels_y[-1] = ""
+            #     ax.set_yticklabels(labels_y)
+            # for ax in [ax3, ax4]:
+            #     labels_x = ax.get_xticklabels()
+            #     labels_x[-1] = ""
+            #     ax.set_xticklabels(labels_x)
+            ax3.legend(loc='upper center', bbox_to_anchor=(1.0, -0.2), ncol=3,
+                   fontsize=15)
+            ax4.set_xticks(ax4.get_xticks()[1:])
+            ax3.set_xticks(ax3.get_xticks()[:-1])
 
-                # Log plot
-                plt.semilogy(x_values, gaussian, '-', lw=10, label='Gaussian')
+            plt.tight_layout()
 
-                plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.13), ncol=3,
-                        fontsize=25)
-                plt.xlabel(r'$\tilde{r}$', fontsize=25)
-                plt.ylabel('PDF', fontsize=25)
-                plt.xticks(fontsize=20)
-                plt.yticks(fontsize=20)
-                plt.xlim(-6, 6)
-                plt.ylim(10 ** -5, 1)
-                plt.grid(True)
-                plt.tight_layout()
-
-                # Plotting
-                figure_log.savefig(f'../plot/05_window_comparison.png')
+            # Plotting
+            figure_log.savefig(f'../plot/05_window_comparison.png')
 
         plt.close()
         gc.collect()
@@ -284,17 +322,15 @@ def main() -> None:
     :return: None.
     """
 
-    dates: List[List[str]] = [['2021-07-19', '2021-08-14'],
-                              ['1990-01-01', '2020-12-31'],
-                              ['1990-01-01', '2020-12-31'],
-                              ['1990-01-01', '2020-12-31']]
-    time_steps: List[str] = ['1m', '1d', '1wk', '1mo']
+    dates: List[List[str]] = [['1990-01-01', '2020-12-31']]
+    time_steps: List[str] = ['1d']
 
     # epochs_gaussian_agg_dist_returns_market_plot(dates, time_steps, '25', '50')
     # epochs_algebraic_agg_dist_returns_market_plot(dates, time_steps,
     #                                               '55', '50',
-    #                                               [29, 30, 33, 36])
-    epochs_var_win_all_empirical_dist_returns_market_plot()
+    #                                               [29])
+    epochs_var_win_all_empirical_dist_returns_market_plot(dates, time_steps,
+                                                          ['x'], ['20', '50'])
 
 # -----------------------------------------------------------------------------
 
