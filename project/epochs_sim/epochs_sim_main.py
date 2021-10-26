@@ -37,9 +37,13 @@ def data_plot_generator() -> None:
     """
 
     # Simulate the aggregated returns for different epochs lenghts
-    for epochs_len in [500]: #[10, 25, 40, 55]:
+    for epochs_len in [10, 25, 40, 55, 500]:
         returns_pairs = epochs_sim_analysis \
-            .epochs_sim_agg_returns_market_data(0.3, 2, 50, 40, epochs_len, kind='algebraic')
+            .epochs_sim_agg_returns_market_data(0.3, 2, 50, 40, epochs_len, kind='gaussian', normalized=True)
+        epochs_sim_plot \
+            .epochs_sim_agg_returns_market_plot(returns_pairs, epochs_len, 50, kind='gaussian')
+        returns_pairs = epochs_sim_analysis \
+            .epochs_sim_agg_returns_market_data(0.3, 2, 50, 40, epochs_len, kind='algebraic', normalized=True)
         epochs_sim_plot \
             .epochs_sim_agg_returns_market_plot(returns_pairs, epochs_len, 50, kind='algebraic')
 

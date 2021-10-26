@@ -146,7 +146,9 @@ def returns_simulation_algebraic(out_diag_val: float,
     for _ in range(epochs_len):
 
         ret_vals: np.ndarray =  \
-            multivariate_t_rvs(np.array([0, 0]), corr_matrix, df=df)
+            multivariate_t_rvs(
+                np.array(np.zeros((size_corr_mat, size_corr_mat))),
+                corr_matrix, df=df)
 
         ret_epochs_list.append(ret_vals[0])
 
@@ -515,8 +517,14 @@ def main() -> None:
     :return: None.
     """
 
-    epochs_len = 10
-    returns_pairs = returns_simulation_algebraic(0.3, 2, epochs_len, 10)
+    ret_gauss = returns_simulation_gaussian(0.3, 250, 1000)
+    print(ret_gauss)
+    ret_alg = returns_simulation_algebraic(0.3, 250, 1000, 10)
+    print(ret_alg)
+    pickle.dump(ret_gauss, open( 'epochs_aggregated_dist_returns_market_data_gauss_gauss_step_gauss_win_gauss_K_250.pickle', 'wb'))
+    pickle.dump(ret_gauss, open( 'epochs_aggregated_dist_returns_market_data_alg_alg_step_alg_win_alg_K_250.pickle', 'wb'))
+
+
 
 # -----------------------------------------------------------------------------
 

@@ -86,8 +86,8 @@ def epochs_sim_agg_returns_market_plot(agg_ret: pd.Series,
 
     # Plotting
     epochs_sim_tools \
-        .save_plot(figure_log, function_name, [''], '', str(epochs_len), '',
-                   sim=True)
+        .save_plot(figure_log, function_name + '_' + kind, [''], '',
+                   str(epochs_len), '', sim=True)
 
     plt.close()
     del agg_ret
