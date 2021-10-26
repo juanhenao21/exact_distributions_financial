@@ -44,9 +44,9 @@ def data_plot_generator(dates: List[List[str]], time_steps: List[str],
      a value.
     """
 
-    for idx, _ in enumerate(dates):
+    # for idx, _ in enumerate(dates):
 
-        epochs_analysis.returns_data(dates[idx], time_steps[idx])
+    #     epochs_analysis.returns_data(dates[idx], time_steps[idx])
 
     for K_value in K_values:
         for window in windows:
@@ -85,10 +85,10 @@ def main() -> None:
     dates_1m = ['2021-07-19', '2021-08-14']
     dates_other = ['1990-01-01', '2020-12-31']
 
-    dates: List[List[str]] = [dates_other]
-    time_steps: List[str] = ['1d']
-    windows: List[str] = ['10', '25', '40', '55']
-    K_values: List[str] = ['20', '50', 'all']
+    dates: List[List[str]] = [['alg', 'alg']]#[dates_1m, dates_other, dates_other, dates_other]
+    time_steps: List[str] = ['1h']#'1m', '1d', '1wk', '1mo']
+    windows: List[str] = ['10', '25', '40', '55', '500']
+    K_values: List[str] = ['all']#'20', '50']
 
     # Basic folders
     epochs_tools.start_folders()
