@@ -5,16 +5,19 @@
 \BOOKMARK [2][-]{subsection.3.2}{3.2 Non-stationarity}{section.3}% 5
 \BOOKMARK [2][-]{subsection.3.3}{3.3 Choice of amplitude in each of the epochs}{section.3}% 6
 \BOOKMARK [1][-]{section.4}{4 Returns time series simulations}{}% 7
-\BOOKMARK [2][-]{subsection.4.1}{4.1 Simulation of Gaussian ... \(check name\)}{section.4}% 8
-\BOOKMARK [3][-]{subsubsection.4.1.1}{4.1.1 Stock pairs simulation}{subsection.4.1}% 9
-\BOOKMARK [2][-]{subsection.4.2}{4.2 Simulation of algebraic ... \(check name\)}{section.4}% 10
-\BOOKMARK [1][-]{section.5}{5 Exact multivariate amplitude distributions}{}% 11
-\BOOKMARK [2][-]{subsection.5.1}{5.1 General considerations}{section.5}% 12
-\BOOKMARK [2][-]{subsection.5.2}{5.2 Four cases distributions}{section.5}% 13
-\BOOKMARK [2][-]{subsection.5.3}{5.3 Graphical representations}{section.5}% 14
-\BOOKMARK [1][-]{section.6}{6 Comparison with empirical portfolio returns}{}% 15
-\BOOKMARK [2][-]{subsection.6.1}{6.1 Response functions on trade time scale}{section.6}% 16
-\BOOKMARK [2][-]{subsection.6.2}{6.2 Response functions on physical time scale}{section.6}% 17
-\BOOKMARK [1][-]{section.7}{7 Conclusion}{}% 18
-\BOOKMARK [1][-]{section.8}{8 Author contribution statement}{}% 19
-\BOOKMARK [1][-]{appendix.A}{Appendix A S\046P 500 stocks used to compare the distributions}{}% 20
+\BOOKMARK [2][-]{subsection.4.1}{4.1 Simulation of multivariate Gaussian and algebraic distributions}{section.4}% 8
+\BOOKMARK [3][-]{subsubsection.4.1.1}{4.1.1 Multivariate Gaussian distributions}{subsection.4.1}% 9
+\BOOKMARK [3][-]{subsubsection.4.1.2}{4.1.2 Multivariate algebraic distributions}{subsection.4.1}% 10
+\BOOKMARK [2][-]{subsection.4.2}{4.2 Normalization within the epochs}{section.4}% 11
+\BOOKMARK [2][-]{subsection.4.3}{4.3 Normalization complete return time series}{section.4}% 12
+\BOOKMARK [2][-]{subsection.4.4}{4.4 Empirical results}{section.4}% 13
+\BOOKMARK [1][-]{section.5}{5 Exact multivariate amplitude distributions}{}% 14
+\BOOKMARK [2][-]{subsection.5.1}{5.1 General considerations}{section.5}% 15
+\BOOKMARK [2][-]{subsection.5.2}{5.2 Four cases distributions}{section.5}% 16
+\BOOKMARK [2][-]{subsection.5.3}{5.3 Graphical representations}{section.5}% 17
+\BOOKMARK [1][-]{section.6}{6 Comparison with empirical portfolio returns}{}% 18
+\BOOKMARK [2][-]{subsection.6.1}{6.1 Response functions on trade time scale}{section.6}% 19
+\BOOKMARK [2][-]{subsection.6.2}{6.2 Response functions on physical time scale}{section.6}% 20
+\BOOKMARK [1][-]{section.7}{7 Conclusion}{}% 21
+\BOOKMARK [1][-]{section.8}{8 Author contribution statement}{}% 22
+\BOOKMARK [1][-]{appendix.A}{Appendix A S\046P 500 stocks used to compare the distributions}{}% 23

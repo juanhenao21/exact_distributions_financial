@@ -1,20 +1,24 @@
 \section{Returns time series simulations}
 \label{sec:simulations}
 
-In Sect. \ref{subsubsec:pairs_sim} we simulate stock pairs and reproduce the
-methodology used in Sect. \ref{subsec:epochs}. We simulate the stock market
-and reproduce the methodology used in Sect. \ref{subsec:epochs} in Sect.
-\ref{subsubsec:market_sim}. We test the empirical data avoiding the use of
-local normalization in Sect. \ref{subsubsec:emp_no_rot_scale}
-
-Finally, we
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Simulation of Gaussian ... (check name)}
-\label{subsec:gaussian_sim}
+In Sect. \ref{subsec:gauss_alg_sim} we simulate returns time series following
+a multivariate Gaussian and algebraic distribution. We test the influence of
+the normalization within the epochs in the ergodicity defect in Sect.
+\ref{subsec:norm_epochs_sim} and propose a solution for this defect in Sect.
+\ref{subsec:norm_full_sim}. Finally we use empirical data to support our
+simulation findings in Sect. \ref{subsec:emp_results}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Stock pairs simulation}\label{subsubsec:pairs_sim}
+\subsection{Simulation of multivariate Gaussian and algebraic distributions}
+\label{subsec:gauss_alg_sim}
+
+In Sect. \ref{subsubsec:gauss_sim} we describe the methodology to simulate
+multivariate Gaussian distributed returns time series and in Sect.
+\ref{subsubsec:alg_sim} we describe the methodology to simulate multivariate
+algebraic distributed returns time series.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Multivariate Gaussian distributions}\label{subsubsec:gauss_sim}
 
 To simulate the returns time series, we use a method \cite{drawing_dist} for
 drawing a random vector $x$ from the $N$-dimensional multivariate Gaussian
@@ -62,6 +66,13 @@ zero, all the simulations show standard Gaussian distributions. Thus, this is
 our reference to check what is introducing the ergodicity effect in the 
 original method.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Multivariate algebraic distributions}\label{subsubsec:alg_sim}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Normalization within the epochs}
+\label{subsec:norm_epochs_sim}
+
 Now, to check the normalization within the epochs, we simulate the returns,
 normalize each epoch to mean $\mu = 0$ and $\Sigma^{1} = 1$ and finally repeat
 the procedure of rotate, scale and aggregate.
@@ -86,5 +97,9 @@ simulations. Furthermore, with large epoch windows lengths we can confirm that
 the ergodicity defect disappear, as it can be seen with $T = 100$
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Simulation of algebraic ... (check name)}
-\label{subsec:algebraic_sim}
+\subsection{Normalization complete return time series}
+\label{subsec:norm_full_sim}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Empirical results}
+\label{subsec:emp_results}
