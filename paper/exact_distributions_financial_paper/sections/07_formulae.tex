@@ -1,155 +1,11 @@
 \section{Exact multivariate amplitude distributions}
 \label{sec:exact_distributions}
 
-In Sect. \ref{subsec:key_concepts} we introduce the fundamental quantities used
-in the distribution definitions. An example of the non-stationarity in
-financial markets is shown in Sect. \ref{subsec:non_stationarity}. In Sect.
-\ref{subsec:general_considerations} we set the theoretical considerations to
-construct the distributions. In Sect.  \ref{subsec:distributions} we define the
+
+In Sect. \ref{subsec:general_considerations} we set the theoretical considerations
+to construct the distributions. In Sect.  \ref{subsec:distributions} we define the
 four distribution cases and in \ref{subsec:graphical_distributions} we show
 their graphical representation.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Key concepts}\label{subsec:key_concepts}
-
-Consider time series $S_{k} \left( t \right)$, $k = 1, 2, \ldots, K$ of stock
-prices for $K$ companies. The values $S_{k} \left( t \right)$ are taken in
-fixed time steps $\Delta t$. In general, the data contain an exponential
-increase due to the drift. Thus, to measure the correlations independently of
-this trend, it is better to use logarithmic differences instead of returns
-\begin{equation}
-    G_{k} \left( t \right) = \ln S_{k} \left( t + \Delta t \right) -
-    \ln S_{k} \left(t \right) = \ln \frac{S_{k} \left( t + \Delta t \right)}
-    {S_{k} \left(t \right)}.
-\end{equation}
-Anyway, logarithmic differences and returns almost coincide if the time steps
-$\Delta t$ are sufficiently short \cite{subtle_nature,empirical_facts}
-\begin{equation}
-    G_{k} \left(t\right) \approx r_{k} \left(t\right)
-    = \frac{S_{k} \left( t + \Delta t \right) - S_{k} \left( t \right)}
-    {S_{k} \left( t \right)}.
-\end{equation}
-The returns are well known to have distributions with heavy tails, the smaller
-$\Delta t$, the heavier
-\cite{non_stationarity_fin_guhr}. Furthermore, the sample standard deviations
-$\sigma_{k}$, referred to as volatilities, strongly fluctuate for different
-time windows of the same length $T$
-\cite{non_stationarity_fin_guhr,volatility_change}.
-
-The mean of the logarithmic differences reads \cite{exact_distributions_guhr}
-\begin{equation}
-    \left\langle G_{k} \left( t \right) \right\rangle_{T} = \frac{1}{T}
-    \sum_{t = 1}^{T} G_{k} \left( t \right).
-\end{equation}
-To compare the different $K$ companies, it is necessary to normalize the time
-series. The normalized time series are defined by
-\cite{non_stationarity_fin_guhr,exact_distributions_guhr}
-\begin{equation}
-    M_{k} \left( t \right) = \frac{G_{k} \left( t \right) - \left\langle
-    G_{k} \left( t \right) \right\rangle} {\sqrt{\left\langle G_{k}^{2}
-    \left( t \right) \right\rangle_{T} - \left\langle G_{k} \left( t \right)
-    \right\rangle^2_{T}}},
-\end{equation}
-where
-\begin{equation}
-    \sigma_{k} = \sqrt{\left\langle G_{k}^{2}
-    \left( t \right) \right\rangle_{T} - \left\langle G_{k} \left( t \right)
-    \right\rangle^2_{T}}
-\end{equation}
-is the volatility of the $k$ company in the time window of length $T$. These
-values can be viewed as the elements of a $K \times T$ rectangular matrix $M$.
-With these normalizations and rescalings, it can be measured correlations in
-such a way that all companies and all stocks are treated on equal footing.
-
-The correlation coefficient for the stocks $k$ and $l$ is defined as
-\cite{non_stationarity_fin_guhr}
-\begin{equation}
-    C_{kl} = \left\langle M_{k} \left( t \right) M_{l} \left( t \right)
-    \right\rangle_{T} = \frac{1}{T} \sum_{t=1}^{T} M_{k} \left( t \right) M_{l}
-    \left( t \right),
-\end{equation}
-which can be written as
-\begin{equation}
-    C_{kl} = \frac{\left\langle G_{k} \left( t \right) G_{l} \left( t \right)
-    \right\rangle_{T} - \left\langle G_{k} \left( t \right) \right\rangle_{T}
-    \left\langle G_{l} \left( t \right) \right\rangle_{T}}
-    {\sigma_{k} \sigma_{l}}.
-\end{equation}
-The coefficients $C_{kl}$ are the elements of a $K \times K$ square matrix $C$,
-the correlation matrix. The limiting values of these correlation coefficients
-\begin{equation}
-    C_{kl}^{\text{lim}} =
-    \left\{
-    \begin{array}{cc}
-    +1 & \text{completely correlated}  \\
-    0  & \text{completely uncorrelated}\\
-    -1 & \text{completely anticorrelated}
-    \end{array}
-    \right. .
-\end{equation}
-The time average of $C_{kl}$ can be viewed as the matrix product of the
-rectangular matrix $M$ ($K \times T$) with its transpose matrix $M^{\dagger}$
-($T \times K$), divided by $T$. Thus, the correlation matrix can be written in
-the form
-\begin{equation}
-    C = \frac{1}{T} M M^{\dagger}.
-\end{equation}
-The correlation matrix $C$ is real and symmetric. Using the correlation matrix
-$C$ is possible to define the covariance matrix
-\cite{exact_distributions_guhr,credit_risk_guhr,portfolio_distributions_guhr,asset_correlations_guhr,stochastic_cov_guhr}
-\begin{equation}
-    \Sigma = \sigma C \sigma ,
-\end{equation}
-where the diagonal matrix $\sigma$ contains respectively, the volatilities
-$\sigma_{k}$, $k = 1, \ldots, K$.
-
-From the results obtained in
-\cite{non_stationarity_fin_guhr,portfolio_distributions_guhr}, it does not make
-a difference the calculation with a covariance or a correlation matrix. Thus,
-to ease the comparison between works, we will use covariance matrices as in
-\cite{non_stationarity_fin_guhr}.
-
-
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=\columnwidth]
-    {figures/03_agg_returns_epoch.png}
-    \caption{}
-    \label{fig:agg_returns_epoch}
-\end{figure}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Non-stationarity}\label{subsec:non_stationarity}
-
-In general, in non-stationary complex systems crucial parameters or
-distributions of observables change in an erratic, unpredictable way over time.
-In financial markets, the $K \times K$ correlation matrix $C$ as a whole
-changes in time is an example of non-stationary. Fig.
-\ref{fig:correlation_matrices} shows two large correlation matrices of
-logarithmic differences of stock prices for companies in the Standard \&
-Poor's 500 (S\&P 500) stock market index ordered according to the Global
-Industry Classification Standard (GICS). The time series were measured in
-successive quarters. The stripes in these correlation matrices indicate the
-structuring of the market in industrial sectors
-\cite{state_crisis_7,non_stationarity_fin_guhr}
-
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=\columnwidth]
-    {figures/03_correlation_matrix.png}
-    \caption{Correlation matrices of $K = 421$ companies for the fourth quarter
-             of 2005 (left) and the first quarter of 2006 (right), the darker,
-             the stronger the correlation. The companies are sorted according
-             to industrial sectors.}
-    \label{fig:correlation_matrices}
-\end{figure}
-
-In Fig. \ref{fig:correlation_matrices} it can be seen that the matrices look
-different for the successive quarters, because the business relations between
-the companies and the market expectations of the traders change in time.
-Despite the difference, the coarse structure remains similar, indicating some
-stability of the industrial sectors.
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{General considerations}\label{subsec:general_considerations}
@@ -259,8 +115,8 @@ the stronger peaked is the distribution and heavier are the tails.
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=\columnwidth]
-    {figures/03_distributions_comparison.png}
+    \includegraphics[width=0.6\columnwidth]
+    {figures/07_distributions_comparison.png}
     \caption{Probability densities $\left\langle p \right\rangle_{YY'}^{\left(k\right)}$,
              in the Markovian case versus the rotated amplitudes $\tilde{r}$,
              normalized to unit standard deviation. The four cases Gaussian-Gaussian,

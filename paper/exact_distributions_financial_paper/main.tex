@@ -1,29 +1,31 @@
-\documentclass[epj]{svjour}
+%\documentclass[final,3p,times,twocolumn]{elsarticle}
+\documentclass[final,3p,times,onecolumn]{elsarticle}
+\journal{To be define}
 
-\input{setup/preamble.tex}
-\input{setup/hyphenations.tex}
+\input{setup/preamble}
 
 \begin{document}
 
-\input{sections/01_title.tex}
-\input{sections/02_abstract.tex}
+\input{sections/01_title}
+\input{sections/02_abstract}
 
 \maketitle
 
-\input{sections/03_introduction.tex}
-\input{sections/04_data.tex}
-\input{sections/05_formulae.tex}
-\input{sections/06_empirical_results.tex}
+\input{sections/03_introduction}
+\input{sections/04_data}
+\input{sections/05_epochs}
+\input{sections/06_simulations}
+\input{sections/07_formulae}
+\input{sections/08_empirical_results}
 
-\input{sections/07_conclusion.tex}
+\input{sections/09_conclusions}
 
-\input{sections/08_paper_contributions.tex}
+\input{sections/10_paper_contributions}
 
-\begin{appendices}
-  \input{sections/09_appendix_A.tex}
-\end{appendices}
+\appendix
+\input{sections/11_appendix}
 
-\bibliographystyle{unsrt}
+\bibliographystyle{elsarticle-num}
 \bibliography{bib}
 
 \end{document}

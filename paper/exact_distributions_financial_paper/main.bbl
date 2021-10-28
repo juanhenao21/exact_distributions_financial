@@ -1,230 +1,336 @@
 \begin{thebibliography}{10}
+\expandafter\ifx\csname url\endcsname\relax
+  \def\url#1{\texttt{#1}}\fi
+\expandafter\ifx\csname urlprefix\endcsname\relax\def\urlprefix{URL }\fi
+\expandafter\ifx\csname href\endcsname\relax
+  \def\href#1#2{#2} \def\path#1{#1}\fi
 
 \bibitem{non_stat_1}
-R~K~P Zia and Per~Arne Rikvold.
-\newblock Fluctuations and correlations in an individual-based model of
-  biological coevolution.
-\newblock {\em Journal of Physics A: Mathematical and General},
-  37(19):5135--5155, apr 2004.
+R.~K.~P. Zia, P.~A. Rikvold,
+  \href{https://doi.org/10.1088/0305-4470/37/19/003}{Fluctuations and
+  correlations in an individual-based model of biological coevolution}, Journal
+  of Physics A: Mathematical and General 37~(19) (2004) 5135--5155.
+\newblock \href {https://doi.org/10.1088/0305-4470/37/19/003}
+  {\path{doi:10.1088/0305-4470/37/19/003}}.
+\newline\urlprefix\url{https://doi.org/10.1088/0305-4470/37/19/003}
 
 \bibitem{non_stat_2}
-R~K~P Zia and B~Schmittmann.
-\newblock A possible classification of nonequilibrium steady states.
-\newblock {\em Journal of Physics A: Mathematical and General},
-  39(24):L407--L413, may 2006.
+R.~K.~P. Zia, B.~Schmittmann,
+  \href{https://doi.org/10.1088/0305-4470/39/24/l04}{A possible classification
+  of nonequilibrium steady states}, Journal of Physics A: Mathematical and
+  General 39~(24) (2006) L407--L413.
+\newblock \href {https://doi.org/10.1088/0305-4470/39/24/l04}
+  {\path{doi:10.1088/0305-4470/39/24/l04}}.
+\newline\urlprefix\url{https://doi.org/10.1088/0305-4470/39/24/l04}
 
 \bibitem{comp_sys_1}
-J.~B. Gao.
-\newblock Recurrence time statistics for chaotic systems and their
-  applications.
-\newblock {\em Phys. Rev. Lett.}, 83:3178--3181, Oct 1999.
+J.~B. Gao,
+  \href{https://link.aps.org/doi/10.1103/PhysRevLett.83.3178}{Recurrence time
+  statistics for chaotic systems and their applications}, Phys. Rev. Lett. 83
+  (1999) 3178--3181.
+\newblock \href {https://doi.org/10.1103/PhysRevLett.83.3178}
+  {\path{doi:10.1103/PhysRevLett.83.3178}}.
+\newline\urlprefix\url{https://link.aps.org/doi/10.1103/PhysRevLett.83.3178}
 
 \bibitem{comp_sys_2}
-Rainer Hegger, Holger Kantz, Lorenzo Matassini, and Thomas Schreiber.
-\newblock Coping with nonstationarity by overembedding.
-\newblock {\em Phys. Rev. Lett.}, 84:4092--4095, May 2000.
+R.~Hegger, H.~Kantz, L.~Matassini, T.~Schreiber,
+  \href{https://link.aps.org/doi/10.1103/PhysRevLett.84.4092}{Coping with
+  nonstationarity by overembedding}, Phys. Rev. Lett. 84 (2000) 4092--4095.
+\newblock \href {https://doi.org/10.1103/PhysRevLett.84.4092}
+  {\path{doi:10.1103/PhysRevLett.84.4092}}.
+\newline\urlprefix\url{https://link.aps.org/doi/10.1103/PhysRevLett.84.4092}
 
 \bibitem{comp_sys_3}
-Pedro Bernaola-Galv\'an, Plamen~Ch. Ivanov, Lu\'{\i}s A.~Nunes Amaral, and
-  H.~Eugene Stanley.
-\newblock Scale invariance in the nonstationarity of human heart rate.
-\newblock {\em Phys. Rev. Lett.}, 87:168105, Oct 2001.
+P.~Bernaola-Galv\'an, P.~C. Ivanov, L.~A.~N. Amaral, H.~E. Stanley,
+  \href{https://link.aps.org/doi/10.1103/PhysRevLett.87.168105}{Scale
+  invariance in the nonstationarity of human heart rate}, Phys. Rev. Lett. 87
+  (2001) 168105.
+\newblock \href {https://doi.org/10.1103/PhysRevLett.87.168105}
+  {\path{doi:10.1103/PhysRevLett.87.168105}}.
+\newline\urlprefix\url{https://link.aps.org/doi/10.1103/PhysRevLett.87.168105}
 
 \bibitem{comp_sys_4}
-Christoph Rieke, Karsten Sternickel, Ralph~G. Andrzejak, Christian~E. Elger,
-  Peter David, and Klaus Lehnertz.
-\newblock Measuring nonstationarity by analyzing the loss of recurrence in
-  dynamical systems.
-\newblock {\em Phys. Rev. Lett.}, 88:244102, May 2002.
+C.~Rieke, K.~Sternickel, R.~G. Andrzejak, C.~E. Elger, P.~David, K.~Lehnertz,
+  \href{https://link.aps.org/doi/10.1103/PhysRevLett.88.244102}{Measuring
+  nonstationarity by analyzing the loss of recurrence in dynamical systems},
+  Phys. Rev. Lett. 88 (2002) 244102.
+\newblock \href {https://doi.org/10.1103/PhysRevLett.88.244102}
+  {\path{doi:10.1103/PhysRevLett.88.244102}}.
+\newline\urlprefix\url{https://link.aps.org/doi/10.1103/PhysRevLett.88.244102}
 
 \bibitem{state_crisis_1}
-Geert Bekaert and Campbell~R. Harvey.
-\newblock Time-varying world market integration.
-\newblock {\em The Journal of Finance}, 50(2):403--444, 1995.
+G.~Bekaert, C.~R. Harvey,
+  \href{http://www.jstor.org/stable/2329414}{Time-varying world market
+  integration}, The Journal of Finance 50~(2) (1995) 403--444.
+\newline\urlprefix\url{http://www.jstor.org/stable/2329414}
 
 \bibitem{state_crisis_2}
-François Longin and Bruno Solnik.
-\newblock Is the correlation in international equity returns constant:
-  1960–1990?
-\newblock {\em Journal of International Money and Finance}, 14(1):3--26, 1995.
+F.~Longin, B.~Solnik,
+  \href{https://www.sciencedirect.com/science/article/pii/026156069400001H}{Is
+  the correlation in international equity returns constant: 1960–1990?},
+  Journal of International Money and Finance 14~(1) (1995) 3--26.
+\newblock \href {https://doi.org/https://doi.org/10.1016/0261-5606(94)00001-H}
+  {\path{doi:https://doi.org/10.1016/0261-5606(94)00001-H}}.
+\newline\urlprefix\url{https://www.sciencedirect.com/science/article/pii/026156069400001H}
 
 \bibitem{state_crisis_3}
-J.-P. Onnela, A.~Chakraborti, K.~Kaski, J.~Kert\'esz, and A.~Kanto.
-\newblock Dynamics of market correlations: Taxonomy and portfolio analysis.
-\newblock {\em Phys. Rev. E}, 68:056110, Nov 2003.
+J.-P. Onnela, A.~Chakraborti, K.~Kaski, J.~Kert\'esz, A.~Kanto,
+  \href{https://link.aps.org/doi/10.1103/PhysRevE.68.056110}{Dynamics of market
+  correlations: Taxonomy and portfolio analysis}, Phys. Rev. E 68 (2003)
+  056110.
+\newblock \href {https://doi.org/10.1103/PhysRevE.68.056110}
+  {\path{doi:10.1103/PhysRevE.68.056110}}.
+\newline\urlprefix\url{https://link.aps.org/doi/10.1103/PhysRevE.68.056110}
 
 \bibitem{state_crisis_4}
-Yiting Zhang, Gladys Hui~Ting Lee, Jian~Cheng Wong, Jun~Liang Kok, Manamohan
-  Prusty, and Siew~Ann Cheong.
-\newblock Will the us economy recover in 2010? a minimal spanning tree study.
-\newblock {\em Physica A: Statistical Mechanics and its Applications},
-  390(11):2020--2050, 2011.
+Y.~Zhang, G.~H.~T. Lee, J.~C. Wong, J.~L. Kok, M.~Prusty, S.~A. Cheong,
+  \href{https://www.sciencedirect.com/science/article/pii/S0378437111000847}{Will
+  the us economy recover in 2010? a minimal spanning tree study}, Physica A:
+  Statistical Mechanics and its Applications 390~(11) (2011) 2020--2050.
+\newblock \href {https://doi.org/https://doi.org/10.1016/j.physa.2011.01.020}
+  {\path{doi:https://doi.org/10.1016/j.physa.2011.01.020}}.
+\newline\urlprefix\url{https://www.sciencedirect.com/science/article/pii/S0378437111000847}
 
 \bibitem{state_crisis_5}
-Dong-Ming Song, Michele Tumminello, Wei-Xing Zhou, and Rosario~N. Mantegna.
-\newblock Evolution of worldwide stock markets, correlation structure, and
-  correlation-based graphs.
-\newblock {\em Phys. Rev. E}, 84:026108, Aug 2011.
+D.-M. Song, M.~Tumminello, W.-X. Zhou, R.~N. Mantegna,
+  \href{https://link.aps.org/doi/10.1103/PhysRevE.84.026108}{Evolution of
+  worldwide stock markets, correlation structure, and correlation-based
+  graphs}, Phys. Rev. E 84 (2011) 026108.
+\newblock \href {https://doi.org/10.1103/PhysRevE.84.026108}
+  {\path{doi:10.1103/PhysRevE.84.026108}}.
+\newline\urlprefix\url{https://link.aps.org/doi/10.1103/PhysRevE.84.026108}
 
 \bibitem{state_crisis_6}
-Leonidas Sandoval and Italo De~Paula Franca.
-\newblock Correlation of financial markets in times of crisis.
-\newblock {\em Physica A: Statistical Mechanics and its Applications},
-  391(1):187--208, 2012.
+L.~Sandoval, I.~D.~P. Franca,
+  \href{https://www.sciencedirect.com/science/article/pii/S037843711100570X}{Correlation
+  of financial markets in times of crisis}, Physica A: Statistical Mechanics
+  and its Applications 391~(1) (2012) 187--208.
+\newblock \href {https://doi.org/https://doi.org/10.1016/j.physa.2011.07.023}
+  {\path{doi:https://doi.org/10.1016/j.physa.2011.07.023}}.
+\newline\urlprefix\url{https://www.sciencedirect.com/science/article/pii/S037843711100570X}
 
 \bibitem{state_crisis_7}
-Michael~C. Münnix, Takashi Shimada, Rudi Schäfer, Francois Leyvraz, Thomas~H.
-  Selgman, Thomas Guhr, and H.~Eugene Stanley.
-\newblock Identifying states of a financial market.
-\newblock {\em Scientific Reports}, 2, 2012.
+M.~C. Münnix, T.~Shimada, R.~Schäfer, F.~Leyvraz, T.~H. Selgman, T.~Guhr,
+  H.~E. Stanley, \href{https://doi.org/10.1038/srep00644}{Identifying states of
+  a financial market}, Scientific Reports 2 (2012).
+\newblock \href {https://doi.org/10.1038/srep00644}
+  {\path{doi:10.1038/srep00644}}.
+\newline\urlprefix\url{https://doi.org/10.1038/srep00644}
 
 \bibitem{non_stationarity_fin_guhr}
-Thilo~A. Schmitt, Desislava Chetalova, Rudi Schäfer, and Thomas Guhr.
-\newblock Non-stationarity in financial time series: Generic features and tail
-  behavior.
-\newblock {\em {EPL} (Europhysics Letters)}, 103(5):58003, sep 2013.
+T.~A. Schmitt, D.~Chetalova, R.~Schäfer, T.~Guhr,
+  \href{https://doi.org/10.1209/0295-5075/103/58003}{Non-stationarity in
+  financial time series: Generic features and tail behavior}, {EPL}
+  (Europhysics Letters) 103~(5) (2013) 58003.
+\newblock \href {https://doi.org/10.1209/0295-5075/103/58003}
+  {\path{doi:10.1209/0295-5075/103/58003}}.
+\newline\urlprefix\url{https://doi.org/10.1209/0295-5075/103/58003}
 
 \bibitem{exact_distributions_guhr}
-Thomas Guhr and Andreas Schell.
-\newblock Exact multivariate amplitude distributions for non-stationary
-  gaussian or algebraic fluctuations of covariances or correlations.
-\newblock {\em Journal of Physics A: Mathematical and Theoretical},
-  54(12):125002, mar 2021.
+T.~Guhr, A.~Schell, \href{https://doi.org/10.1088/1751-8121/abe3c8}{Exact
+  multivariate amplitude distributions for non-stationary gaussian or algebraic
+  fluctuations of covariances or correlations}, Journal of Physics A:
+  Mathematical and Theoretical 54~(12) (2021) 125002.
+\newblock \href {https://doi.org/10.1088/1751-8121/abe3c8}
+  {\path{doi:10.1088/1751-8121/abe3c8}}.
+\newline\urlprefix\url{https://doi.org/10.1088/1751-8121/abe3c8}
 
 \bibitem{random_matrix_1}
-Thomas Guhr, Axel Müller–Groeling, and Hans~A. Weidenmüller.
-\newblock Random-matrix theories in quantum physics: common concepts.
-\newblock {\em Physics Reports}, 299(4):189--425, 1998.
+T.~Guhr, A.~Müller–Groeling, H.~A. Weidenmüller,
+  \href{https://www.sciencedirect.com/science/article/pii/S0370157397000884}{Random-matrix
+  theories in quantum physics: common concepts}, Physics Reports 299~(4) (1998)
+  189--425.
+\newblock \href {https://doi.org/https://doi.org/10.1016/S0370-1573(97)00088-4}
+  {\path{doi:https://doi.org/10.1016/S0370-1573(97)00088-4}}.
+\newline\urlprefix\url{https://www.sciencedirect.com/science/article/pii/S0370157397000884}
 
 \bibitem{random_matrix_2}
-Madan~Lal Mehta.
-\newblock {\em Random Matrices}.
-\newblock Elsevier, 2004.
+M.~L. Mehta, Random Matrices, Elsevier, 2004.
 
 \bibitem{wishart}
-John Wishart.
-\newblock The generalised product moment distribution in samples from a normal
-  multivariate population.
-\newblock {\em Biometrika}, 20A(1/2):32--52, 1928.
+J.~Wishart, \href{http://www.jstor.org/stable/2331939}{The generalised product
+  moment distribution in samples from a normal multivariate population},
+  Biometrika 20A~(1/2) (1928) 32--52.
+\newline\urlprefix\url{http://www.jstor.org/stable/2331939}
 
 \bibitem{matrix_fin_01}
-Jean-Philippe Bouchaud and Marc Potters.
-\newblock {\em Thery of Financial Risks, from statistical physics to risk
-  management}.
-\newblock Cambridge University Press, 2000.
+J.-P. Bouchaud, M.~Potters, Thery of Financial Risks, from statistical physics
+  to risk management, Cambridge University Press, 2000.
 
 \bibitem{matrix_fin_02}
-Laurent Laloux, Pierre Cizeau, Jean-Philippe Bouchaud, and Marc Potters.
-\newblock Noise dressing of financial correlation matrices.
-\newblock {\em Phys. Rev. Lett.}, 83:1467--1470, Aug 1999.
+L.~Laloux, P.~Cizeau, J.-P. Bouchaud, M.~Potters,
+  \href{https://link.aps.org/doi/10.1103/PhysRevLett.83.1467}{Noise dressing of
+  financial correlation matrices}, Phys. Rev. Lett. 83 (1999) 1467--1470.
+\newblock \href {https://doi.org/10.1103/PhysRevLett.83.1467}
+  {\path{doi:10.1103/PhysRevLett.83.1467}}.
+\newline\urlprefix\url{https://link.aps.org/doi/10.1103/PhysRevLett.83.1467}
 
 \bibitem{matrix_fin_03}
-Laurent Laloux, Pierre Cizeau, Marc Potters, and Jean-Philippe Bouchaud.
-\newblock Random matrix theory and financial correlations.
-\newblock {\em International Journal of Theoretical and Applied Finance},
-  03(03):391--397, 2000.
+L.~Laloux, P.~Cizeau, M.~Potters, J.-P. Bouchaud,
+  \href{https://doi.org/10.1142/S0219024900000255}{Random matrix theory and
+  financial correlations}, International Journal of Theoretical and Applied
+  Finance 03~(03) (2000) 391--397.
+\newblock \href
+  {http://arxiv.org/abs/https://doi.org/10.1142/S0219024900000255}
+  {\path{arXiv:https://doi.org/10.1142/S0219024900000255}}, \href
+  {https://doi.org/10.1142/S0219024900000255}
+  {\path{doi:10.1142/S0219024900000255}}.
+\newline\urlprefix\url{https://doi.org/10.1142/S0219024900000255}
 
 \bibitem{matrix_fin_04}
-Vasiliki Plerou, Parameswaran Gopikrishnan, Bernd Rosenow, Lu\'{\i}s A.~Nunes
-  Amaral, and H.~Eugene Stanley.
-\newblock Universal and nonuniversal properties of cross correlations in
-  financial time series.
-\newblock {\em Phys. Rev. Lett.}, 83:1471--1474, Aug 1999.
+V.~Plerou, P.~Gopikrishnan, B.~Rosenow, L.~A.~N. Amaral, H.~E. Stanley,
+  \href{https://link.aps.org/doi/10.1103/PhysRevLett.83.1471}{Universal and
+  nonuniversal properties of cross correlations in financial time series},
+  Phys. Rev. Lett. 83 (1999) 1471--1474.
+\newblock \href {https://doi.org/10.1103/PhysRevLett.83.1471}
+  {\path{doi:10.1103/PhysRevLett.83.1471}}.
+\newline\urlprefix\url{https://link.aps.org/doi/10.1103/PhysRevLett.83.1471}
 
 \bibitem{matrix_fin_05}
-Vasiliki Plerou, Parameswaran Gopikrishnan, Bernd Rosenow, Lu\'{\i}s A.~Nunes
-  Amaral, Thomas Guhr, and H.~Eugene Stanley.
-\newblock Random matrix approach to cross correlations in financial data.
-\newblock {\em Phys. Rev. E}, 65:066126, Jun 2002.
+V.~Plerou, P.~Gopikrishnan, B.~Rosenow, L.~A.~N. Amaral, T.~Guhr, H.~E.
+  Stanley, \href{https://link.aps.org/doi/10.1103/PhysRevE.65.066126}{Random
+  matrix approach to cross correlations in financial data}, Phys. Rev. E 65
+  (2002) 066126.
+\newblock \href {https://doi.org/10.1103/PhysRevE.65.066126}
+  {\path{doi:10.1103/PhysRevE.65.066126}}.
+\newline\urlprefix\url{https://link.aps.org/doi/10.1103/PhysRevE.65.066126}
 
 \bibitem{matrix_fin_06}
-Szilárd Pafka and Imre Kondor.
-\newblock Estimated correlation matrices and portfolio optimization.
-\newblock {\em Physica A: Statistical Mechanics and its Applications},
-  343:623--634, 2004.
+S.~Pafka, I.~Kondor,
+  \href{https://www.sciencedirect.com/science/article/pii/S0378437104007447}{Estimated
+  correlation matrices and portfolio optimization}, Physica A: Statistical
+  Mechanics and its Applications 343 (2004) 623--634.
+\newblock \href {https://doi.org/https://doi.org/10.1016/j.physa.2004.05.079}
+  {\path{doi:https://doi.org/10.1016/j.physa.2004.05.079}}.
+\newline\urlprefix\url{https://www.sciencedirect.com/science/article/pii/S0378437104007447}
 
 \bibitem{matrix_fin_07}
-M.~Potters, J.-P. Bouchaud, and L.~Laloux.
-\newblock Financial applications of random matrix theory: Old laces and new
-  pieces.
-\newblock {\em Acta Physica Polonica Series B}, B35:2767--2784, 2005.
+M.~Potters, J.-P. Bouchaud, L.~Laloux,
+  \href{http://inis.iaea.org/search/search.aspx?orig_q=RN:36100087}{Financial
+  applications of random matrix theory: Old laces and new pieces}, Acta Physica
+  Polonica Series B B35 (2005) 2767--2784.
+\newline\urlprefix\url{http://inis.iaea.org/search/search.aspx?orig_q=RN:36100087}
 
 \bibitem{matrix_fin_08}
-S.~Drozdz, J.~Kwapien, and P.~Oswiecimka.
-\newblock Empirics versus rmt in financial cross-correlations.
-\newblock {\em Acta Physica Polonica Series B}, B39:4027--4039, 2008.
+S.~Drozdz, J.~Kwapien, P.~Oswiecimka,
+  \href{http://inis.iaea.org/search/search.aspx?orig_q=RN:39016403}{Empirics
+  versus rmt in financial cross-correlations}, Acta Physica Polonica Series B
+  B39 (2008) 4027--4039.
+\newline\urlprefix\url{http://inis.iaea.org/search/search.aspx?orig_q=RN:39016403}
 
 \bibitem{matrix_fin_09}
-J.~Kwapień, S.~Drożdż, and P.~Oświecimka.
-\newblock The bulk of the stock market correlation matrix is not pure noise.
-\newblock {\em Physica A: Statistical Mechanics and its Applications},
-  359:589--606, 2006.
+J.~Kwapień, S.~Drożdż, P.~Oświecimka,
+  \href{https://www.sciencedirect.com/science/article/pii/S0378437105005716}{The
+  bulk of the stock market correlation matrix is not pure noise}, Physica A:
+  Statistical Mechanics and its Applications 359 (2006) 589--606.
+\newblock \href {https://doi.org/https://doi.org/10.1016/j.physa.2005.05.090}
+  {\path{doi:https://doi.org/10.1016/j.physa.2005.05.090}}.
+\newline\urlprefix\url{https://www.sciencedirect.com/science/article/pii/S0378437105005716}
 
 \bibitem{matrix_fin_10}
-G.~Biroli and J.-P. Bouchaud~M. Potters.
-\newblock The student ensemble of correlation matrices: Eigenvalue spectrum and
-  and kullback-leibler entropy.
-\newblock {\em Acta Physica Polonica Series B}, B39:4009--4026, 2008.
+G.~Biroli, J.-P. B.~M. Potters,
+  \href{http://inis.iaea.org/search/search.aspx?orig_q=RN:39016402}{The student
+  ensemble of correlation matrices: Eigenvalue spectrum and and
+  kullback-leibler entropy}, Acta Physica Polonica Series B B39 (2008)
+  4009--4026.
+\newline\urlprefix\url{http://inis.iaea.org/search/search.aspx?orig_q=RN:39016402}
 
 \bibitem{matrix_fin_11}
-Zdzisław Burda, Jerzy Jurkiewicz, Maciej~A. Nowak, Gabor Papp, and Ismail
-  Zahed.
-\newblock Free lévy matrices and financial correlations.
-\newblock {\em Physica A: Statistical Mechanics and its Applications},
-  343:694--700, 2004.
+Z.~Burda, J.~Jurkiewicz, M.~A. Nowak, G.~Papp, I.~Zahed,
+  \href{https://www.sciencedirect.com/science/article/pii/S0378437104007186}{Free
+  lévy matrices and financial correlations}, Physica A: Statistical Mechanics
+  and its Applications 343 (2004) 694--700.
+\newblock \href {https://doi.org/https://doi.org/10.1016/j.physa.2004.05.049}
+  {\path{doi:https://doi.org/10.1016/j.physa.2004.05.049}}.
+\newline\urlprefix\url{https://www.sciencedirect.com/science/article/pii/S0378437104007186}
 
 \bibitem{matrix_fin_12}
-G.~Akemann and P.~Vivo.
-\newblock Power law deformation of wishart-laguerre ensembles of random
-  matrices.
-\newblock {\em J. Stat. Mech.}, 0809:P09002, 2008.
+G.~Akemann, P.~Vivo, Power law deformation of wishart-laguerre ensembles of
+  random matrices, J. Stat. Mech. 0809 (2008) P09002.
+\newblock \href {http://arxiv.org/abs/0806.1861} {\path{arXiv:0806.1861}},
+  \href {https://doi.org/10.1088/1742-5468/2008/09/P09002}
+  {\path{doi:10.1088/1742-5468/2008/09/P09002}}.
 
 \bibitem{matrix_fin_13}
-Zdzisław Burda, Andrzej Jarosz, Maciej~A. Nowak, Jerzy Jurkiewicz, Gábor
-  Papp, and Ismail Zahed.
-\newblock Applying free random variables to random matrix analysis of financial
-  data. part i: The gaussian case.
-\newblock {\em Quantitative Finance}, 11(7):1103--1124, 2011.
+Z.~Burda, A.~Jarosz, M.~A. Nowak, J.~Jurkiewicz, G.~Papp, I.~Zahed,
+  \href{https://doi.org/10.1080/14697688.2010.484025}{Applying free random
+  variables to random matrix analysis of financial data. part i: The gaussian
+  case}, Quantitative Finance 11~(7) (2011) 1103--1124.
+\newblock \href
+  {http://arxiv.org/abs/https://doi.org/10.1080/14697688.2010.484025}
+  {\path{arXiv:https://doi.org/10.1080/14697688.2010.484025}}, \href
+  {https://doi.org/10.1080/14697688.2010.484025}
+  {\path{doi:10.1080/14697688.2010.484025}}.
+\newline\urlprefix\url{https://doi.org/10.1080/14697688.2010.484025}
 
 \bibitem{subtle_nature}
-Jean-Philippe Bouchaud.
-\newblock The subtle nature of financial random walks.
-\newblock {\em Chaos: An Interdisciplinary Journal of Nonlinear Science},
-  15(2):026104, 2005.
+J.-P. Bouchaud, \href{https://doi.org/10.1063/1.1889265}{The subtle nature of
+  financial random walks}, Chaos: An Interdisciplinary Journal of Nonlinear
+  Science 15~(2) (2005) 026104.
+\newblock \href {http://arxiv.org/abs/https://doi.org/10.1063/1.1889265}
+  {\path{arXiv:https://doi.org/10.1063/1.1889265}}, \href
+  {https://doi.org/10.1063/1.1889265} {\path{doi:10.1063/1.1889265}}.
+\newline\urlprefix\url{https://doi.org/10.1063/1.1889265}
 
 \bibitem{empirical_facts}
-Anirban Chakraborti, Ioane Toke, Marco Patriarca, and Frédéric Abergel.
-\newblock Econophysics: Empirical facts and agent-based models.
-\newblock {\em arXiv.org, Quantitative Finance Papers}, 09 2009.
+A.~Chakraborti, I.~Toke, M.~Patriarca, F.~Abergel, Econophysics: Empirical
+  facts and agent-based models, arXiv.org, Quantitative Finance Papers (09
+  2009).
 
 \bibitem{volatility_change}
-William~G. Schwert.
-\newblock Why does stock market volatility change over time?
-\newblock {\em The Journal of Finance}, 44(5):1115--1153.
+W.~G. Schwert, Why does stock market volatility change over time?, The Journal
+  of Finance 44~(5) (1989) 1115--1153.
+\newblock \href
+  {https://doi.org/https://doi.org/10.1111/j.1540-6261.1989.tb02647.x}
+  {\path{doi:https://doi.org/10.1111/j.1540-6261.1989.tb02647.x}}.
 
 \bibitem{credit_risk_guhr}
-Thilo~A. Schmitt, Desislava Chetalova, Rudi Schäfer, and Thomas Guhr.
-\newblock Credit risk and the instability of the financial system: An ensemble
-  approach.
-\newblock {\em {EPL} (Europhysics Letters)}, 105(3):38004, feb 2014.
+T.~A. Schmitt, D.~Chetalova, R.~Schäfer, T.~Guhr,
+  \href{https://doi.org/10.1209/0295-5075/105/38004}{Credit risk and the
+  instability of the financial system: An ensemble approach}, {EPL}
+  (Europhysics Letters) 105~(3) (2014) 38004.
+\newblock \href {https://doi.org/10.1209/0295-5075/105/38004}
+  {\path{doi:10.1209/0295-5075/105/38004}}.
+\newline\urlprefix\url{https://doi.org/10.1209/0295-5075/105/38004}
 
 \bibitem{portfolio_distributions_guhr}
-Desislava Chetalova, Thilo~A. Schmitt, Rudi Schäfer, and Thomas Guhr.
-\newblock Portfolio return distributions: Sample statistics with stochastic
-  correlations.
-\newblock {\em International Journal of Theoretical and Applied Finance},
-  18(02):1550012, 2015.
+D.~Chetalova, T.~A. Schmitt, R.~Schäfer, T.~Guhr,
+  \href{https://doi.org/10.1142/S0219024915500120}{Portfolio return
+  distributions: Sample statistics with stochastic correlations}, International
+  Journal of Theoretical and Applied Finance 18~(02) (2015) 1550012.
+\newblock \href
+  {http://arxiv.org/abs/https://doi.org/10.1142/S0219024915500120}
+  {\path{arXiv:https://doi.org/10.1142/S0219024915500120}}, \href
+  {https://doi.org/10.1142/S0219024915500120}
+  {\path{doi:10.1142/S0219024915500120}}.
+\newline\urlprefix\url{https://doi.org/10.1142/S0219024915500120}
 
 \bibitem{asset_correlations_guhr}
-Thilo Schmitt, Rudi Schäfer, and Thomas Guhr.
-\newblock Credit risk: Taking fluctuating asset correlations into account.
-\newblock {\em Journal of Credit Risk}, 11(3), 2015.
+T.~Schmitt, R.~Schäfer, T.~Guhr,
+  \href{https://ssrn.com/abstract=2795524}{Credit risk: Taking fluctuating
+  asset correlations into account}, Journal of Credit Risk 11~(3) (2015).
+\newline\urlprefix\url{https://ssrn.com/abstract=2795524}
 
 \bibitem{stochastic_cov_guhr}
-Frederik Meudt, Martin Theissen, Rudi Schäfer, and Thomas Guhr.
-\newblock Constructing analytically tractable ensembles of stochastic
-  covariances with an application to financial data.
-\newblock {\em Journal of Statistical Mechanics: Theory and Experiment},
-  2015(11):P11025, nov 2015.
+F.~Meudt, M.~Theissen, R.~Schäfer, T.~Guhr,
+  \href{https://doi.org/10.1088/1742-5468/2015/11/p11025}{Constructing
+  analytically tractable ensembles of stochastic covariances with an
+  application to financial data}, Journal of Statistical Mechanics: Theory and
+  Experiment 2015~(11) (2015) P11025.
+\newblock \href {https://doi.org/10.1088/1742-5468/2015/11/p11025}
+  {\path{doi:10.1088/1742-5468/2015/11/p11025}}.
+\newline\urlprefix\url{https://doi.org/10.1088/1742-5468/2015/11/p11025}
+
+\bibitem{local_normalization}
+R.~Schäfer, T.~Guhr, Local normalization: Uncovering correlations in
+  non-stationary financial time series, Physica A-statistical Mechanics and Its
+  Applications 389 (2010) 3856--3865.
+\newblock \href {https://doi.org/10.1016/j.physa.2010.05.030}
+  {\path{doi:10.1016/j.physa.2010.05.030}}.
+
+\bibitem{drawing_dist}
+J.~E. Gentle, Computational Statistics, Springer-Verlag New York, 2009.
+\newblock \href {https://doi.org/10.1007/978-0-387-98144-4}
+  {\path{doi:10.1007/978-0-387-98144-4}}.
 
 \end{thebibliography}

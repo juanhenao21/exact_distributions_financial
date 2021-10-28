@@ -1,48 +1,46 @@
 This is BibTeX, Version 0.99d (TeX Live 2017/Debian)
 Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: main.aux
-The style file: unsrt.bst
+The style file: elsarticle-num.bst
 Database file #1: bib.bib
-Warning--empty year in volatility_change
-You've used 38 entries,
-            1791 wiz_defined-function locations,
-            676 strings with 9994 characters,
-and the built_in function-call counts, 9070 in all, are:
-= -- 769
-> -- 449
+You've used 40 entries,
+            2952 wiz_defined-function locations,
+            975 strings with 14463 characters,
+and the built_in function-call counts, 13764 in all, are:
+= -- 1382
+> -- 427
 < -- 0
-+ -- 164
-- -- 126
-* -- 749
-:= -- 1497
-add.period$ -- 114
-call.type$ -- 38
-change.case$ -- 36
++ -- 169
+- -- 129
+* -- 1278
+:= -- 1927
+add.period$ -- 71
+call.type$ -- 40
+change.case$ -- 37
 chr.to.int$ -- 0
-cite$ -- 39
-duplicate$ -- 341
-empty$ -- 864
-format.name$ -- 126
-if$ -- 1955
+cite$ -- 40
+duplicate$ -- 380
+empty$ -- 1501
+format.name$ -- 163
+if$ -- 3502
 int.to.chr$ -- 0
-int.to.str$ -- 38
-missing$ -- 40
-newline$ -- 193
-num.names$ -- 38
-pop$ -- 53
+int.to.str$ -- 40
+missing$ -- 43
+newline$ -- 192
+num.names$ -- 40
+pop$ -- 214
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 123
+skip$ -- 726
 stack$ -- 0
-substring$ -- 743
-swap$ -- 38
+substring$ -- 770
+swap$ -- 142
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
-warning$ -- 1
-while$ -- 79
-width$ -- 40
-write$ -- 416
-(There was 1 warning)
+warning$ -- 0
+while$ -- 82
+width$ -- 42
+write$ -- 426
