@@ -23,8 +23,8 @@ algebraic distributed returns time series.
 To simulate the returns time series, we use a method \cite{drawing_dist} for
 drawing a random vector $x$ from the $N$-dimensional multivariate Gaussian
 distribution with mean vector $\mu$ and covariance matrix $\Sigma$. First, we
-create a correlation matrix $\Sigma$ with $c = 1$ on its diagonal and $c = 0.3$
-on its non-diagonal entries. Then, we compute the eigenvalues and eigenvectors
+create a correlation matrix $C$ with $c = 1$ on its diagonal and $c = 0.3$ on
+its non-diagonal entries. Then, we compute the eigenvalues and eigenvectors
 of the correlation matrix, such that $\Sigma = U \Lambda U^{-1}$. We get a $z$
 vector whose components are drawn from a independent standard Gaussian
 distribution. Finally we obtain the returns with the desired distribution as
