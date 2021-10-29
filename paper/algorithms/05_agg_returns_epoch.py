@@ -59,18 +59,18 @@ def epochs_gaussian_agg_dist_returns_market_plot(dates: List[List[str]],
 
         markers: List[str] = ['o', '^', 's', 'P', 'x']
 
-        for time_step, date, marker in zip(time_steps, dates, markers):
+        # for time_step, date, marker in zip(time_steps, dates, markers):
             # Load data
-            agg: pd.Series = pickle.load(open(
-                '../../project/data/epochs/epochs_aggregated_dist_returns'
-                + f'_market_data_short_{date[0]}_{date[1]}_step_{time_step}'
-                + f'_win_{window}_K_{K_value}.pickle', 'rb'))
+            # agg: pd.Series = pickle.load(open(
+            #     '../../project/data/epochs/epochs_aggregated_dist_returns'
+            #     + f'_market_data_short_{date[0]}_{date[1]}_step_{time_step}'
+            #     + f'_win_{window}_K_{K_value}.pickle', 'rb'))
 
-            agg = agg.rename(f'Agg. returns {time_step}')
+            # agg = agg.rename(f'Agg. returns {time_step}')
 
             # Log plot
-            plot = agg.plot(kind='density', style=marker, logy=True,
-                            legend=False, ms=10)
+            # plot = agg.plot(kind='density', style=marker, logy=True,
+            #                 legend=False, ms=10)
 
         x_gauss: np.ndarray = np.arange(-10, 10, 0.3)
         gaussian: np.ndarray = epochs_tools \
@@ -90,12 +90,12 @@ def epochs_gaussian_agg_dist_returns_market_plot(dates: List[List[str]],
         plt.tight_layout()
 
         # Save plot
-        figure.savefig(f'../plot/05_gaussian_agg_returns_short_epoch.png')
+        figure.savefig(f'../../../../../home/tp/jchenaol/05_gaussian_agg_returns_short_epoch.png')
 
         plt.close()
-        del agg
+        # del agg
         del figure
-        del plot
+        # del plot
         gc.collect()
 
     except FileNotFoundError as error:
@@ -326,11 +326,11 @@ def main() -> None:
     time_steps: List[str] = ['1d']
 
     epochs_gaussian_agg_dist_returns_market_plot(dates, time_steps, '25', '200')
-    epochs_algebraic_agg_dist_returns_market_plot(dates, time_steps,
-                                                  '55', '200',
-                                                  [29])
-    epochs_var_win_all_empirical_dist_returns_market_plot(dates, time_steps,
-                                                          ['x'], ['20', '50', '100', '150', '200'])
+    # epochs_algebraic_agg_dist_returns_market_plot(dates, time_steps,
+    #                                               '55', '200',
+    #                                               [29])
+    # epochs_var_win_all_empirical_dist_returns_market_plot(dates, time_steps,
+    #                                                       ['x'], ['20', '50', '100', '150', '200'])
 
 # -----------------------------------------------------------------------------
 
