@@ -90,7 +90,7 @@ def epochs_gaussian_agg_dist_returns_market_plot(dates: List[List[str]],
         plt.tight_layout()
 
         # Save plot
-        figure.savefig(f'../../../../../home/tp/jchenaol/05_gaussian_agg_returns_short_epoch.png')
+        figure.savefig(f'../plot/05_gaussian_agg_returns_short_epoch.png')
 
         plt.close()
         # del agg
