@@ -256,7 +256,7 @@ def epochs_sim_agg_returns_market_data(out_diag_val: float,
      False
     :type normalized: bool, optional
     :param kind: kind of returns to be used, defaults to gaussian.
-    :type normalized: str, optional
+    :type kind: str, optional
     :return: simulated rotated and aggregated returns for a simulated market.
     :rtype: pd.Series
     """
