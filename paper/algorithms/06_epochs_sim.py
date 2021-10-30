@@ -36,13 +36,19 @@ import epochs_sim_analysis  # type: ignore
 
 # ----------------------------------------------------------------------------
 
-def epochs_sim_agg_ret_pairs(normalized: bool = False) -> None:
+def epochs_sim_agg_ret_pairs(K_value: int,
+                             normalized: bool = False,
+                             kind: str = 'gaussian') -> None:
     """Plot the simulated aggregated rotated and scaled returns without
        normalization.
 
+    :param K_value: number of companies.
+    :type K_value: int
     :param normalized: normalize the returns within the epochs, defaults to
      False
     :type normalized: bool, optional
+    :param kind: kind of returns to be used, defaults to gaussian.
+    :type kind: str, optional
     """
 
     figure = plt.figure(figsize=(16, 9))
@@ -52,8 +58,8 @@ def epochs_sim_agg_ret_pairs(normalized: bool = False) -> None:
     # Simulate the aggregated returns for different epochs lenghts
     for epochs_len, marker in zip([10, 25, 40, 55, 100], markers):
         agg_ret_pairs = epochs_sim_analysis \
-            .epochs_sim_agg_returns_market_data(0.3, 2, 50, 100, epochs_len,
-                                                normalized)
+            .epochs_sim_agg_returns_market_data(0.3, 2, K_value, 200,
+                                                epochs_len, normalized, kind)
 
         agg_ret_pairs = agg_ret_pairs.rename(f'Epochs T={epochs_len}')
 
@@ -62,10 +68,15 @@ def epochs_sim_agg_ret_pairs(normalized: bool = False) -> None:
                                   legend=False, ms=10)
 
     x_values: np.ndarray = np.arange(-7, 7, 0.03)
-    gaussian: np.ndarray = epochs_sim_tools \
-        .gaussian_distribution(0, 1, x_values)
 
-    plt.semilogy(x_values, gaussian, '-', lw=10, label='Gaussian')
+    if kind == 'gaussian':
+        gaussian: np.ndarray = epochs_sim_tools \
+            .gaussian_distribution(0, 1, x_values)
+        plt.semilogy(x_values, gaussian, '-', lw=10, label='Gaussian')
+    if kind == 'algebraic':
+        algebraic: np.ndarray = epochs_sim_tools \
+            .algebraic_distribution(K_value, (10 + K_value) / 2, x_values)
+        plt.semilogy(x_values, algebraic, '-', lw=10, label='Algebraic')
 
     plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.13), ncol=3,
                fontsize=30)
@@ -79,10 +90,16 @@ def epochs_sim_agg_ret_pairs(normalized: bool = False) -> None:
     plt.tight_layout()
 
     # Save plot
-    if normalized:
-        figure.savefig(f'../plot/06_epochs_sim_agg_ret_pairs_norm.png')
-    else:
-        figure.savefig(f'../plot/06_epochs_sim_agg_ret_pairs_no_norm.png')
+    if normalized and (kind == 'gaussian'):
+        figure.savefig(f'../plot/06_epochs_sim_gauss_agg_ret_pairs_norm.png')
+    if normalized and (kind == 'algebraic'):
+        figure.savefig(f'../plot/06_epochs_sim_alg_agg_ret_pairs_norm.png')
+    if not normalized and (kind == 'gaussian'):
+        figure. \
+            savefig(f'../plot/06_epochs_sim_gauss_agg_ret_pairs_no_norm.png')
+    if not normalized and (kind == 'algebraic'):
+        figure. \
+            savefig(f'../plot/06_epochs_sim_alg_agg_ret_pairs_no_norm.png')
 
     plt.close()
     del agg_ret_pairs
@@ -108,8 +125,10 @@ def main() -> None:
                               ['1990-01-01', '2020-12-31']]
     time_steps: List[str] = ['1m', '1d', '1wk', '1mo']
 
-    epochs_sim_agg_ret_pairs(normalized=False)
-    epochs_sim_agg_ret_pairs(normalized=True)
+    epochs_sim_agg_ret_pairs(200, normalized=False, kind='gaussian')
+    epochs_sim_agg_ret_pairs(200, normalized=True, kind='gaussian')
+    epochs_sim_agg_ret_pairs(200, normalized=False, kind='algebraic')
+    epochs_sim_agg_ret_pairs(200, normalized=True, kind='algebraic')
 
 # -----------------------------------------------------------------------------
 
