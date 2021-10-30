@@ -347,27 +347,25 @@ def epochs_sim_agg_returns_cov_market_data(returns: pd.DataFrame) -> pd.Series:
 # ----------------------------------------------------------------------------
 
 
-def epochs_sim_no_rot_pair_data(dates: List[str], time_step: str,
-                                cols: List[str],
-                                window: str) -> List[float]:
+def epochs_sim_rot_pair_data(returns_df: pd.DataFrame,
+                             cols: List[str],
+                             window: str) -> List[float]:
     """Uses local normalization to compute the aggregated distribution of
        returns for a pair of stocks.
 
-    :param dates: List of the interval of dates to be analyzed
-     (i.e. ['1980-01-01', '2020-12-31']).
-    :param time_step: time step of the data (i.e. '1m', '1h', '1d', '1wk',
-     '1mo').
+    :param returns_df: dataframe with the simulated returns.
     :param cols: pair of stocks to be analized (i. e. ['AAPL', 'MSFT']).
-    :param window: window time to compute the volatility (i.e. '25').
+    :param window: window time to rotate and scale (i.e. '25').
     :return: List[float] -- The function returns a list with float numbers.
     """
 
     try:
 
         # Load data
-        two_col: pd.DataFrame = pickle.load(open(
-            f'../data/epochs/returns_data_{dates[0]}_{dates[1]}_step'
-            + f'_{time_step}_win__K_.pickle', 'rb'))[[cols[0], cols[1]]]
+        two_col: pd.DataFrame = returns_df[[cols[0], cols[1]]]
+
+        two_col = \
+            (two_col - two_col.mean()) / two_col.std()
 
         # List to extend with the returns values of each pair
         agg_ret_mkt_list: List[float] = []
@@ -375,30 +373,7 @@ def epochs_sim_no_rot_pair_data(dates: List[str], time_step: str,
         # Add the index as a column to group the return values
         two_col['DateCol'] = two_col.index
         # Add a column grouping the returns in the time window
-        if time_step == '1m':
-            two_col['DateCol'] = pd.to_datetime(two_col['DateCol'])
-            two_col['Group'] = two_col.groupby(
-                pd.Grouper(key='DateCol', freq=window + 'T'))['DateCol'] \
-                .transform('first')
-        elif time_step == '1h':
-            two_col['DateCol'] = pd.to_datetime(two_col['DateCol'])
-            two_col['Group'] = np.arange(len(two_col)) // int(window)
-        elif time_step == '1d':
-            two_col['Group'] = two_col.groupby(
-                pd.Grouper(key='DateCol', freq=window + 'B'))['DateCol'] \
-                .transform('first')
-        elif time_step == '1wk':
-            two_col['Group'] = two_col.groupby(
-                pd.Grouper(key='DateCol', freq=window + 'W-WED'))['DateCol'] \
-                .transform('first')
-            two_col = two_col.drop(pd.Timestamp('1990-01-09'))
-        elif time_step == '1mo':
-            two_col['Group'] = two_col.groupby(
-                pd.Grouper(key='DateCol', freq=window + 'BM'))['DateCol'] \
-                .transform('first')
-            two_col = two_col.drop(pd.Timestamp('1990-02-28'))
-        else:
-            raise Exception('There is something wrong with the time_step!')
+        two_col['Group'] = np.arange(len(two_col)) // int(window)
 
         # Remove groups that are smaller than the window to avoid linalg errors
         two_col = two_col.groupby('Group') \
@@ -406,11 +381,9 @@ def epochs_sim_no_rot_pair_data(dates: List[str], time_step: str,
 
         for local_data in two_col.groupby(by=['Group']):
 
+            # AQUI -> Falta rotar y escalar los epochs
             # Use the return columns
             local_data_df: pd.DataFrame = local_data[1][[cols[0], cols[1]]]
-
-            local_data_df = \
-                (local_data_df - local_data_df.mean()) / local_data_df.std()
 
             one_col = local_data_df[cols[0]].append(local_data_df[cols[1]],
                                                     ignore_index=True)
