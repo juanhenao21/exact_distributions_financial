@@ -107,6 +107,81 @@ def epochs_sim_agg_ret_pairs(K_value: int,
     del plot
     gc.collect()
 
+# ----------------------------------------------------------------------------
+
+
+def epochs_sim_ts_norm_agg_ret(K_value: int,
+                               kind: str = 'gaussian') -> None:
+    """Plot the simulated aggregated rotated and scaled returns with
+       normalization for the full time series.
+
+    :param K_value: number of companies.
+    :type K_value: int
+    :param kind: kind of returns to be used, defaults to gaussian.
+    :type kind: str, optional
+    """
+
+    figure = plt.figure(figsize=(16, 9))
+
+    markers: List[str] = ['o', '^', 's', 'P', 'x']
+
+    # Returns
+    if kind == 'gaussian':
+        ret_gauss: pd.DataFrame = epochs_sim_analysis \
+            .returns_simulation_gaussian(0.3, K_value, 8000)
+        print(ret_gauss.head())
+    elif kind == 'algebraic':
+        ret_alg: pd.DataFrame = epochs_sim_analysis \
+            .returns_simulation_algebraic(0.3, K_value, 8000, 10)
+        print(ret_alg.head())
+
+
+    # # Simulate the aggregated returns for different epochs lenghts
+    # for epochs_len, marker in zip([10, 25, 40, 55, 100], markers):
+    #     agg_ret_pairs = epochs_sim_analysis \
+    #         .epochs_sim_agg_returns_market_data(0.3, 2, K_value, 200,
+    #                                             epochs_len, normalized, kind)
+
+    #     agg_ret_pairs = agg_ret_pairs.rename(f'Epochs T={epochs_len}')
+
+    #     # Log plot
+    #     plot = agg_ret_pairs.plot(kind='density', style=marker, logy=True,
+    #                               legend=False, ms=10)
+
+    x_values: np.ndarray = np.arange(-7, 7, 0.03)
+
+    if kind == 'gaussian':
+        gaussian: np.ndarray = epochs_sim_tools \
+            .gaussian_distribution(0, 1, x_values)
+        plt.semilogy(x_values, gaussian, '-', lw=10, label='Gaussian')
+    if kind == 'algebraic':
+        algebraic: np.ndarray = epochs_sim_tools \
+            .algebraic_distribution(K_value, (10 + K_value) / 2, x_values)
+        plt.semilogy(x_values, algebraic, '-', lw=10, label='Algebraic')
+
+    plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.13), ncol=3,
+               fontsize=30)
+    plt.xlabel(r'$\tilde{r}$', fontsize=40)
+    plt.ylabel('PDF', fontsize=40)
+    plt.xticks(fontsize=25)
+    plt.yticks(fontsize=25)
+    plt.xlim(-6, 6)
+    plt.ylim(10 ** -5, 1)
+    plt.grid(True)
+    plt.tight_layout()
+
+    # Save plot
+    if kind == 'gaussian':
+        figure.savefig(f'../plot/06_epochs_sim_gauss_ts_norm.png')
+    if kind == 'algebraic':
+        figure.savefig(f'../plot/06_epochs_sim_alg_ts_norm.png')
+
+    plt.close()
+    # del agg_ret_pairs
+    del figure
+    # del plot
+    gc.collect()
+
 # -----------------------------------------------------------------------------
 
 
@@ -129,6 +204,9 @@ def main() -> None:
     epochs_sim_agg_ret_pairs(200, normalized=True, kind='gaussian')
     epochs_sim_agg_ret_pairs(200, normalized=False, kind='algebraic')
     epochs_sim_agg_ret_pairs(200, normalized=True, kind='algebraic')
+
+    # epochs_sim_ts_norm_agg_ret(200, 'gaussian')
+    # epochs_sim_ts_norm_agg_ret(200, 'algebraic')
 
 # -----------------------------------------------------------------------------
 
