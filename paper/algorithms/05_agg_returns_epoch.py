@@ -328,7 +328,7 @@ def main() -> None:
     epochs_gaussian_agg_dist_returns_market_plot(dates, time_steps, '25', '200')
     epochs_algebraic_agg_dist_returns_market_plot(dates, time_steps,
                                                   '55', '200',
-                                                  [29])
+                                                  [102, 103, 104, 105, 106, 107, 108, 109, 110])
     epochs_var_win_all_empirical_dist_returns_market_plot(dates, time_steps,
                                                           ['x'], ['20', '50', '100', '150', '200'])
 
