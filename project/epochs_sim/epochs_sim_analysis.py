@@ -347,13 +347,15 @@ def epochs_sim_agg_returns_cov_market_data(returns: pd.DataFrame) -> pd.Series:
 # ----------------------------------------------------------------------------
 
 
-def epochs_sim_rot_pair_data(returns_df: pd.DataFrame,
+def epochs_sim_rot_pair_data(kind: str,
+                             K_value: str,
                              cols: List[str],
                              window: str) -> List[float]:
     """Uses local normalization to compute the aggregated distribution of
        returns for a pair of stocks.
 
-    :param returns_df: dataframe with the simulated returns.
+    :param kind: kind of returns to be used (i.e 'gaussian').
+    :param K_value: number of companies to be used (i.e. '80', 'all').
     :param cols: pair of stocks to be analized (i. e. ['AAPL', 'MSFT']).
     :param window: window time to rotate and scale (i.e. '25').
     :return: List[float] -- The function returns a list with float numbers.
@@ -362,46 +364,9 @@ def epochs_sim_rot_pair_data(returns_df: pd.DataFrame,
     try:
 
         # Load data
-        two_col: pd.DataFrame = returns_df[[cols[0], cols[1]]]
-
-        two_col = \
-            (two_col - two_col.mean()) / two_col.std()
-
-        # List to extend with the returns values of each pair
-        agg_ret_mkt_list: List[float] = []
-
-        # Add the index as a column to group the return values
-        two_col['DateCol'] = two_col.index
-        # Add a column grouping the returns in the time window
-        two_col['Group'] = np.arange(len(two_col)) // int(window)
-
-        # Remove groups that are smaller than the window to avoid linalg errors
-        two_col = two_col.groupby('Group') \
-            .filter(lambda x: len(x) >= int(window) - 5)
-
-        for local_data in two_col.groupby(by=['Group']):
-
-            # AQUI -> Falta rotar y escalar los epochs
-            # Use the return columns
-            local_data_df: pd.DataFrame = local_data[1][[cols[0], cols[1]]]
-
-            one_col = local_data_df[cols[0]].append(local_data_df[cols[1]],
-                                                    ignore_index=True)
-
-            agg_ret_mkt_list.extend(one_col)
-
-            del local_data_df
-            del one_col
-
-        del two_col
-
-        # remove NaN and Inf
-        agg_ret_mkt_list = [x for x in agg_ret_mkt_list if not math.isnan(x)
-                            and not math.isinf(x)]
-        # filter out values greater than 10 or smaller than -10
-        agg_ret_mkt_list = [x for x in agg_ret_mkt_list if -10 <= x <= 10]
-
-        return agg_ret_mkt_list
+        two_col: pd.DataFrame = pickle.load(open(
+            f'../data/epochs_sim/returns_simulation_{kind}_K_{K_value}.pickle',
+            'rb'))[[cols[0], cols[1]]]
 
     except FileNotFoundError as error:
         print('No data')
@@ -409,75 +374,125 @@ def epochs_sim_rot_pair_data(returns_df: pd.DataFrame,
         print()
         return [0]
 
+    two_col = (two_col - two_col.mean()) / two_col.std()
+
+    # List to extend with the returns values of each pair
+    agg_ret_mkt_list: List[float] = []
+
+    # Add a column grouping the returns in the time window
+    two_col['Group'] = np.arange(len(two_col)) // int(window)
+
+    # Remove groups that are smaller than the window to avoid linalg errors
+    two_col = two_col.groupby('Group') \
+        .filter(lambda x: len(x) >= int(window) - 5)
+
+    for local_data in two_col.groupby(by=['Group']):
+
+        # Use the return columns
+        local_data_df: pd.DataFrame = local_data[1][[cols[0], cols[1]]]
+
+        cov_two_col: pd.DataFrame = local_data_df.cov()
+        # eig_vec:  eigenvector, eig_val: eigenvalues
+        eig_val, eig_vec = np.linalg.eig(cov_two_col)
+
+        # rot: rotation, scale: scaling
+        rot, scale = eig_vec, np.diag(1 / np.sqrt(eig_val))
+        # trans: transformation matrix
+        # trans = rot . scale
+        trans = rot.dot(scale)
+
+        try:
+            # Transform the returns
+            trans_two_col = local_data_df.dot(trans)
+            # Name the columns with the used stocks
+            trans_two_col.columns = [cols[0], cols[1]]
+
+            one_col = trans_two_col[cols[0]].append(trans_two_col[cols[1]],
+                                                    ignore_index=True)
+
+            agg_ret_mkt_list.extend(one_col)
+
+            del local_data_df
+            del one_col
+            del trans_two_col
+
+        except np.linalg.LinAlgError as error:
+            print(error)
+            print()
+
+            del local_data_df
+            del one_col
+            del trans_two_col
+
+    del two_col
+
+    # remove NaN and Inf
+    agg_ret_mkt_list = [x for x in agg_ret_mkt_list if not math.isnan(x)
+                        and not math.isinf(x)]
+    # filter out values greater than 10 or smaller than -10
+    agg_ret_mkt_list = [x for x in agg_ret_mkt_list if -10 <= x <= 10]
+
+    return agg_ret_mkt_list
+
+
 # ----------------------------------------------------------------------------
 
 
-def epochs_sim_no_rot_market_data(dates: List[str],
-                                  time_step: str,
-                                  window: str,
-                                  K_value: str) -> None:
+def epochs_sim_rot_market_data(kind: str,
+                               K_value: str,
+                               window: str) -> None:
     """Computes the aggregated distribution of returns for a market.
 
-    :param dates: List of the interval of dates to be analyzed
-     (i.e. ['1980-01-01', '2020-12-31']).
-    :param time_step: time step of the data (i.e. '1m', '1h', '1d', '1wk',
-     '1mo').
-    :param window: window time to compute the volatility (i.e. '25').
+    :param kind: kind of returns to be used (i.e 'gaussian').
     :param K_value: number of companies to be used (i.e. '80', 'all').
+    :param window: window time to compute the volatility (i.e. '25').
     :return: None -- The function saves the data in a file and does not return
      a value.
     """
 
-    function_name: str = epochs_sim_no_rot_market_data.__name__
+    function_name: str = epochs_sim_rot_market_data.__name__
     epochs_sim_tools \
-        .function_header_print_data(function_name, dates, time_step, window,
-                                    K_value)
-
+        .function_header_print_data(function_name, [''], '', window, '',
+                                    sim=True)
     try:
 
-        # Load name of the stocks
-        if K_value == 'all':
-            stocks_name: pd.DataFrame = pickle.load(open(
-                f'../data/epochs/returns_data_{dates[0]}_{dates[1]}_step'
-                + f'_{time_step}_win__K_.pickle', 'rb'))
-
-        else:
-            stocks_name = pickle.load(open(
-                f'../data/epochs/returns_data_{dates[0]}_{dates[1]}_step'
-                + f'_{time_step}_win__K_.pickle', 'rb'))\
-                .sample(n=int(K_value), axis='columns')
-
-        agg_ret_mkt_list: List[List[float]] = []
-
-        # Combination of stock pairs
-        stocks_comb: Iterable[Tuple[Any, ...]] = icomb(stocks_name, 2)
-        args_prod: Iterable[Any] = iprod([dates], [time_step], stocks_comb,
-                                         [window])
-
-        # Parallel computing
-        with mp.Pool(processes=mp.cpu_count()) as pool:
-            agg_ret_mkt_list.extend(pool.starmap(
-                epochs_sim_no_rot_pair_data, args_prod))
-
-        # Flatten the list
-        agg_ret_mkt_list_flat: List[float] = \
-            [val for sublist in agg_ret_mkt_list for val in sublist]
-        agg_ret_mkt_series: pd.Series = pd.Series(agg_ret_mkt_list_flat)
-
-        print(f'mean = {agg_ret_mkt_series.mean()}')
-        print(f'std  = {agg_ret_mkt_series.std()}')
-
-        # Saving data
-        epochs_sim_tools.save_data(agg_ret_mkt_series, function_name, dates,
-                                   time_step, window, K_value)
-
-        del agg_ret_mkt_list
-        del agg_ret_mkt_series
+        # Load data
+        stocks_name: pd.DataFrame = pickle.load(open(
+            f'../data/epochs_sim/returns_simulation_{kind}_K_{K_value}.pickle',
+            'rb'))
 
     except FileNotFoundError as error:
         print('No data')
         print(error)
         print()
+        return [0]
+
+    agg_ret_mkt_list: List[List[float]] = []
+
+    # Combination of stock pairs
+    stocks_comb: Iterable[Tuple[Any, ...]] = icomb(stocks_name, 2)
+    args_prod: Iterable[Any] = iprod([kind], [K_value], stocks_comb, [window])
+
+    # Parallel computing
+    with mp.Pool(processes=mp.cpu_count()) as pool:
+        agg_ret_mkt_list.extend(pool.starmap(epochs_sim_rot_pair_data,
+                                             args_prod))
+
+    # Flatten the list
+    agg_ret_mkt_list_flat: List[float] = \
+        [val for sublist in agg_ret_mkt_list for val in sublist]
+    agg_ret_mkt_series: pd.Series = pd.Series(agg_ret_mkt_list_flat)
+
+    print(f'mean = {agg_ret_mkt_series.mean()}')
+    print(f'std  = {agg_ret_mkt_series.std()}')
+
+    # Saving data
+    pickle.dump(agg_ret_mkt_series, open(
+        f'../data/epochs_sim/epochs_sim_{kind}_agg_dist_ret_market_data_long'
+        + f'_win_{window}_K_{K_value}.pickle', 'wb'), protocol=4)
+
+    del agg_ret_mkt_list
+    del agg_ret_mkt_series
 
 # -----------------------------------------------------------------------------
 
@@ -490,14 +505,30 @@ def main() -> None:
     :return: None.
     """
 
-    ret_gauss = returns_simulation_gaussian(0.3, 250, 1000)
-    print(ret_gauss)
-    ret_alg = returns_simulation_algebraic(0.3, 250, 1000, 10)
-    print(ret_alg)
-    pickle.dump(ret_gauss, open( 'epochs_aggregated_dist_returns_market_data_gauss_gauss_step_gauss_win_gauss_K_250.pickle', 'wb'))
-    pickle.dump(ret_gauss, open( 'epochs_aggregated_dist_returns_market_data_alg_alg_step_alg_win_alg_K_250.pickle', 'wb'))
+    K_value = 200
+    windows = [100, 55, 40, 25, 10]
 
+    #################
+    # # Code to create complete time series of simulated returns.
+    # # Returns
+    # # Gaussian
+    # ret_gauss: pd.DataFrame = returns_simulation_gaussian(0.3, K_value, 8000)
+    # print(ret_gauss.head())
+    # pickle.dump(ret_gauss, open(
+    #     f'../data/epochs_sim/returns_simulation_gaussian_K_{K_value}.pickle',
+    #     'wb'), protocol=4)
+    # # Algebraic
+    # ret_alg: pd.DataFrame = \
+    #     returns_simulation_algebraic(0.3, K_value, 8000, 10)
+    # print(ret_alg.head())
+    # pickle.dump(ret_gauss, open(
+    #     f'../data/epochs_sim/returns_simulation_algebraic_K_{K_value}.pickle',
+    #     'wb'), protocol=4)
+    ################
 
+    for win in windows:
+        epochs_sim_rot_market_data('gaussian', K_value, win)
+        epochs_sim_rot_market_data('algebraic', K_value, win)
 
 # -----------------------------------------------------------------------------
 
