@@ -111,42 +111,39 @@ def epochs_sim_agg_ret_pairs(K_value: int,
 
 
 def epochs_sim_ts_norm_agg_ret(K_value: int,
-                               kind: str = 'gaussian') -> None:
+                               kind: str) -> None:
     """Plot the simulated aggregated rotated and scaled returns with
        normalization for the full time series.
 
     :param K_value: number of companies.
     :type K_value: int
-    :param kind: kind of returns to be used, defaults to gaussian.
-    :type kind: str, optional
+    :param kind: kind of returns to be used.
+    :type kind: str
     """
 
     figure = plt.figure(figsize=(16, 9))
 
     markers: List[str] = ['o', '^', 's', 'P', 'x']
 
-    # Returns
-    if kind == 'gaussian':
-        ret_gauss: pd.DataFrame = epochs_sim_analysis \
-            .returns_simulation_gaussian(0.3, K_value, 8000)
-        print(ret_gauss.head())
-    elif kind == 'algebraic':
-        ret_alg: pd.DataFrame = epochs_sim_analysis \
-            .returns_simulation_algebraic(0.3, K_value, 8000, 10)
-        print(ret_alg.head())
+    try:
 
+        # Simulate the aggregated returns for different epochs lenghts
+        for epochs_len, marker in zip([10, 25, 40, 55, 100], markers):
+            # Load data
+            agg_ret: pd.Series = pickle.load(open(
+                f'../data/epochs_sim/epochs_sim_{kind}_agg_dist_ret_market'
+                + f'_data_long_win_{epochs_len}_K_{K_value}.pickle', 'rb'))
 
-    # # Simulate the aggregated returns for different epochs lenghts
-    # for epochs_len, marker in zip([10, 25, 40, 55, 100], markers):
-    #     agg_ret_pairs = epochs_sim_analysis \
-    #         .epochs_sim_agg_returns_market_data(0.3, 2, K_value, 200,
-    #                                             epochs_len, normalized, kind)
+            agg_ret= agg_ret.rename(f'Epochs T={epochs_len}')
 
-    #     agg_ret_pairs = agg_ret_pairs.rename(f'Epochs T={epochs_len}')
+            # Log plot
+            plot = agg_ret.plot(kind='density', style=marker, logy=True,
+                                legend=False, ms=10)
 
-    #     # Log plot
-    #     plot = agg_ret_pairs.plot(kind='density', style=marker, logy=True,
-    #                               legend=False, ms=10)
+    except FileNotFoundError as error:
+        print('No data')
+        print(error)
+        print()
 
     x_values: np.ndarray = np.arange(-7, 7, 0.03)
 
@@ -185,7 +182,6 @@ def epochs_sim_ts_norm_agg_ret(K_value: int,
 # -----------------------------------------------------------------------------
 
 
-
 def main() -> None:
     """The main function of the script.
 
@@ -200,13 +196,13 @@ def main() -> None:
                               ['1990-01-01', '2020-12-31']]
     time_steps: List[str] = ['1m', '1d', '1wk', '1mo']
 
-    epochs_sim_agg_ret_pairs(200, normalized=False, kind='gaussian')
-    epochs_sim_agg_ret_pairs(200, normalized=True, kind='gaussian')
-    epochs_sim_agg_ret_pairs(200, normalized=False, kind='algebraic')
-    epochs_sim_agg_ret_pairs(200, normalized=True, kind='algebraic')
+    # epochs_sim_agg_ret_pairs(200, normalized=False, kind='gaussian')
+    # epochs_sim_agg_ret_pairs(200, normalized=True, kind='gaussian')
+    # epochs_sim_agg_ret_pairs(200, normalized=False, kind='algebraic')
+    # epochs_sim_agg_ret_pairs(200, normalized=True, kind='algebraic')
 
-    # epochs_sim_ts_norm_agg_ret(200, 'gaussian')
-    # epochs_sim_ts_norm_agg_ret(200, 'algebraic')
+    epochs_sim_ts_norm_agg_ret(200, 'gaussian')
+    epochs_sim_ts_norm_agg_ret(200, 'algebraic')
 
 # -----------------------------------------------------------------------------
 
