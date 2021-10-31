@@ -300,7 +300,7 @@ def epochs_var_win_all_empirical_dist_returns_market_plot(
             plt.tight_layout()
 
             # Plotting
-            figure_log.savefig(f'../plot/05_window_comparison.png')
+            figure_log.savefig(f'../plot/05_window_comparison_{windows[0]}.png')
 
         plt.close()
         gc.collect()
@@ -325,12 +325,16 @@ def main() -> None:
     dates: List[List[str]] = [['1990-01-01', '2020-12-31']]
     time_steps: List[str] = ['1d']
 
-    epochs_gaussian_agg_dist_returns_market_plot(dates, time_steps, '25', '200')
+    # epochs_gaussian_agg_dist_returns_market_plot(dates, time_steps, '25', '200')
     epochs_algebraic_agg_dist_returns_market_plot(dates, time_steps,
                                                   '55', '200',
-                                                  [102, 103, 104, 105, 106, 107, 108, 109, 110])
+                                                  [104])
     epochs_var_win_all_empirical_dist_returns_market_plot(dates, time_steps,
-                                                          ['x'], ['20', '50', '100', '150', '200'])
+                                                          ['0'], ['20', '50', '200'])
+    epochs_var_win_all_empirical_dist_returns_market_plot(dates, time_steps,
+                                                          ['1'], ['150', '200'])
+    epochs_var_win_all_empirical_dist_returns_market_plot(dates, time_steps,
+                                                          ['2'], ['20', '100', '200'])
 
 # -----------------------------------------------------------------------------
 
