@@ -121,7 +121,7 @@ approach is that all simulations should show standard algebraic distributions.
     \centering
     \includegraphics[width=0.6\columnwidth]
     {figures/06_epochs_sim_alg_agg_ret_pairs_no_norm.png}
-    \caption{[CAMBIAR IMAGEN] Simulated aggregated rotated and scaled algebraic distributed
+    \caption{Simulated aggregated rotated and scaled algebraic distributed
              returns ($\tilde{r}$) for fixed covariance and $K=200$ without
              normalization, neither within the epochs nor for all the time
              series. $\Delta t = 1$ unit and epochs window  lengths
@@ -161,7 +161,7 @@ distribution.
     \caption{Simulated aggregated rotated and scaled Gaussian distributed
              returns ($\tilde{r}$) for fixed covariance and $K=200$ with
              normalization within the epochs. $\Delta t = 1$ unit and epochs
-             window  lengths $T=10, 25, 40, 55, 100$ units.}
+             window lengths $T=10, 25, 40, 55, 100$ units.}
     \label{fig:epochs_gauss_agg_ret_pairs_norm}
 \end{figure}
 
@@ -184,10 +184,10 @@ small values. Thus, we need to find an alternative to solve this problem.
     \centering
     \includegraphics[width=0.6\columnwidth]
     {figures/06_epochs_sim_alg_agg_ret_pairs_norm.png}
-    \caption{[CAMBIAR IMAGEN] Simulated aggregated rotated and scaled Gaussian distributed
+    \caption{Simulated aggregated rotated and scaled Gaussian distributed
              returns ($\tilde{r}$) for fixed covariance and $K=200$ with
              normalization within the epochs. $\Delta t = 1$ unit and epochs
-             window  lengths $T=10, 25, 40, 55, 100$ units.}
+             window lengths $T=10, 25, 40, 55, 100$ units.}
     \label{fig:epochs_alg_agg_ret_pairs_norm}
 \end{figure}
 
@@ -199,6 +199,28 @@ We already showed that the ergodicity effect is directly related with the
 normalization of the time series. To try to solve this issue, instead of
 normalize the time series within each epoch, we normalize the complete time
 series and then proceed to rotate, scale and aggregate.
+
+% \begin{figure}[htbp]
+%     \centering
+%     \includegraphics[width=0.6\columnwidth]
+%     {figures/06_epochs_sim_gauss_ts_norm.png}
+%     \caption{Simulated aggregated rotated and scaled Gaussian distributed
+%              returns ($\tilde{r}$) for fixed covariance and $K=200$ with
+%              normalization for the complete time series. $\Delta t = 1$ unit
+%              and epochs window lengths $T=10, 25, 40, 55, 100$ units.}
+%     \label{fig:epochs_gauss_agg_ret_pairs_norm_full_ts}
+% \end{figure}
+
+% \begin{figure}[htbp]
+%     \centering
+%     \includegraphics[width=0.6\columnwidth]
+    % {figures/06_epochs_sim_alg_ts_norm.png}
+    % \caption{Simulated aggregated rotated and scaled Gaussian distributed
+    %          returns ($\tilde{r}$) for fixed covariance and $K=200$ with
+    %          normalization for the complete time series. $\Delta t = 1$ unit
+    %          and epochs window lengths $T=10, 25, 40, 55, 100$ units.}
+%     \label{fig:epochs_alg_agg_ret_pairs_norm_full_ts}
+% \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Empirical results}
