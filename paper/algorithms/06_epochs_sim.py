@@ -131,8 +131,9 @@ def epochs_sim_ts_norm_agg_ret(K_value: int,
         for epochs_len, marker in zip([10, 25, 40, 55, 100], markers):
             # Load data
             agg_ret: pd.Series = pickle.load(open(
-                f'../data/epochs_sim/epochs_sim_{kind}_agg_dist_ret_market'
-                + f'_data_long_win_{epochs_len}_K_{K_value}.pickle', 'rb'))
+                f'../../project/data/epochs_sim/epochs_sim_{kind}_agg_dist_ret'
+                + f'_market_data_long_win_{epochs_len}_K_{K_value}.pickle',
+                'rb'))
 
             agg_ret= agg_ret.rename(f'Epochs T={epochs_len}')
 
@@ -308,11 +309,8 @@ def main() -> None:
     :return: None.
     """
 
-    dates: List[List[str]] = [['2021-07-19', '2021-08-14'],
-                              ['1990-01-01', '2020-12-31'],
-                              ['1990-01-01', '2020-12-31'],
-                              ['1990-01-01', '2020-12-31']]
-    time_steps: List[str] = ['1m', '1d', '1wk', '1mo']
+    dates: List[List[str]] = [['1990-01-01', '2020-12-31']]
+    time_steps: List[str] = ['1d']
 
     # epochs_sim_agg_ret_pairs(200, normalized=False, kind='gaussian')
     # epochs_sim_agg_ret_pairs(200, normalized=True, kind='gaussian')
@@ -324,8 +322,8 @@ def main() -> None:
 
     epochs_var_win_all_empirical_dist_returns_market_plot(dates, time_steps,
                                                           ['0'], ['20', '50', '200'])
-    epochs_var_win_all_empirical_dist_returns_market_plot(dates, time_steps,
-                                                          ['1'], ['150', '200'])
+    # epochs_var_win_all_empirical_dist_returns_market_plot(dates, time_steps,
+    #                                                       ['1'], ['150', '200'])
     epochs_var_win_all_empirical_dist_returns_market_plot(dates, time_steps,
                                                           ['2'], ['20', '100', '200'])
 

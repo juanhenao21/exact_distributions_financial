@@ -326,13 +326,13 @@ def main() -> None:
     time_steps: List[str] = ['1d']
 
     # epochs_gaussian_agg_dist_returns_market_plot(dates, time_steps, '25', '200')
-    epochs_algebraic_agg_dist_returns_market_plot(dates, time_steps,
-                                                  '55', '200',
-                                                  [104])
-    epochs_var_win_all_empirical_dist_returns_market_plot(dates, time_steps,
-                                                          ['0'], ['20', '50', '200'])
-    epochs_var_win_all_empirical_dist_returns_market_plot(dates, time_steps,
-                                                          ['1'], ['150', '200'])
+    # epochs_algebraic_agg_dist_returns_market_plot(dates, time_steps,
+    #                                               '55', '200',
+    #                                               [104])
+    # epochs_var_win_all_empirical_dist_returns_market_plot(dates, time_steps,
+    #                                                       ['0'], ['20', '50', '200'])
+    # epochs_var_win_all_empirical_dist_returns_market_plot(dates, time_steps,
+    #                                                       ['1'], ['150', '200'])
     epochs_var_win_all_empirical_dist_returns_market_plot(dates, time_steps,
                                                           ['2'], ['20', '100', '200'])
 
