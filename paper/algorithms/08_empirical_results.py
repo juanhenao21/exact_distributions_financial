@@ -36,19 +36,24 @@ import exact_distributions_covariance_tools as exact_distributions_tools
 # ----------------------------------------------------------------------------
 
 
-def pdf_all_distributions_plot(dates: List[str], time_step: str) -> None:
+def pdf_gg_distributions_plot(dates: List[str],
+                               time_step: str,
+                               N_values: List[int]) -> None:
     """Plots all the distributions and compares with agg. returns of a market.
 
     :param dates: List of the interval of dates to be analyzed
      (i.e. ['1980-01', '2020-12']).
     :param time_step: time step of the data (i.e. '1m', '2m', '5m', ...).
+    :param N_values: fit parameter (i.e. [3, 4, 5, 6])
     :return: None -- The function saves the plot in a file and does not return
      a value.
     """
 
-    try:
+    figure, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 9))
 
-        figure, (ax1, ax2) = plt.subplots(2, 1, figsize=(9, 16))
+    markers: List[str] = ['o', '^', 's', 'P']
+
+    try:
 
         # Load data
         agg_returns_data: pd.Series = pickle.load(open(
@@ -58,145 +63,310 @@ def pdf_all_distributions_plot(dates: List[str], time_step: str) -> None:
 
         agg_returns_data = agg_returns_data.rename(r'$\tilde{r}$')
 
-        x_val_lin: np.ndarray = np.arange(-5, 5, 0.2)
-        x_val_log: np.ndarray = np.arange(-10, 10, 0.5)
+    except FileNotFoundError as error:
+        print('No data')
+        print(error)
+        print()
 
-        markers: List[str] = ['o', '^', 's', 'P']
+    # Log plot
+    plot_1 = agg_returns_data.plot(kind='density', style=markers[0], logy=True,
+                                   ax=ax1, legend=False, ms=7)
+    plot_2 = agg_returns_data.plot(kind='density', style=markers[0],
+                                   loglog=True, ax=ax2, legend=False, ms=7)
 
-        # Lin plot
-        plot_lin = agg_returns_data.plot(kind='density', style='-', ax=ax1,
-                                         legend=False, lw=3)
-        # Log plot
-        plot_log = agg_returns_data.plot(kind='density', style='-', logy=True,
-                                         ax=ax2, legend=True, lw=3)
+    x_val_log: np.ndarray = np.arange(-10, 10, 0.05)
 
-        if dates[0] == '1992-01':
-            N = 5
-            N_gg = 4
-            N_aa = 6
-            K = 277
-            L = 150
-            l = 150
+    for N_value in N_values:
+        gg_distribution_log: np.ndarray = exact_distributions_tools\
+            .pdf_gaussian_gaussian(x_val_log, N_value, 1)
+        ax1.semilogy(x_val_log, gg_distribution_log, '-', lw=5,
+                     label=f'N = {N_value}')
+        ax2.loglog(x_val_log, gg_distribution_log, '-', lw=5,
+                   label=f'N = {N_value}')
 
-            gg_distribution_lin: np.ndarray = exact_distributions_tools\
-                .pdf_gaussian_gaussian(x_val_lin, N_gg, 1)
-            gg_distribution_log: np.ndarray = exact_distributions_tools\
-                .pdf_gaussian_gaussian(x_val_log, N_gg, 1)
-            ax1.plot(x_val_lin, gg_distribution_lin, markers[0], lw=3, ms=15,
-                     label=f'GG')
-            ax2.semilogy(x_val_log, gg_distribution_log, markers[0], lw=3,
-                         ms=15, label=f'GG')
+    ax1.set_xlabel(r'$\tilde{r}$', fontsize=25)
+    ax1.set_ylabel('PDF', fontsize=25)
+    ax1.tick_params(axis='both', which='both', labelsize=15)
+    ax1.set_xlim(-6, 6)
+    ax1.set_ylim(10 ** -4, 1)
+    ax1.grid(True)
 
-            ga_distribution_lin: np.ndarray = exact_distributions_tools\
-                .pdf_gaussian_algebraic(x_val_lin, K, L, N, 1)
-            ga_distribution_log: np.ndarray = exact_distributions_tools\
-                .pdf_gaussian_algebraic(x_val_log, K, L, N, 1)
-            ax1.plot(x_val_lin, ga_distribution_lin, markers[1], lw=3, ms=15,
-                     label=f'GA')
-            ax2.semilogy(x_val_log, ga_distribution_log, markers[1], lw=3,
-                         ms=15, label=f'GA')
+    ax2.legend(loc='upper center', bbox_to_anchor=(1.2, 0.6), ncol=1,
+               fontsize=20)
+    ax2.set_xlabel(r'$\tilde{r}$', fontsize=20)
+    ax2.set_ylabel('PDF', fontsize=20)
+    ax2.tick_params(axis='both', which='both', labelsize=15)
+    ax2.set_xlim(3, 5)
+    ax2.set_ylim(10 ** -4, 10 ** -2)
+    ax2.grid(True)
 
-            ag_distribution_lin: np.ndarray = exact_distributions_tools\
-                .pdf_algebraic_gaussian(x_val_lin, K, l, N, 1)
-            ag_distribution_log: np.ndarray = exact_distributions_tools\
-                .pdf_algebraic_gaussian(x_val_log, K, l, N, 1)
-            ax1.plot(x_val_lin, ag_distribution_lin, markers[2], lw=3, ms=15,
-                     label=f'AG')
-            ax2.semilogy(x_val_log, ag_distribution_log, markers[2], lw=3,
-                         ms=15, label=f'AG')
+    plt.tight_layout()
 
-            aa_distribution_lin: np.ndarray = exact_distributions_tools\
-                .pdf_algebraic_algebraic(x_val_lin, K, L, l, N_aa, 1)
-            aa_distribution_log: np.ndarray = exact_distributions_tools\
-                .pdf_algebraic_algebraic(x_val_log, K, L, l, N_aa, 1)
-            ax1.plot(x_val_lin, aa_distribution_lin, markers[3], lw=3, ms=15,
-                     label=f'AA')
-            ax2.semilogy(x_val_log, aa_distribution_log, markers[3], lw=3,
-                         ms=15, label=f'AA')
+    # Save plot
+    figure.savefig(f"../plot/08_gg.png")
 
-        else:
-            N_gg = 6
-            N_ga = 7
-            N_ag = 7
-            N_aa = 8
-            K = 461
-            L = 240
-            l = 240
+    plt.close()
+    del agg_returns_data
+    del figure
+    del plot_1
+    del plot_2
 
-            gg_distribution_lin: np.ndarray = exact_distributions_tools\
-                .pdf_gaussian_gaussian(x_val_lin, N_gg, 1)
-            gg_distribution_log: np.ndarray = exact_distributions_tools\
-                .pdf_gaussian_gaussian(x_val_log, N_gg, 1)
-            ax1.plot(x_val_lin, gg_distribution_lin, markers[0], lw=3, ms=15,
-                     label=f'GG')
-            ax2.semilogy(x_val_log, gg_distribution_log, markers[0], lw=3,
-                         ms=15, label=f'GG')
+# ----------------------------------------------------------------------------
 
-            ga_distribution_lin: np.ndarray = exact_distributions_tools\
-                .pdf_gaussian_algebraic(x_val_lin, K, L, N_ga, 1)
-            ga_distribution_log: np.ndarray = exact_distributions_tools\
-                .pdf_gaussian_algebraic(x_val_log, K, L, N_ga, 1)
-            ax1.plot(x_val_lin, ga_distribution_lin, markers[1], lw=3, ms=15,
-                     label=f'GA')
-            ax2.semilogy(x_val_log, ga_distribution_log, markers[1], lw=3,
-                         ms=15, label=f'GA')
 
-            ag_distribution_lin: np.ndarray = exact_distributions_tools\
-                .pdf_algebraic_gaussian(x_val_lin, K, l, N_ag, 1)
-            ag_distribution_log: np.ndarray = exact_distributions_tools\
-                .pdf_algebraic_gaussian(x_val_log, K, l, N_ag, 1)
-            ax1.plot(x_val_lin, ag_distribution_lin, markers[2], lw=3, ms=15,
-                     label=f'AG')
-            ax2.semilogy(x_val_log, ag_distribution_log, markers[2], lw=3,
-                         ms=15, label=f'AG')
+def pdf_ga_distributions_plot(dates: List[str],
+                              time_step: str,
+                              N_values: List[int],
+                              K_value: int,
+                              L_values: List[int]) -> None:
+    """Plots all the distributions and compares with agg. returns of a market.
 
-            aa_distribution_lin: np.ndarray = exact_distributions_tools\
-                .pdf_algebraic_algebraic(x_val_lin, K, L, l, N_aa, 1)
-            aa_distribution_log: np.ndarray = exact_distributions_tools\
-                .pdf_algebraic_algebraic(x_val_log, K, L, l, N_aa, 1)
-            ax1.plot(x_val_lin, aa_distribution_lin, markers[3], lw=3, ms=15,
-                     label=f'AA')
-            ax2.semilogy(x_val_log, aa_distribution_log, markers[3], lw=3,
-                         ms=15, label=f'AA')
+    :param dates: List of the interval of dates to be analyzed
+     (i.e. ['1980-01', '2020-12']).
+    :param time_step: time step of the data (i.e. '1m', '2m', '5m', ...).
+    :param N_values: fit parameter (i.e. [3, 4, 5, 6]).
+    :param K_value: number of companies.
+    :param L_values: shape parameter (i.e. [3, 4, 5, 6]).
+    :return: None -- The function saves the plot in a file and does not return
+     a value.
+    """
 
-        # ax1.legend(fontsize=20)
-        ax1.set_title(
-            f"{dates[0].split(sep='-')[0]} - {dates[1].split(sep='-')[0]}",
-            fontsize=30)
-        ax1.set_xlabel(r'$\tilde{r}$', fontsize=25)
-        ax1.set_ylabel('PDF', fontsize=25)
-        ax1.tick_params(axis='x', labelsize=15)
-        ax1.tick_params(axis='y', labelsize=15)
-        ax1.set_xlim(-2, 2)
-        ax1.set_ylim(0, 0.6)
-        ax1.grid(True)
-        plt.tight_layout()
+    figure, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 9))
 
-        ax2.legend(loc='upper center', bbox_to_anchor=(0.45, -0.09), ncol=5,
-                   fontsize=20)
-        ax2.set_xlabel(r'$\tilde{r}$', fontsize=25)
-        ax2.set_ylabel('PDF', fontsize=25)
-        ax2.tick_params(axis='x', labelsize=15)
-        ax2.tick_params(axis='y', labelsize=15)
-        ax2.set_xlim(-8, 8)
-        ax2.set_ylim(10 ** -6, 1)
-        ax2.grid(True)
-        plt.tight_layout()
+    markers: List[str] = ['o', '^', 's', 'P']
 
-        # Save plot
-        figure.savefig(f"../plot/04_all_{dates[0].split(sep='-')[0]}.png")
+    try:
 
-        plt.close()
-        del agg_returns_data
-        del figure
-        del plot_lin
-        del plot_log
+        # Load data
+        agg_returns_data: pd.Series = pickle.load(open(
+            '../../project/data/exact_distributions_covariance/aggregated_dist'
+            + f'_returns_market_data_{dates[0]}_{dates[1]}_step_{time_step}'
+            + f'.pickle', 'rb'))
+
+        agg_returns_data = agg_returns_data.rename(r'$\tilde{r}$')
 
     except FileNotFoundError as error:
         print('No data')
         print(error)
         print()
 
+    # Log plot
+    plot_1 = agg_returns_data.plot(kind='density', style=markers[0], logy=True,
+                                   ax=ax1, legend=False, ms=7)
+    plot_2 = agg_returns_data.plot(kind='density', style=markers[0],
+                                   loglog=True, ax=ax2, legend=False, ms=7)
+
+    x_val_log: np.ndarray = np.arange(-10, 10, 0.05)
+
+    for N_value in N_values:
+        for L_value in L_values:
+            ga_distribution_log: np.ndarray = exact_distributions_tools\
+                .pdf_gaussian_algebraic(x_val_log, K_value, L_value,
+                                        N_value, 1)
+            ax1.semilogy(x_val_log, ga_distribution_log, '-', lw=5,
+                        label=f'N = {N_value} - L = {L_value}')
+            ax2.loglog(x_val_log, ga_distribution_log, '-', lw=5,
+                    label=f'N = {N_value} - L = {L_value}')
+
+    ax1.set_xlabel(r'$\tilde{r}$', fontsize=25)
+    ax1.set_ylabel('PDF', fontsize=25)
+    ax1.tick_params(axis='both', which='both', labelsize=15)
+    ax1.set_xlim(-6, 6)
+    ax1.set_ylim(10 ** -4, 1)
+    ax1.grid(True)
+
+    ax2.legend(loc='upper center', bbox_to_anchor=(1.35, 0.6), ncol=1,
+               fontsize=20)
+    ax2.set_xlabel(r'$\tilde{r}$', fontsize=20)
+    ax2.set_ylabel('PDF', fontsize=20)
+    ax2.tick_params(axis='both', which='both', labelsize=15)
+    ax2.set_xlim(3, 5)
+    ax2.set_ylim(0.5 * 10 ** -3, 10 ** -2)
+    ax2.grid(True)
+
+    plt.tight_layout()
+
+    # Save plot
+    figure.savefig(f"../plot/08_ga.png")
+
+    plt.close()
+    del agg_returns_data
+    del figure
+    del plot_1
+    del plot_2
+
+# ----------------------------------------------------------------------------
+
+
+def pdf_ag_distributions_plot(dates: List[str],
+                              time_step: str,
+                              N_values: List[int],
+                              K_value: int,
+                              l_values: List[int]) -> None:
+    """Plots all the distributions and compares with agg. returns of a market.
+
+    :param dates: List of the interval of dates to be analyzed
+     (i.e. ['1980-01', '2020-12']).
+    :param time_step: time step of the data (i.e. '1m', '2m', '5m', ...).
+    :param N_values: fit parameter (i.e. [3, 4, 5, 6]).
+    :param K_value: number of companies.
+    :param l_values: shape parameter (i.e. [3, 4, 5, 6]).
+    :return: None -- The function saves the plot in a file and does not return
+     a value.
+    """
+
+    figure, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 9))
+
+    markers: List[str] = ['o', '^', 's', 'P']
+
+    try:
+
+        # Load data
+        agg_returns_data: pd.Series = pickle.load(open(
+            '../../project/data/exact_distributions_covariance/aggregated_dist'
+            + f'_returns_market_data_{dates[0]}_{dates[1]}_step_{time_step}'
+            + f'.pickle', 'rb'))
+
+        agg_returns_data = agg_returns_data.rename(r'$\tilde{r}$')
+
+    except FileNotFoundError as error:
+        print('No data')
+        print(error)
+        print()
+
+    # Log plot
+    plot_1 = agg_returns_data.plot(kind='density', style=markers[0], logy=True,
+                                   ax=ax1, legend=False, ms=7)
+    plot_2 = agg_returns_data.plot(kind='density', style=markers[0],
+                                   loglog=True, ax=ax2, legend=False, ms=7)
+
+    x_val_log: np.ndarray = np.arange(-10, 10, 0.05)
+
+    for N_value in N_values:
+        for l_value in l_values:
+            ag_distribution_log: np.ndarray = exact_distributions_tools\
+                .pdf_algebraic_gaussian(x_val_log, K_value, l_value,
+                                        N_value, 1)
+            ax1.semilogy(x_val_log, ag_distribution_log, '-', lw=5,
+                        label=f'N = {N_value} - l = {l_value}')
+            ax2.loglog(x_val_log, ag_distribution_log, '-', lw=5,
+                    label=f'N = {N_value} - l = {l_value}')
+
+    ax1.set_xlabel(r'$\tilde{r}$', fontsize=25)
+    ax1.set_ylabel('PDF', fontsize=25)
+    ax1.tick_params(axis='both', which='both', labelsize=15)
+    ax1.set_xlim(-6, 6)
+    ax1.set_ylim(10 ** -4, 1)
+    ax1.grid(True)
+
+    ax2.legend(loc='upper center', bbox_to_anchor=(1.35, 0.6), ncol=1,
+               fontsize=20)
+    ax2.set_xlabel(r'$\tilde{r}$', fontsize=20)
+    ax2.set_ylabel('PDF', fontsize=20)
+    ax2.tick_params(axis='both', which='both', labelsize=15)
+    ax2.set_xlim(3, 5)
+    ax2.set_ylim(0.5 * 10 ** -3, 10 ** -2)
+    ax2.grid(True)
+
+    plt.tight_layout()
+
+    # Save plot
+    figure.savefig(f"../plot/08_ag.png")
+
+    plt.close()
+    del agg_returns_data
+    del figure
+    del plot_1
+    del plot_2
+
+# ----------------------------------------------------------------------------
+
+
+def pdf_aa_distributions_plot(dates: List[str],
+                              time_step: str,
+                              N_values: List[int],
+                              K_value: int,
+                              L_values: List[int],
+                              l_values: List[int]) -> None:
+    """Plots all the distributions and compares with agg. returns of a market.
+
+    :param dates: List of the interval of dates to be analyzed
+     (i.e. ['1980-01', '2020-12']).
+    :param time_step: time step of the data (i.e. '1m', '2m', '5m', ...).
+    :param N_values: fit parameter (i.e. [3, 4, 5, 6]).
+    :param K_value: number of companies.
+    :param L_values: shape parameter (i.e. [3, 4, 5, 6]).
+    :param l_values: shape parameter (i.e. [3, 4, 5, 6]).
+    :return: None -- The function saves the plot in a file and does not return
+     a value.
+    """
+
+    figure, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 9))
+
+    markers: List[str] = ['o', '^', 's', 'P']
+
+    try:
+
+        # Load data
+        agg_returns_data: pd.Series = pickle.load(open(
+            '../../project/data/exact_distributions_covariance/aggregated_dist'
+            + f'_returns_market_data_{dates[0]}_{dates[1]}_step_{time_step}'
+            + f'.pickle', 'rb'))
+
+        agg_returns_data = agg_returns_data.rename(r'$\tilde{r}$')
+
+    except FileNotFoundError as error:
+        print('No data')
+        print(error)
+        print()
+
+    # Log plot
+    plot_1 = agg_returns_data.plot(kind='density', style=markers[0], logy=True,
+                                   ax=ax1, legend=False, ms=7)
+    plot_2 = agg_returns_data.plot(kind='density', style=markers[0],
+                                   loglog=True, ax=ax2, legend=False, ms=7)
+
+    x_val_log: np.ndarray = np.arange(-10, 10, 0.05)
+
+    for N_value in N_values:
+        for L_value in L_values:
+            for l_value in l_values:
+                aa_distribution_log: np.ndarray = exact_distributions_tools\
+                    .pdf_algebraic_algebraic(x_val_log, K_value, L_value,
+                                             l_value, N_value, 1)
+                ax1.semilogy(x_val_log, aa_distribution_log, '-', lw=5,
+                             label=f'N = {N_value} - L = {L_value}'
+                                   + f' - l = {l_value}')
+                ax2.loglog(x_val_log, aa_distribution_log, '-', lw=5,
+                           label=f'N = {N_value} - L = {L_value}'
+                                 + f' - l = {l_value}')
+
+    ax1.set_xlabel(r'$\tilde{r}$', fontsize=25)
+    ax1.set_ylabel('PDF', fontsize=25)
+    ax1.tick_params(axis='both', which='both', labelsize=15)
+    ax1.set_xlim(-6, 6)
+    ax1.set_ylim(10 ** -4, 1)
+    ax1.grid(True)
+
+    ax2.legend(loc='upper right',# bbox_to_anchor=(1.35, 0.6), ncol=1,
+               fontsize=15)
+    ax2.set_xlabel(r'$\tilde{r}$', fontsize=20)
+    ax2.set_ylabel('PDF', fontsize=20)
+    ax2.tick_params(axis='both', which='both', labelsize=15)
+    ax2.set_xlim(3, 5)
+    ax2.set_ylim(0.5 * 10 ** -3, 10 ** -2)
+    ax2.grid(True)
+
+    plt.tight_layout()
+
+    # Save plot
+    figure.savefig(f"../plot/08_aa.png")
+
+    plt.close()
+    del agg_returns_data
+    del figure
+    del plot_1
+    del plot_2
 
 # ----------------------------------------------------------------------------
 
@@ -209,8 +379,13 @@ def main() -> None:
     :return: None.
     """
 
-    pdf_all_distributions_plot(['1992-01', '2012-12'], "1d")
-    pdf_all_distributions_plot(['2012-01', '2020-12'], "1d")
+    # pdf_gg_distributions_plot(['1990-01-01', '2020-12-31'], '1d', [2, 3, 4, 5])
+    # pdf_ga_distributions_plot(['1990-01-01', '2020-12-31'], '1d',
+    #                           [2, 3, 4], 244, [150])
+    # pdf_ag_distributions_plot(['1990-01-01', '2020-12-31'], '1d',
+    #                           [2, 3, 4, 5], 244, [150])
+    pdf_aa_distributions_plot(['1990-01-01', '2020-12-31'], '1d',
+                              [2, 3, 4, 5], 244, [150], [150])
 
 # -----------------------------------------------------------------------------
 
