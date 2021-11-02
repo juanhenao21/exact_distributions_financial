@@ -2,10 +2,10 @@
 \label{sec:exact_distributions}
 
 
-In Sect. \ref{subsec:general_considerations} we set the theoretical considerations
-to construct the distributions. In Sect.  \ref{subsec:distributions} we define the
-four distribution cases and in \ref{subsec:graphical_distributions} we show
-their graphical representation.
+In Sect. \ref{subsec:general_considerations} we set the theoretical
+considerations to construct the distributions. In Sect.
+\ref{subsec:distributions} we define the four distribution cases and in Sect.
+\ref{subsec:graphical_distributions} we show their graphical representation.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{General considerations}\label{subsec:general_considerations}
@@ -13,15 +13,9 @@ their graphical representation.
 To compare the $K$ variate distributions with data, the crucial idea is to
 construct $K$ univariate distributions out of the $K$ variate one which are
 then overlaid \cite{exact_distributions_guhr}. To decouple the amplitudes, we
-rotate the vector $r$ into the eigenbasis of the correlation matrix C or the
-eigenbasis of the covariance matrix $\Sigma$
-\cite{non_stationarity_fin_guhr,exact_distributions_guhr}. More precisely, we
-use the diagonalization
-\begin{align}
-    C = U \Lambda U^{\dagger} \text{ such that }
-    C^{-1/2} = U \Lambda^{-1/2} U^{\dagger}
-\end{align}
-or
+rotate the vector $r$ into the eigenbasis of the eigenbasis of the covariance
+matrix $\Sigma$ \cite{non_stationarity_fin_guhr,exact_distributions_guhr}. More
+precisely, we use the diagonalization
 \begin{align}
     \Sigma = U \Lambda U^{\dagger} \text{ such that }
     \Sigma^{-1/2} = U \Lambda^{-1/2} U^{\dagger},
@@ -35,11 +29,12 @@ rotated amplitudes
 \end{equation}
 as new arguments of the ensemble averaged amplitude distribution.
 
-When analyzing data, $K$ is given, we obtain the matrices $C$ and $\Sigma$ by
-using the originally measured amplitudes for sampling over the long time interval.
-In all cases, the parameter N is a fit parameter, measuring the strenght of the
-fluctuations. Experience tells, that $N$ sensitevily determines the shape and is
-best obtained by fitting the whole distribution to the data.
+When analyzing data, $K$ is given, we obtain the matrix $\Sigma$ by using the
+originally measured amplitudes for sampling over the long time interval. In all
+cases, the parameter N is a fit parameter, measuring the strength of the
+fluctuations. Experience tells, that $N$ sensitively determines the shape and
+is best obtained by fitting the whole distribution to the data. For three
+cases, the parameter $L$ and $l$ are shape parameters.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Four cases distributions}\label{subsec:distributions}
@@ -115,7 +110,7 @@ the stronger peaked is the distribution and heavier are the tails.
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.6\columnwidth]
+    \includegraphics[width=0.9\columnwidth]
     {figures/07_distributions_comparison.png}
     \caption{Probability densities $\left\langle p \right\rangle_{YY'}^{\left(k\right)}$,
              in the Markovian case versus the rotated amplitudes $\tilde{r}$,
@@ -134,17 +129,16 @@ the stronger peaked is the distribution and heavier are the tails.
 
 To plot a comparison of the distributions involving algebraic distributions
 with those in the Gaussian-Gaussian case, we choose values of $L$ and $l$ which
-ensure the existence of the first matrix moment (?). We notice that the
-conditions on the existence of the algebraic distributions, i.e., of their
-normalizations, are slightly weaker. The variances $\left\langle \tilde{r}_{k} \right\rangle_{YY'}{\left(k\right)}$
-are simply given by $\Lambda_{k}$. The functional form of all distributions
+ensure the existence of the first matrix moment. We notice that the conditions
+on the existence of the algebraic distributions, i.e., of their normalizations,
+are slightly weaker. The variances
+$\left\langle \tilde{r}_{k} \right\rangle_{YY'}{\left(k\right)}$ are simply
+given by $\Lambda_{k}$. The functional form of all distributions
 $\left\langle p \right\rangle_{YY'}{\left(k\right)} \left(\tilde{r}_{k} \vert D \right)$
 then allows us to normalize the rotated amplitude $\tilde{r}_k$ by the standard
 deviation
-
 \begin{equation}
     \tilde{r} = \frac{\tilde{r}_{k}}{\sqrt{\Lambda_{k}}}
 \end{equation}
-
 such that all $K$ distributions in this variable coincide and the corresponding
 variances are all given by one.
