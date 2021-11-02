@@ -83,7 +83,7 @@ def main() -> None:
     # Initial year and time step
     dates: List[List[str]] = [['1990-01-01', '2020-12-31']]
     time_steps: List[str] = ['1d']
-    windows: List[str] = ['10', '25', '40', '55']
+    windows: List[str] = ['55', '40', '25', '10']
     K_values: List[str] = ['20', '50', 'all']
 
     # Basic folders
