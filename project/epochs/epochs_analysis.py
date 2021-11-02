@@ -71,6 +71,7 @@ def returns_data(dates: List[str], time_step: str) -> None:
             + f'_{time_step}.pickle', 'rb'))
 
         returns_df: pd.DataFrame = data.pct_change().dropna()
+        returns_df = returns_df.iloc[:, :200]
 
         # Saving data
         epochs_tools \
@@ -362,7 +363,7 @@ def epochs_aggregated_dist_returns_market_data(dates: List[str],
         if K_value == 'all':
             stocks_name: pd.DataFrame = pickle.load(open(
                 f'../data/epochs/returns_data_{dates[0]}_{dates[1]}_step'
-                + f'_{time_step}_win__K_.pickle', 'rb'))
+                + f'_{time_step}_win__K_.pickle', 'rb'))[:200]
 
         else:
             stocks_name = pickle.load(open(
@@ -412,14 +413,6 @@ def main() -> None:
 
     :return: None.
     """
-
-    dates_1m = ['2021-07-19', '2021-08-07']
-    dates_1h = ['2021-06-01', '2021-07-31']
-    dates = ['1990-01-01', '2020-12-31']
-
-    win = '10'
-
-    epochs_aggregated_dist_returns_market_data(dates_1h, '1h', win, '10')
 
 # -----------------------------------------------------------------------------
 
