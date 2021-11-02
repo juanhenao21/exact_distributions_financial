@@ -62,9 +62,7 @@ def distributions_plot(N: float, K: float, L: float, l: float) -> None:
 
     markers: List[str] = ['-o', '-^', '-s', '-P']
 
-    figure: plt.Figure = plt.figure(figsize=(9, 16))
-    ax1: plt.subplot = plt.subplot(2, 1, 1)
-    ax2: plt.subplot = plt.subplot(2, 1, 2)
+    figure, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 9))
 
     # Linear plot
     ax1.plot(x_vals_lin, gg_distribution_lin, markers[0], ms=10, label=f'GG')
@@ -90,14 +88,13 @@ def distributions_plot(N: float, K: float, L: float, l: float) -> None:
     ax2.semilogy(x_vals_log, aa_distribution_log, markers[3], ms=10,
                  label=f'AA')
 
-    ax2.legend(loc='upper center', bbox_to_anchor=(0.5, -0.09), ncol=4,
+    ax2.legend(loc='upper center', bbox_to_anchor=(1.13, 0.6), ncol=1,
                fontsize=20)
     ax2.set_xlabel(r'$\tilde{r}$', fontsize=20)
     ax2.set_ylabel(r'PDF', fontsize=20)
-    ax2.tick_params(axis='x', labelsize=15)
-    ax2.tick_params(axis='y', labelsize=15)
-    ax2.set_xlim(-8, 8)
-    ax2.set_ylim(10 ** -6.5, 1)
+    ax2.tick_params(axis='both', which='both', labelsize=15)
+    ax2.set_xlim(-6, 6)
+    ax2.set_ylim(10 ** -5, 1)
     ax2.grid(True)
 
     plt.tight_layout()
