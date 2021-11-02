@@ -85,7 +85,7 @@ def epochs_gaussian_agg_dist_returns_market_plot(dates: List[List[str]],
         plt.xticks(fontsize=25)
         plt.yticks(fontsize=25)
         plt.xlim(-6, 6)
-        plt.ylim(10 ** -5, 1)
+        plt.ylim(10 ** -4, 1)
         plt.grid(True)
         plt.tight_layout()
 
@@ -163,7 +163,7 @@ def epochs_algebraic_agg_dist_returns_market_plot(dates: List[List[str]],
         ax1.set_ylabel('PDF', fontsize=20)
         ax1.tick_params(axis='both', labelsize=15)
         ax1.set_xlim(-6, 6)
-        ax1.set_ylim(10 ** -5, 1)
+        ax1.set_ylim(10 ** -4, 1)
         ax1.grid(True)
 
         ax2.legend(loc='upper center', bbox_to_anchor=(1.4, 0.6), ncol=1,
@@ -172,7 +172,7 @@ def epochs_algebraic_agg_dist_returns_market_plot(dates: List[List[str]],
         ax2.set_ylabel('PDF', fontsize=20)
         ax2.tick_params(axis='both', which='both', labelsize=15)
         ax2.set_xlim(3, 5)
-        ax2.set_ylim(10 ** -5, 10 ** -2)
+        ax2.set_ylim(10 ** -4, 10 ** -2)
         ax2.grid(True)
 
         plt.tight_layout()
@@ -282,7 +282,7 @@ def epochs_var_win_all_empirical_dist_returns_market_plot(
                 ax.tick_params(axis='x', labelsize=20)
                 ax.tick_params(axis='y', labelsize=20)
                 ax.set_xlim(-6, 6)
-                ax.set_ylim(10 ** -5, 1)
+                ax.set_ylim(10 ** -4, 1)
                 ax.grid(True)
             # for ax in [ax1, ax3]:
             #     labels_y = ax.get_yticklabels()
@@ -325,16 +325,16 @@ def main() -> None:
     dates: List[List[str]] = [['1990-01-01', '2020-12-31']]
     time_steps: List[str] = ['1d']
 
-    # epochs_gaussian_agg_dist_returns_market_plot(dates, time_steps, '25', '200')
-    # epochs_algebraic_agg_dist_returns_market_plot(dates, time_steps,
-    #                                               '55', '200',
-    #                                               [104])
+    epochs_gaussian_agg_dist_returns_market_plot(dates, time_steps, '25', 'all')
+    epochs_algebraic_agg_dist_returns_market_plot(dates, time_steps,
+                                                  '55', 'all',
+                                                  [104])
     # epochs_var_win_all_empirical_dist_returns_market_plot(dates, time_steps,
     #                                                       ['0'], ['20', '50', '200'])
     # epochs_var_win_all_empirical_dist_returns_market_plot(dates, time_steps,
     #                                                       ['1'], ['150', '200'])
     epochs_var_win_all_empirical_dist_returns_market_plot(dates, time_steps,
-                                                          ['2'], ['20', '100', '200'])
+                                                          ['2'], ['20', '100', 'all'])
 
 # -----------------------------------------------------------------------------
 
