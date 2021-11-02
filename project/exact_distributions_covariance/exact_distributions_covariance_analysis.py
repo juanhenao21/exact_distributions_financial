@@ -93,45 +93,49 @@ def aggregated_dist_returns_market_data(dates: List[str],
         print('Size of time series and number of companies: ',
               returns_vals.shape)
 
-        returns_vals = (returns_vals - returns_vals.mean()) \
-            / returns_vals.std()
-
-        cov: pd.DataFrame = returns_vals.cov()
-        # eig_vec:  eigenvector, eig_val: eigenvalues
-        eig_val, eig_vec = np.linalg.eigh(cov)
-
-        # rot: rotation, scal: scaling
-        rot, scale = eig_vec, np.diag(1 / np.sqrt(eig_val))
-        # trans: transformation matrix
-        # trans = rot . scal
-        trans = rot.dot(scale)
-
-        trans_returns: pd.DataFrame = returns_vals.dot(trans)
-        trans_returns.columns = returns_vals.columns
-
-        one_col: List[pd.Series] = []
-
-        for col in trans_returns.columns:
-
-            one_col.append(trans_returns[col])
-
-        agg_returns = pd.concat(one_col, ignore_index=True)
-
-        print(f'Std. Dev. {dates} = {agg_returns.std()}')
-
-        # Saving data
-        exact_distributions_covariance_tools \
-            .save_data(agg_returns, function_name, dates, time_step)
-
-        del returns_vals
-        del trans_returns
-        del agg_returns
-        del one_col
-
     except FileNotFoundError as error:
         print('No data')
         print(error)
         print()
+
+    # Normalization mean 0 std 1
+    returns_vals = (returns_vals - returns_vals.mean()) / returns_vals.std()
+
+    cov: pd.DataFrame = returns_vals.cov()
+    # eig_vec:  eigenvector, eig_val: eigenvalues
+    eig_val, eig_vec = np.linalg.eig(cov)
+
+    # rot: rotation, scal: scaling
+    rot, scale = eig_vec, np.diag(1 / np.sqrt(eig_val))
+    # trans: transformation matrix
+    # trans = rot . scal
+    trans = rot.dot(scale)
+
+    # Transform the returns
+    trans_returns: pd.DataFrame = returns_vals.dot(trans)
+    # Name of the columns with the used stocks
+    trans_returns.columns = returns_vals.columns
+
+    one_col: List[pd.Series] = []
+
+    for col in trans_returns.columns:
+
+        one_col.append(trans_returns[col])
+
+    agg_returns = pd.concat(one_col, ignore_index=True)
+
+    print(f'Mean      {dates} = {agg_returns.mean()}')
+    print(f'Std. Dev. {dates} = {agg_returns.std()}')
+
+    # Saving data
+    exact_distributions_covariance_tools \
+        .save_data(agg_returns, function_name, dates, time_step)
+
+    del returns_vals
+    del trans_returns
+    del agg_returns
+    del one_col
+
 
 # ----------------------------------------------------------------------------
 
