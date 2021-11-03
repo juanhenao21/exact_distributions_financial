@@ -147,7 +147,7 @@ def epochs_algebraic_agg_dist_returns_market_plot(dates: List[List[str]],
         x_values: np.ndarray = np.arange(-10, 10, 0.3)
 
         if K_value == 'all':
-            K_value == 200
+            K_value = 200
 
         for l_value in l_values:
             algebraic: np.ndarray = epochs_tools \
