@@ -146,6 +146,9 @@ def epochs_algebraic_agg_dist_returns_market_plot(dates: List[List[str]],
 
         x_values: np.ndarray = np.arange(-10, 10, 0.3)
 
+        if K_value == 'all':
+            K_value == 200
+
         for l_value in l_values:
             algebraic: np.ndarray = epochs_tools \
                 .algebraic_distribution(int(K_value), l_value, x_values)
@@ -325,7 +328,7 @@ def main() -> None:
     dates: List[List[str]] = [['1990-01-01', '2020-12-31']]
     time_steps: List[str] = ['1d']
 
-    epochs_gaussian_agg_dist_returns_market_plot(dates, time_steps, '25', 'all')
+    # epochs_gaussian_agg_dist_returns_market_plot(dates, time_steps, '25', 'all')
     epochs_algebraic_agg_dist_returns_market_plot(dates, time_steps,
                                                   '55', 'all',
                                                   [104])
