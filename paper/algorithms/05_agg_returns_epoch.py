@@ -295,10 +295,12 @@ def epochs_var_win_all_empirical_dist_returns_market_plot(
             #     labels_x = ax.get_xticklabels()
             #     labels_x[-1] = ""
             #     ax.set_xticklabels(labels_x)
-            ax3.legend(loc='upper center', bbox_to_anchor=(1.0, -0.2), ncol=6,
-                   fontsize=15)
-            ax4.set_xticks(ax4.get_xticks()[1:])
+            ax3.legend(loc='upper center', bbox_to_anchor=(1.0, -0.2), ncol=4,
+                       fontsize=15)
+            ax1.set_yticks(ax1.get_yticks()[2:-1])
+            ax3.set_yticks(ax3.get_yticks()[1:-2])
             ax3.set_xticks(ax3.get_xticks()[:-1])
+            ax4.set_xticks(ax4.get_xticks()[1:])
 
             plt.tight_layout()
 
@@ -329,9 +331,9 @@ def main() -> None:
     time_steps: List[str] = ['1d']
 
     # epochs_gaussian_agg_dist_returns_market_plot(dates, time_steps, '25', 'all')
-    epochs_algebraic_agg_dist_returns_market_plot(dates, time_steps,
-                                                  '55', 'all',
-                                                  [104])
+    # epochs_algebraic_agg_dist_returns_market_plot(dates, time_steps,
+    #                                               '55', 'all',
+    #                                               [104])
     # epochs_var_win_all_empirical_dist_returns_market_plot(dates, time_steps,
     #                                                       ['0'], ['20', '50', '200'])
     # epochs_var_win_all_empirical_dist_returns_market_plot(dates, time_steps,
