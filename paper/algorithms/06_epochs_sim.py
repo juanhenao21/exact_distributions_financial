@@ -324,7 +324,7 @@ def main() -> None:
 
     epochs_var_win_all_empirical_dist_returns_market_plot(dates, time_steps,
                                                           [''],
-                                                          ['20', '100', '200'])
+                                                          ['20', '100', 'all'])
 
 
 # -----------------------------------------------------------------------------
