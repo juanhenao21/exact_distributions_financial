@@ -85,7 +85,7 @@ def epochs_sim_agg_ret_pairs(K_value: int,
     plt.xticks(fontsize=25)
     plt.yticks(fontsize=25)
     plt.xlim(-6, 6)
-    plt.ylim(10 ** -5, 1)
+    plt.ylim(10 ** -4, 1)
     plt.grid(True)
     plt.tight_layout()
 
@@ -164,7 +164,7 @@ def epochs_sim_ts_norm_agg_ret(K_value: int,
     plt.xticks(fontsize=25)
     plt.yticks(fontsize=25)
     plt.xlim(-6, 6)
-    plt.ylim(10 ** -5, 1)
+    plt.ylim(10 ** -4, 1)
     plt.grid(True)
     plt.tight_layout()
 
@@ -270,7 +270,7 @@ def epochs_var_win_all_empirical_dist_returns_market_plot(
                 ax.tick_params(axis='x', labelsize=20)
                 ax.tick_params(axis='y', labelsize=20)
                 ax.set_xlim(-6, 6)
-                ax.set_ylim(10 ** -5, 1)
+                ax.set_ylim(10 ** -4, 1)
                 ax.grid(True)
             # for ax in [ax1, ax3]:
             #     labels_y = ax.get_yticklabels()
@@ -282,13 +282,15 @@ def epochs_var_win_all_empirical_dist_returns_market_plot(
             #     ax.set_xticklabels(labels_x)
             ax3.legend(loc='upper center', bbox_to_anchor=(1.0, -0.2), ncol=6,
                    fontsize=15)
-            ax4.set_xticks(ax4.get_xticks()[1:])
+            ax1.set_yticks(ax1.get_yticks()[2:-1])
+            ax3.set_yticks(ax3.get_yticks()[1:-2])
             ax3.set_xticks(ax3.get_xticks()[:-1])
+            ax4.set_xticks(ax4.get_xticks()[1:])
 
             plt.tight_layout()
 
             # Plotting
-            figure_log.savefig(f'../plot/06_window_comparison_{windows[0]}.png')
+            figure_log.savefig(f'../plot/06_window_comparison.png')
 
         plt.close()
         gc.collect()
@@ -312,20 +314,17 @@ def main() -> None:
     dates: List[List[str]] = [['1990-01-01', '2020-12-31']]
     time_steps: List[str] = ['1d']
 
-    # epochs_sim_agg_ret_pairs(200, normalized=False, kind='gaussian')
-    # epochs_sim_agg_ret_pairs(200, normalized=True, kind='gaussian')
-    # epochs_sim_agg_ret_pairs(200, normalized=False, kind='algebraic')
-    # epochs_sim_agg_ret_pairs(200, normalized=True, kind='algebraic')
+    epochs_sim_agg_ret_pairs(200, normalized=False, kind='gaussian')
+    epochs_sim_agg_ret_pairs(200, normalized=True, kind='gaussian')
+    epochs_sim_agg_ret_pairs(200, normalized=False, kind='algebraic')
+    epochs_sim_agg_ret_pairs(200, normalized=True, kind='algebraic')
 
     epochs_sim_ts_norm_agg_ret(200, 'gaussian')
     epochs_sim_ts_norm_agg_ret(200, 'algebraic')
 
     epochs_var_win_all_empirical_dist_returns_market_plot(dates, time_steps,
-                                                          ['0'], ['20', '50', '200'])
-    # epochs_var_win_all_empirical_dist_returns_market_plot(dates, time_steps,
-    #                                                       ['1'], ['150', '200'])
-    epochs_var_win_all_empirical_dist_returns_market_plot(dates, time_steps,
-                                                          ['2'], ['20', '100', '200'])
+                                                          [''],
+                                                          ['20', '100', '200'])
 
 
 # -----------------------------------------------------------------------------
