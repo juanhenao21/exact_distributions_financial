@@ -404,7 +404,7 @@ be estimated by the sample covariance matrix, otherwise only up to some factor.
     \centering
     \includegraphics[width=0.7\columnwidth]
     {figures/05_algebraic_agg_returns_short_epoch.png}
-    \caption{Semilog plot (left) and loglog plot (right) of the aggregated
+    \caption{[CHANGE] Semilog plot (left) and loglog plot (right) of the aggregated
              distribution of returns ($\tilde{r}$) for fixed covariance of 200
              companies selected from the S\&P 500 dataset. $\Delta t = 1d$ and
              epoch window length $T=55d$. The empirical data is compared with
@@ -429,21 +429,24 @@ we used small epochs window lengths.
 
 Using the methodology described in the work of Schmitt et al.
 \cite{non_stationarity_fin_guhr}, we wanted to find which was the best value of
-the epochs window length to fit the Gaussian case and the algebraic case. We
-use epochs window lengths $T = 10, 25, 40, 55$ days and $\Delta t = 1d$. In
-Fig. \ref{fig:window_comparison} can be seen the difference between epochs
+the epochs window length to fit the Gaussian and algebraic case. We used epochs
+window lengths $T = 10, 25, 40, 55$ days and $\Delta t = 1d$. In Fig.
+\ref{fig:window_comparison} can be seen the difference between epochs
 window lengths of the aggregated distribution of returns for fixed covariance
-of different amount of random companies selected from the S\&P 500 dataset. We
-choose random numbers of companies within our dataset to show the independence
-of shape related with the number of companies. We can see how for $T=25d$
-(top left) there is a good agreement with the Gaussian distribution, and how
-for values larger than $T=25d$, as $T=40d$ (bottom left) and $T=55d$
-(bottom right), the aggregated returns have fat tails. It is also interesting
-how for $T=10d$ (top left), the aggregated returns have a platykurtic behavior.
-The results for the aggregated distributions show that their shapes are
-independent of the number of companies used and only depend on the length of
-the time window length of the epochs. These results are weird, as depending on
-the number of companies used, the curves should have different shapes.
+of different amount of random companies selected from the S\&P 500 dataset.
+The first interesting characteristic, is that with few companies is enough
+information to obtain the general behavior. This, because we are selecting
+pairs of stocks from the dataset, such that the order of the selected stocks
+does not matter and without repetition, i.e. a combination. Thus, even with
+a small amount of companies, the results are statistically relevant. Then, We
+choose random numbers of companies within our dataset to show this
+characteristic. We can see how for $T=25d$ (top left) there is a good agreement
+with the Gaussian distribution, and how for values larger than $T=25d$, as
+$T=40d$ (bottom left) and $T=55d$ (bottom right), the aggregated returns have
+fat tails. However, for $T=10d$ (top left), the aggregated returns have a
+platykurtic behavior. This particular behavior is unusual and makes us wonder
+if somehow there is an artifact in the methodology we are using, that is
+affecting the other epochs window lengths as well.
 
 \begin{figure}[htbp]
     \centering
@@ -457,17 +460,12 @@ the number of companies used, the curves should have different shapes.
     \label{fig:window_comparison}
 \end{figure}
 
-We consider three different causes for this situation. First, it could be an
-ergodicity defect because only the length of the time window of the epochs show
-an effect. Second, the platykurtic behavior like in local normalization plots
-\cite{local_normalization} could be a detrending method. It is possible that we
-get this behavior from normalizing each epoch to mean
-$\mu = 0$ and $\sigma^{2}=1$. Finally, it could be that the rotation and
-scaling method has an effect because there should be heavy tails in aggregated
-returns without rotation and scaling.
-
-\textcolor{red}{Toni: maybe could you explain here your "guess" from the pdf
-document where you say there is a method artifact?}
+We consider two different causes for this situation in the small epochs window
+lengths. First, it could be an ergodicity defect because only the length of the
+time window of the epochs show an effect. Second, the platykurtic behavior like
+in local normalization plots \cite{local_normalization} could be a detrending
+method. It is possible that we get this behavior from normalizing each epoch to
+mean $\mu = 0$ and $\sigma^{2}=1$.
 
 To check what is the real cause of this behavior we will use simulations.
 With these simulations we know which parameters we are using, and we have a
