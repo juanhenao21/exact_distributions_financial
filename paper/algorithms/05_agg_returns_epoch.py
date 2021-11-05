@@ -255,13 +255,13 @@ def epochs_var_win_all_empirical_dist_returns_market_plot(
                 agg_55 = agg_55.rename(f'K = {K_value}')
 
                 plot_10 = agg_10.plot(kind='density', style=marker, ax=ax1,
-                                      logy=True, figsize=(16, 9), ms=10)
+                                      logy=True, figsize=(16, 9), ms=5)
                 plot_25 = agg_25.plot(kind='density', style=marker, ax=ax2,
-                                      logy=True, figsize=(16, 9), ms=10)
+                                      logy=True, figsize=(16, 9), ms=5)
                 plot_40 = agg_40.plot(kind='density', style=marker, ax=ax3,
-                                      logy=True, figsize=(16, 9), ms=10)
+                                      logy=True, figsize=(16, 9), ms=5)
                 plot_55 = agg_55.plot(kind='density', style=marker, ax=ax4,
-                                      logy=True, figsize=(16, 9), ms=10)
+                                      logy=True, figsize=(16, 9), ms=5)
 
                 figure_log = plot_10.get_figure()
                 figure_log = plot_25.get_figure()
