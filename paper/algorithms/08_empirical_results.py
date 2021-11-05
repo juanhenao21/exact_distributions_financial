@@ -91,13 +91,12 @@ def pdf_gg_distributions_plot(dates: List[str],
     ax1.set_ylim(10 ** -4, 1)
     ax1.grid(True)
 
-    ax2.legend(loc='upper center', bbox_to_anchor=(1.2, 0.6), ncol=1,
-               fontsize=20)
+    ax2.legend(loc='upper right', fontsize=20)
     ax2.set_xlabel(r'$\tilde{r}$', fontsize=20)
     ax2.set_ylabel('PDF', fontsize=20)
     ax2.tick_params(axis='both', which='both', labelsize=15)
     ax2.set_xlim(3, 5)
-    ax2.set_ylim(10 ** -4, 10 ** -2)
+    ax2.set_ylim(0.5 * 10 ** -3, 10 ** -2)
     ax2.grid(True)
 
     plt.tight_layout()
@@ -175,8 +174,7 @@ def pdf_ga_distributions_plot(dates: List[str],
     ax1.set_ylim(10 ** -4, 1)
     ax1.grid(True)
 
-    ax2.legend(loc='upper center', bbox_to_anchor=(1.35, 0.6), ncol=1,
-               fontsize=20)
+    ax2.legend(loc='upper right', fontsize=20)
     ax2.set_xlabel(r'$\tilde{r}$', fontsize=20)
     ax2.set_ylabel('PDF', fontsize=20)
     ax2.tick_params(axis='both', which='both', labelsize=15)
@@ -259,8 +257,7 @@ def pdf_ag_distributions_plot(dates: List[str],
     ax1.set_ylim(10 ** -4, 1)
     ax1.grid(True)
 
-    ax2.legend(loc='upper center', bbox_to_anchor=(1.35, 0.6), ncol=1,
-               fontsize=20)
+    ax2.legend(loc='upper right', fontsize=20)
     ax2.set_xlabel(r'$\tilde{r}$', fontsize=20)
     ax2.set_ylabel('PDF', fontsize=20)
     ax2.tick_params(axis='both', which='both', labelsize=15)
@@ -348,8 +345,7 @@ def pdf_aa_distributions_plot(dates: List[str],
     ax1.set_ylim(10 ** -4, 1)
     ax1.grid(True)
 
-    ax2.legend(loc='upper right',# bbox_to_anchor=(1.35, 0.6), ncol=1,
-               fontsize=15)
+    ax2.legend(loc='upper right', fontsize=18)
     ax2.set_xlabel(r'$\tilde{r}$', fontsize=20)
     ax2.set_ylabel('PDF', fontsize=20)
     ax2.tick_params(axis='both', which='both', labelsize=15)
@@ -379,11 +375,11 @@ def main() -> None:
     :return: None.
     """
 
-    # pdf_gg_distributions_plot(['1990-01-01', '2020-12-31'], '1d', [2, 3, 4, 5])
-    # pdf_ga_distributions_plot(['1990-01-01', '2020-12-31'], '1d',
-    #                           [2, 3, 4], 244, [150])
-    # pdf_ag_distributions_plot(['1990-01-01', '2020-12-31'], '1d',
-    #                           [2, 3, 4, 5], 244, [150])
+    pdf_gg_distributions_plot(['1990-01-01', '2020-12-31'], '1d', [2, 3, 4, 5])
+    pdf_ga_distributions_plot(['1990-01-01', '2020-12-31'], '1d',
+                              [2, 3, 4], 244, [150])
+    pdf_ag_distributions_plot(['1990-01-01', '2020-12-31'], '1d',
+                              [2, 3, 4, 5], 244, [150])
     pdf_aa_distributions_plot(['1990-01-01', '2020-12-31'], '1d',
                               [2, 3, 4, 5], 244, [150], [150])
 
