@@ -509,21 +509,21 @@ def main() -> None:
     windows = [100, 55, 40, 25, 10]
 
     #################
-    # # Code to create complete time series of simulated returns.
-    # # Returns
-    # # Gaussian
-    # ret_gauss: pd.DataFrame = returns_simulation_gaussian(0.3, K_value, 8000)
-    # print(ret_gauss.head())
-    # pickle.dump(ret_gauss, open(
-    #     f'../data/epochs_sim/returns_simulation_gaussian_K_{K_value}.pickle',
-    #     'wb'), protocol=4)
-    # # Algebraic
-    # ret_alg: pd.DataFrame = \
-    #     returns_simulation_algebraic(0.3, K_value, 8000, 10)
-    # print(ret_alg.head())
-    # pickle.dump(ret_gauss, open(
-    #     f'../data/epochs_sim/returns_simulation_algebraic_K_{K_value}.pickle',
-    #     'wb'), protocol=4)
+    # Code to create complete time series of simulated returns.
+    # Returns
+    # Gaussian
+    ret_gauss: pd.DataFrame = returns_simulation_gaussian(0.3, K_value, 8000)
+    print(ret_gauss.head())
+    pickle.dump(ret_gauss, open(
+        f'../data/epochs_sim/returns_simulation_gaussian_K_{K_value}.pickle',
+        'wb'), protocol=4)
+    # Algebraic
+    ret_alg: pd.DataFrame = \
+        returns_simulation_algebraic(0.3, K_value, 8000, 10)
+    print(ret_alg.head())
+    pickle.dump(ret_gauss, open(
+        f'../data/epochs_sim/returns_simulation_algebraic_K_{K_value}.pickle',
+        'wb'), protocol=4)
     ################
 
     for win in windows:

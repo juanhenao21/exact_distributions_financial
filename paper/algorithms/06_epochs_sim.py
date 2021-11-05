@@ -177,7 +177,7 @@ def epochs_sim_ts_norm_agg_ret(K_value: int,
     plt.close()
     # del agg_ret_pairs
     del figure
-    # del plot
+    del plot
     gc.collect()
 
 # ----------------------------------------------------------------------------
