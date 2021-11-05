@@ -94,7 +94,7 @@ def distributions_plot(N: float, K: float, L: float, l: float) -> None:
     ax2.set_ylabel(r'PDF', fontsize=20)
     ax2.tick_params(axis='both', which='both', labelsize=15)
     ax2.set_xlim(-6, 6)
-    ax2.set_ylim(10 ** -5, 1)
+    ax2.set_ylim(10 ** -4, 1)
     ax2.grid(True)
 
     plt.tight_layout()
