@@ -44,7 +44,7 @@ approach is that all simulations should show standard normal distributions.
     \centering
     \includegraphics[width=0.6\columnwidth]
     {figures/06_epochs_sim_gauss_agg_ret_pairs_no_norm.png}
-    \caption{[Change] Simulated aggregated rotated and scaled Gaussian distributed
+    \caption{Simulated aggregated rotated and scaled Gaussian distributed
              returns ($\tilde{r}$) for fixed covariance and $K=200$ without
              normalization, neither within the epochs nor for all the time
              series. $\Delta t = 1$ unit and epochs window  lengths
@@ -123,7 +123,7 @@ approach is that all simulations should show standard algebraic distributions.
     \centering
     \includegraphics[width=0.6\columnwidth]
     {figures/06_epochs_sim_alg_agg_ret_pairs_no_norm.png}
-    \caption{[Change] Simulated aggregated rotated and scaled algebraic distributed
+    \caption{Simulated aggregated rotated and scaled algebraic distributed
              returns ($\tilde{r}$) for fixed covariance and $K=200$ without
              normalization, neither within the epochs nor for all the time
              series. $\Delta t = 1$ unit and epochs window  lengths
@@ -161,7 +161,7 @@ we aggregate all the components into a single univariate distribution.
     \centering
     \includegraphics[width=0.6\columnwidth]
     {figures/06_epochs_sim_gauss_agg_ret_pairs_norm.png}
-    \caption{[Change] Simulated aggregated rotated and scaled Gaussian distributed
+    \caption{Simulated aggregated rotated and scaled Gaussian distributed
              returns ($\tilde{r}$) for fixed covariance and $K=200$ with
              normalization within the epochs. $\Delta t = 1$ unit and epochs
              window lengths $T=10, 25, 40, 55, 100$ units.}
@@ -188,7 +188,7 @@ small values. Thus, we need to find an alternative to solve this problem.
     \centering
     \includegraphics[width=0.6\columnwidth]
     {figures/06_epochs_sim_alg_agg_ret_pairs_norm.png}
-    \caption{[Change] Simulated aggregated rotated and scaled Gaussian distributed
+    \caption{Simulated aggregated rotated and scaled Gaussian distributed
              returns ($\tilde{r}$) for fixed covariance and $K=200$ with
              normalization within the epochs. $\Delta t = 1$ unit and epochs
              window lengths $T=10, 25, 40, 55, 100$ units.}
@@ -204,6 +204,10 @@ We already showed that the ergodicity effect is directly related with the
 normalization of the time series. To try to solve this issue, instead of
 normalize the time series within each epoch, we normalize the complete time
 series and then proceed to rotate, scale and aggregate.
+
+In Fig. \ref{fig:epochs_gauss_agg_ret_pairs_norm_full_ts} and Fig.
+\ref{fig:epochs_alg_agg_ret_pairs_norm_full_ts} are shown the Gaussian and
+algebraic case
 
 \begin{figure}[htbp]
     \centering
@@ -231,14 +235,14 @@ series and then proceed to rotate, scale and aggregate.
 \subsection{Empirical results}
 \label{subsec:emp_results}
 
-% \begin{figure}[htbp]
-%     \centering
-%     \includegraphics[width=0.8\columnwidth]
-%     {figures/06_window_comparison.png}
-%     \caption{[CAMBIAR IMAGEN] Aggregated distribution of returns ($\tilde{r}$) for fixed
-%              covariance of different number of companies selected from the S\&P
-%              500 dataset. $\Delta t = 1d$ and different epochs window lengths
-%              $T=10d$ (top left), $T=25d$ (top right), $T=40d$ (bottom left) and
-%              $T=55d$ (bottom right).}
-%     \label{fig:window_comparison_long_norm}
-% \end{figure}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\columnwidth]
+    {figures/06_window_comparison.png}
+    \caption{[CHANGE] Aggregated distribution of returns ($\tilde{r}$) for fixed
+             covariance of different number of companies selected from the S\&P
+             500 dataset. $\Delta t = 1d$ and different epochs window lengths
+             $T=10d$ (top left), $T=25d$ (top right), $T=40d$ (bottom left) and
+             $T=55d$ (bottom right).}
+    \label{fig:window_comparison_long_norm}
+\end{figure}
