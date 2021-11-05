@@ -314,17 +314,17 @@ def main() -> None:
     dates: List[List[str]] = [['1990-01-01', '2020-12-31']]
     time_steps: List[str] = ['1d']
 
-    epochs_sim_agg_ret_pairs(200, normalized=False, kind='gaussian')
-    epochs_sim_agg_ret_pairs(200, normalized=True, kind='gaussian')
-    epochs_sim_agg_ret_pairs(200, normalized=False, kind='algebraic')
-    epochs_sim_agg_ret_pairs(200, normalized=True, kind='algebraic')
+    # epochs_sim_agg_ret_pairs(200, normalized=False, kind='gaussian')
+    # epochs_sim_agg_ret_pairs(200, normalized=True, kind='gaussian')
+    # epochs_sim_agg_ret_pairs(200, normalized=False, kind='algebraic')
+    # epochs_sim_agg_ret_pairs(200, normalized=True, kind='algebraic')
 
-    epochs_sim_ts_norm_agg_ret(200, 'gaussian')
-    epochs_sim_ts_norm_agg_ret(200, 'algebraic')
+    # epochs_sim_ts_norm_agg_ret(200, 'gaussian')
+    # epochs_sim_ts_norm_agg_ret(200, 'algebraic')
 
     epochs_var_win_all_empirical_dist_returns_market_plot(dates, time_steps,
                                                           [''],
-                                                          ['20', '100', '200'])
+                                                          ['20', '100', 'all'])
 
 
 # -----------------------------------------------------------------------------
