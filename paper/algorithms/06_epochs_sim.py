@@ -130,10 +130,16 @@ def epochs_sim_ts_norm_agg_ret(K_value: int,
         # Simulate the aggregated returns for different epochs lenghts
         for epochs_len, marker in zip([10, 25, 40, 55, 100], markers):
             # Load data
-            agg_ret: pd.Series = pickle.load(open(
-                f'../../project/data/epochs_sim/epochs_sim_{kind}_agg_dist_ret'
-                + f'_market_data_long_win_{epochs_len}_K_{K_value}.pickle',
-                'rb'))
+            if kind == 'gaussian':
+                agg_ret: pd.Series = pickle.load(open(
+                    f'../../project/data/epochs_sim/epochs_sim_{kind}_agg_dist'
+                    + f'_ret_market_data_long_win_{epochs_len}_K_{K_value}'
+                    + f'.csv', 'rb'))
+            elif kind == 'algebraic':
+                agg_ret: pd.Series = pd.read_csv(
+                    f'../../project/data/epochs_sim/epochs_sim_{kind}_agg_dist'
+                    + f'_ret_market_data_long_win_{epochs_len}_K_{K_value}'
+                    + f'.csv', names=['x'], header=0)['x']
 
             agg_ret= agg_ret.rename(f'Epochs T={epochs_len}')
 
@@ -175,7 +181,7 @@ def epochs_sim_ts_norm_agg_ret(K_value: int,
         figure.savefig(f'../plot/06_epochs_sim_alg_ts_norm.png')
 
     plt.close()
-    # del agg_ret_pairs
+    del agg_ret
     del figure
     del plot
     gc.collect()
@@ -319,8 +325,8 @@ def main() -> None:
     # epochs_sim_agg_ret_pairs(200, normalized=False, kind='algebraic')
     # epochs_sim_agg_ret_pairs(200, normalized=True, kind='algebraic')
 
-    epochs_sim_ts_norm_agg_ret(200, 'gaussian')
-    epochs_sim_ts_norm_agg_ret(200, 'algebraic')
+    # epochs_sim_ts_norm_agg_ret(200, 'gaussian')
+    # epochs_sim_ts_norm_agg_ret(200, 'algebraic')
 
     # epochs_var_win_all_empirical_dist_returns_market_plot(dates, time_steps,
     #                                                       [''],
