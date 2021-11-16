@@ -199,15 +199,21 @@ small values. Thus, we need to find an alternative to solve this problem.
 \subsection{Normalization complete return time series}
 \label{subsec:norm_full_sim}
 
-[AQUI]
 We already showed that the ergodicity effect is directly related with the
 normalization of the time series. To try to solve this issue, instead of
-normalize the time series within each epoch, we normalize the complete time
+normalizing the time series within each epoch, we normalize the complete time
 series and then proceed to rotate, scale and aggregate.
 
 In Fig. \ref{fig:epochs_gauss_agg_ret_pairs_norm_full_ts} and Fig.
 \ref{fig:epochs_alg_agg_ret_pairs_norm_full_ts} are shown the Gaussian and
-algebraic case
+algebraic cases with the corresponding simulations. We can notice how in both
+cases the ergodicity defect disappears. In each epochs window length, the
+probability density function perfectly fits the Gaussian distribution and the
+algebraic distribution. It can be noted that the larger the epochs window
+length, the better the simulated data fit the distribution. However, to
+accomplish our assumption of stationarity on short time scales, the results
+for short epochs window lengths have a good agreement with the theoretical
+distribution.
 
 \begin{figure}[htbp]
     \centering
@@ -234,6 +240,16 @@ algebraic case
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Empirical results}
 \label{subsec:emp_results}
+
+After we found the problem in the method and solved for the simulated time
+series, it is time to check the solution in the empirical data. We first
+normalize the complete time series. Then we rotate and scale the returns and
+finally we aggregate them. With this method, we can see how the ergodicity
+defect disappears, as we expected from the simulations. Furthermore, we can now
+see that with a epoch window length of $T = 25$ the returns show small fat
+tails. Then, we confirm that the aggregated returns have internal structures
+that we will use to define the exact multivariate amplitude distributions in
+Sect. \ref{sec:exact_distributions}.
 
 \begin{figure}[htbp]
     \centering
