@@ -43,29 +43,38 @@ As the aim of this paper is to compare the proposed distributions with
 empirical data, we present the final form of the corresponding distributions.
 For a detailed and complete explanation of the process to obtain the
 distributions, we suggest to review the work of Guhr and Schell
-\cite{exact_distributions_guhr}
+\cite{exact_distributions_guhr}.
 
-[AQUÍ]
-For the following cases, 
+For the following cases, $K$ is the number of companies,
+$\Gamma\left(\ldots\right)$ is the gamma function, $\Lambda_{k}$ is the $k$-th
+eigenvalue of $\Sigma$, $\operatorname{K\left(\ldots\right)}$ is the modified
+Bessel function of second kind, $\operatorname{U}\left(\ldots\right)$ is the
+confluent hypergeometric function and
+$_{2}\operatorname{F}_{1}\left(\ldots\right)$ is the Gauss hypergeometric
+function. $N$ is a fit parameter, and $M$, $m$, $L$ and $l$ are shape
+parameters. We use Eq. \ref{eq:m_relation} to compute $m$ and
+\begin{equation}
+    M = 2L - K - N - 1
+\end{equation}
+to compute $M$.
+
 In the Gaussian-Gaussian case with the Markovian situation $D = \mathbb{1}_{N}$
 the distribution reads
 \begin{equation}
-    \begin{split}
     \left\langle p \right\rangle_{GG}^{\left(k\right)}
-    \left(\tilde{r}_{k} \vert \Lambda_{k}, \mathbb{1}_{N}\right) &=
+    \left(\tilde{r}_{k} \vert \Lambda_{k}, \mathbb{1}_{N}\right) =
     \frac{1}{2^{\left(N - 1\right) / 2} \Gamma \left(N / 2\right)
-    \sqrt{\pi \Lambda_{k} / N}} \\
-    & \sqrt{\frac{N \tilde{r}_{k}^2}{\Lambda_{k}}}^{\left(N - 1\right) / 2}
+    \sqrt{\pi \Lambda_{k} / N}}
+    {\sqrt{\frac{N \tilde{r}_{k}^2}{\Lambda_{k}}}}^{\left(N - 1\right) / 2}
     \operatorname{K}_{\left(1 - N\right)/2}
     \left( \sqrt{\frac{N \tilde{r}^2_{k}}{\Lambda_{k}}}\right),
-    \end{split}
 \end{equation}
 In the Gaussian-algebraic case with the Markovian situation
 $D = \mathbb{1}_{N}$ the distribution reads
 \begin{equation}
     \begin{split}
-    \left\langle p \right\rangle_{GA}^{\left(k\right)} &
-    \left(\tilde{r}_{k} \vert \Lambda_{k}, \mathbb{1}_{N}\right) = \\
+    \left\langle p \right\rangle_{GA}^{\left(k\right)}
+    \left(\tilde{r}_{k} \vert \Lambda_{k}, \mathbb{1}_{N}\right) =
     &\frac{\Gamma\left(L - \left(K + N \right) / 2 + 1\right)
     \Gamma\left(L - \left(K - 1\right) / 2\right)}
     {\Gamma\left(L - \left(K + N - 1\right) / 2\right) \Gamma\left(N / 2\right)
@@ -78,8 +87,8 @@ In the algebraic-Gaussian case with the Markovian situation
 $D = \mathbb{1}_{N}$ the distribution reads
 \begin{equation}
     \begin{split}
-    \left\langle p \right\rangle_{AG}^{\left(k\right)} &
-    \left(\tilde{r}_{k} \vert \Lambda_{k}, \mathbb{1}_{N}\right) = \\
+    \left\langle p \right\rangle_{AG}^{\left(k\right)}
+    \left(\tilde{r}_{k} \vert \Lambda_{k}, \mathbb{1}_{N}\right) =
     &\frac{\Gamma\left(l - \left(K - 1 \right) / 2\right)
     \Gamma\left(l - \left(K - N\right) / 2\right)}
     {\Gamma\left(l - K / 2\right) \Gamma\left(N / 2\right)
@@ -92,8 +101,8 @@ Finally, in the algebraic-algebraic case with the Markovian situation
 $D = \mathbb{1}_{N}$ the distribution reads
 \begin{equation}
     \begin{split}
-    \left\langle p \right\rangle_{AA}^{\left(k\right)} &
-    \left(\tilde{r}_{k} \vert \Lambda_{k}, \mathbb{1}_{N}\right) = \\
+    \left\langle p \right\rangle_{AA}^{\left(k\right)}
+    \left(\tilde{r}_{k} \vert \Lambda_{k}, \mathbb{1}_{N}\right) =
     &\frac{\Gamma\left(l - \left(K - 1 \right) / 2\right)
     \Gamma\left(l - \left(K - N\right) / 2\right)}
     {\Gamma\left(l - K/ 2\right) \Gamma\left(L + l - \left(K - 1\right) \right)
@@ -104,31 +113,33 @@ $D = \mathbb{1}_{N}$ the distribution reads
     } \\
     & _{2}\operatorname{F}_{1} \left(l - \frac{K - 1}{2}, L -\frac{K + N}{2}+1,
     L + l - \left(K - 1\right), 1 - \frac{N}{Mm} \frac{\tilde{r}^{2}_{k}}
-    {\Lambda_{k}}\right)
+    {\Lambda_{k}}\right).
     \end{split}
 \end{equation}
 
 For a visual comparison of the distributions, we plot the GG, GA, AG and AA
-distributions in the Markovian case in the same figure. In Fig. \ref{fig:distributions_comparison}
-we consider $K = 100$ positions with shape parameters $L = 55$, $l = 55$, as
-well as $N = 5$ which is a typical value from an empirical viewpoint. In the top
-are the probability densities in linear scale and in the bottom are the probability
-densities in logarithmic scales. From figure, it can be seen the more algebraic,
-the stronger peaked is the distribution and heavier are the tails.
+distributions in the Markovian case in the same figure. In Fig.
+\ref{fig:distributions_comparison} we consider $K = 100$ positions with shape
+parameters $L = 55$, $l = 55$, as well as $N = 5$ which is a typical value from
+an empirical viewpoint. In the top are the probability densities in linear
+scale and in the bottom are the probability densities in logarithmic scales.
+From figure, it can be seen the more algebraic, the stronger peaked is the
+distribution and heavier are the tails.
 
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.9\columnwidth]
     {figures/07_distributions_comparison.png}
-    \caption{Probability densities $\left\langle p \right\rangle_{YY'}^{\left(k\right)}$,
-             in the Markovian case versus the rotated amplitudes $\tilde{r}$,
-             normalized to unit standard deviation. The four cases Gaussian-Gaussian,
-             Gaussian-Algebraic, Algebraic-Gaussian and Algebraic-Algebraic are
-             labeled $YY' = GG$, $GA$, $AG$ and $AA$, respectively. Number of
-             positions $K = 100$, shape parameters $L = 55$ and $l = 55$, strength
-             parameter for fluctuations of correlations $N = 5$. (Top) Linear scale,
-             abscissa between $-2$ and $+2$ and (bottom) logarithmic scale, abscissa
-             between $-8$ and $+8$.}
+    \caption{Probability densities
+             $\left\langle p \right\rangle_{YY'}^{\left(k\right)}$, in the
+             Markovian case versus the rotated amplitudes $\tilde{r}$,
+             normalized to unit standard deviation. The four cases
+             Gaussian-Gaussian, Gaussian-Algebraic, Algebraic-Gaussian and
+             Algebraic-Algebraic are labeled $YY' = GG$, $GA$, $AG$ and $AA$,
+             respectively. Number of positions $K = 100$, shape parameters
+             $L = 55$ and $l = 55$, strength parameter for fluctuations of
+             correlations $N = 5$. (left) linear scale and (right) logarithmic
+             scale.}
     \label{fig:distributions_comparison}
 \end{figure}
 
