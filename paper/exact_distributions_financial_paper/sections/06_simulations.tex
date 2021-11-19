@@ -22,18 +22,18 @@ algebraic distributed returns time series.
 
 To simulate the returns time series, we use a method \cite{drawing_dist} for
 drawing a random vector $x$ from the $N$-dimensional multivariate Gaussian
-distribution with mean vector $\mu$ and covariance matrix $C$. First, we create
-a correlation matrix $C$ with $c = 1$ on its diagonal and $c = 0.3$ on its
-non-diagonal entries. Then, we compute the eigenvalues and eigenvectors of the
-correlation matrix, such that $C = U \Lambda U^{-1}$. We get a $z$ vector whose
-components are drawn from a independent standard Gaussian distribution. Finally
-we obtain the returns with the desired distribution as
+distribution with mean vector $\mu$ and covariance matrix $\Sigma$. First, we
+create a correlation matrix $C$ with $c = 1$ on its diagonal and $c = 0.3$ on
+its non-diagonal entries. Then, we compute the eigenvalues and eigenvectors of
+the correlation matrix, such that $C = U \Lambda U^{-1}$. We get a $z$ vector
+whose components are drawn from a independent standard Gaussian distribution.
+Finally we obtain the returns with the desired distribution as
 \begin{equation}
     r = \mu + U \Lambda^{1/2} z
 \end{equation}
 
 In our case, the $r$ vector components are drawn from a normal distribution
-with correlation matrix $C$ and $\mu$ vector zero.
+with $\mu$ vector zero.
 With these method we want to obtain time series simulating the data matrix G
 with dimensions $2 \times T$, where $T$ is the window length of the epochs.
 These returns can be later normalized, rotated and aggregated to compare with
@@ -57,15 +57,14 @@ for $K = 200$. Each time series is made of $200$ epochs to make them comparable
 to the empirical data. We use epochs window lengths $T = 10, 25, 40, 55$ units
 to rotate, scale and aggregate without normalizing neither within the epochs
 nor the full time series. As expected, as we draw the returns from a
-multivariate Gaussian distribution with correlation matrix $C$ and $\mu$ vector
-zero, all the simulations show standard Gaussian distribution behavior. Thus,
-this is our reference to check what is introducing the ergodicity effect in the
-original method for the multivariate Gaussian case.
+multivariate Gaussian distribution, all the simulations show standard Gaussian
+distribution behavior. Thus, this is our reference to check what is introducing
+the ergodicity defect in the original method for the multivariate Gaussian
+case.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Multivariate algebraic distributions}\label{subsubsec:alg_sim}
 
-\textcolor{red}{
 To simulate returns time series drawn from multivariate algebraic
 distributions, we use a similar approach as in Sect. \ref{subsubsec:gauss_sim}.
 First, we create a correlation matrix $C$ with $c = 1$ on its diagonal and
@@ -113,7 +112,7 @@ We generate $X$ as
     X = \sqrt{m} z
 \end{equation}
 where $z$ is a univariate standard normal distribution vector of length $K$ and
-$m$ is the variance.}
+$m$ is the variance.
 
 These returns can be later normalized, rotated and aggregated to compare with
 the behavior of the results in Sect. \ref{subsec:epochs}.  The goal of this
@@ -172,10 +171,9 @@ As we can see in Fig. \ref{fig:epochs_gauss_agg_ret_pairs_norm}, the ergodicity
 defect clearly appears for an epoch window length $T = 10$. As the epoch window
 length grows, the ergodicity defect starts to disappear. We could even argue,
 that with an epoch window length greater or equal to $T = 25$, we already are
-close enough to the Gaussian distribution. Thus, this ergodicity defect only
-affects small epochs window lengths. Furthermore, with large epoch windows
-lengths we can confirm that the ergodicity defect disappear, as it can be seen
- with $T = 100$
+close enough to the Gaussian distribution. Thus, this ergodicity defect has a
+large impact in small epochs window length, and its effects tends to disappear
+as the epochs window lengths grow. This can be seen with $T = 100$.
 
 Something similar happens with the algebraic case. We again simulate the
 returns, normalize each epoch to mean $\mu = 0$ and variance $\sigma^{2} = 1$
@@ -199,7 +197,7 @@ small values. Thus, we need to find an alternative to solve this problem.
 \subsection{Normalization complete return time series}
 \label{subsec:norm_full_sim}
 
-We already showed that the ergodicity effect is directly related with the
+We already showed that the ergodicity defect is directly related with the
 normalization of the time series. To try to solve this issue, instead of
 normalizing the time series within each epoch, we normalize the complete time
 series and then proceed to rotate, scale and aggregate.
@@ -210,7 +208,7 @@ algebraic cases with the corresponding simulations. We can notice how in both
 cases the ergodicity defect disappears. In each epochs window length, the
 probability density function perfectly fits the Gaussian distribution and the
 algebraic distribution. It can be noted that the larger the epochs window
-length, the better the simulated data fit the distribution. However, to
+length, the better the simulated data fit the distributions. Furthermore, to
 accomplish our assumption of stationarity on short time scales, the results
 for short epochs window lengths have a good agreement with the theoretical
 distribution.
