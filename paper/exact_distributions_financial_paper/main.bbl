@@ -263,6 +263,15 @@ Z.~Burda, A.~Jarosz, M.~A. Nowak, J.~Jurkiewicz, G.~Papp, I.~Zahed,
   {\path{doi:10.1080/14697688.2010.484025}}.
 \newline\urlprefix\url{https://doi.org/10.1080/14697688.2010.484025}
 
+\bibitem{Quandl}
+Quandl, \url{https://www.quandl.com/} (Online; accessed 5-November-2019), the
+  source for financial, economic, and alternative datasets, serving investment
+  professionals.
+
+\bibitem{QuoteMedia}
+QuoteMedia, Stock market data and financial research solutions,
+  \url{https://www.quotemedia.com/}, (Online; accessed 5-November-2019).
+
 \bibitem{subtle_nature}
 J.-P. Bouchaud, \href{https://doi.org/10.1063/1.1889265}{The subtle nature of
   financial random walks}, Chaos: An Interdisciplinary Journal of Nonlinear
