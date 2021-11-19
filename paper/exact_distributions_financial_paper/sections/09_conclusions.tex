@@ -1,1 +1,30 @@
 \section{Conclusion}\label{sec:conclusion}
+
+We used correlated financial market data to extend a previous work
+\cite{non_stationarity_fin_guhr} using three new exact multivariate
+distributions proposed by Guhr and Schell \cite{exact_distributions_guhr}.
+We applied a methodology, were a set of measured, non-stationary correlation
+matrices are viewed as an ensemble for which is set up a random matrix model.
+This ensemble is used to average the stationary multivariate amplitude
+distributions measured on short time scales and thus obtained for large time
+scales, multivariate amplitude distributions which feature heavy tails.
+
+We used data from continuously traded companies in the S\&P 500 stock market
+index, to find internal structures within the epochs. We chose all pairs
+returns, normalized within the epochs to mean $\mu = 0$ and $\sigma^{2} = 1$
+and rotated and scaled the two-component returns. We showed that to a good
+approximation, the returns can be multivariate Gaussian distributed or
+multivariate algebraic distributed, depending on the epochs window length
+choice.
+
+After we reproduced the results for the Gaussian
+\cite{non_stationarity_fin_guhr} case and add the result of the algebraic case,
+we found an artifact in the original methodology. Thus, using simulated time
+series we found the problem in the normalization within the epochs and propose
+a solution normalizing the complete time series before the rotate and scale
+step.
+
+Having the internal structures within the epochs and after we solved the
+artifact in the methodology, we compute four new distributions and compare them
+with the rotated and scaled empirical data for the whole market. We found good
+agreement with the tails of the distributions.
