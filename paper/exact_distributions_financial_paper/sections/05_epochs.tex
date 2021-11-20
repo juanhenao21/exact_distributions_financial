@@ -56,8 +56,8 @@ where
 \end{equation}
 is the volatility of the $k$ company in the time window of length $T$. These
 values can be viewed as the elements of a $K \times T$ rectangular matrix $M$.
-With these normalizations and rescalings, it can be measured correlations in
-such a way that all companies and all stocks are treated on equal footing.
+With these normalizations and rescalings, correlations can be measured in such
+a way that all companies and all stocks are treated on equal footing.
 
 The correlation coefficient for the stocks $k$ and $l$ is defined as
 \cite{non_stationarity_fin_guhr}
@@ -428,12 +428,12 @@ the epochs window length to fit the Gaussian and algebraic case. We used epochs
 window lengths $T = 10, 25, 40, 55$ days and $\Delta t = 1d$. In Fig.
 \ref{fig:window_comparison} can be seen the difference between epochs
 window lengths of the aggregated distribution of returns for fixed covariance
-of different amount of random companies selected from the S\&P 500 dataset.
-The first interesting characteristic, is that with few companies is enough
+of different amounts of random companies selected from the S\&P 500 dataset.
+The first interesting characteristic is that with few companies there is enough
 information to obtain the general behavior. This, because we are selecting
 pairs of stocks from the dataset, such that the order of the selected stocks
 does not matter and without repetition, i.e. a combination. Thus, even with
-a small amount of companies, the results are statistically relevant. Then, We
+a small number of companies, the results are statistically relevant. Then, We
 choose random numbers of companies within our dataset to show this
 characteristic. We can see how for $T=25d$ (top right) there is a good agreement
 with the Gaussian distribution, and how for values larger than $T=25d$, as
@@ -457,12 +457,12 @@ affecting the other epochs window lengths as well.
 
 We consider two different causes for this situation in the small epochs window
 lengths. First, it could be an ergodicity defect because only the length of the
-time window of the epochs show an effect. Second, the platykurtic behavior like
-in local normalization plots \cite{local_normalization} could be a detrending
-method. It is possible that we get this behavior from normalizing each epoch to
-mean $\mu = 0$ and $\sigma^{2}=1$.
+time window of the epochs shows an effect. Second, the platykurtic behavior
+like in local normalization plots \cite{local_normalization} could be a
+detrending method. It is possible that we get this behavior from normalizing
+each epoch to mean $\mu = 0$ and $\sigma^{2}=1$.
 
 To check what is the real cause of this behavior we will use simulations.
 With these simulations we know which parameters we are using, and we have a
-controlled environment. Thus, we can evaluate where is the problem with the
+controlled environment. Thus, we can evaluate where the problem is with the
 method.

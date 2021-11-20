@@ -26,19 +26,19 @@ distribution with mean vector $\mu$ and covariance matrix $\Sigma$. First, we
 create a correlation matrix $C$ with $c = 1$ on its diagonal and $c = 0.3$ on
 its non-diagonal entries. Then, we compute the eigenvalues and eigenvectors of
 the correlation matrix, such that $C = U \Lambda U^{-1}$. We get a $z$ vector
-whose components are drawn from a independent standard Gaussian distribution.
+whose components are drawn from an independent standard Gaussian distribution.
 Finally we obtain the returns with the desired distribution as
 \begin{equation}
     r = \mu + U \Lambda^{1/2} z
 \end{equation}
 
 In our case, the $r$ vector components are drawn from a normal distribution
-with $\mu$ vector zero.
-With these method we want to obtain time series simulating the data matrix G
-with dimensions $2 \times T$, where $T$ is the window length of the epochs.
-These returns can be later normalized, rotated and aggregated to compare with
-the behavior of the results in Sect. \ref{subsec:epochs}.  The goal of this
-approach is that all simulations should show standard normal distributions.
+with $\mu$ vector zero. With this method we want to obtain time series
+simulating the data matrix G with dimensions $2 \times T$, where $T$ is the
+window length of the epochs. These returns can be later normalized, rotated and
+aggregated to compare with the behavior of the results in Sect.
+\ref{subsec:epochs}.  The goal of this approach is that all simulations should
+show standard normal distributions.
 
 \begin{figure}[htbp]
     \centering
@@ -137,7 +137,7 @@ to rotate, scale and aggregate without normalizing neither within the epochs
 nor the full time series. We can see an interesting behavior in the algebraic
 case, where for small epochs window lengths, the tails are similar to the
 Gaussian distribution, and as the epochs window lengths grow, the simulations
-reveals good agreement with the algebraic distribution. Thus, this is our
+reveal good agreement with the algebraic distribution. Thus, this is our
 reference to check what is introducing the ergodicity effect in the original
 method for the multivariate algebraic case.
 
@@ -169,10 +169,10 @@ we aggregate all the components into a single univariate distribution.
 
 As we can see in Fig. \ref{fig:epochs_gauss_agg_ret_pairs_norm}, the ergodicity
 defect clearly appears for an epoch window length $T = 10$. As the epoch window
-length grows, the ergodicity defect starts to disappear. We could even argue,
+length grows, the ergodicity defect starts to disappear. We could even argue
 that with an epoch window length greater or equal to $T = 25$, we already are
 close enough to the Gaussian distribution. Thus, this ergodicity defect has a
-large impact in small epochs window length, and its effects tends to disappear
+large impact in small epochs window length, and its effects tend to disappear
 as the epochs window lengths grow. This can be seen with $T = 100$.
 
 Something similar happens with the algebraic case. We again simulate the
@@ -244,7 +244,7 @@ series, it is time to check the solution in the empirical data. We first
 normalize the complete time series. Then we rotate and scale the returns and
 finally we aggregate them. With this method, we can see how the ergodicity
 defect disappears, as we expected from the simulations. Furthermore, we can now
-see that with a epoch window length of $T = 25$ the returns show small fat
+see that with an epoch window length of $T = 25$ the returns show small fat
 tails. Then, we confirm that the aggregated returns have internal structures
 that we will use to define the exact multivariate amplitude distributions in
 Sect. \ref{sec:exact_distributions}.

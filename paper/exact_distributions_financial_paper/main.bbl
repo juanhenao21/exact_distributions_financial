@@ -263,6 +263,14 @@ Z.~Burda, A.~Jarosz, M.~A. Nowak, J.~Jurkiewicz, G.~Papp, I.~Zahed,
   {\path{doi:10.1080/14697688.2010.484025}}.
 \newline\urlprefix\url{https://doi.org/10.1080/14697688.2010.484025}
 
+\bibitem{code}
+J.~C.~H. Londono, \href{https://doi.org/10.5281/zenodo.5716382}{First release -
+  exact multivariate amplitude distributions in correlated financial markets
+  code} (2021).
+\newblock \href {https://doi.org/10.5281/zenodo.5716382}
+  {\path{doi:10.5281/zenodo.5716382}}.
+\newline\urlprefix\url{https://doi.org/10.5281/zenodo.5716382}
+
 \bibitem{Quandl}
 Quandl, \url{https://www.quandl.com/} (Online; accessed 5-November-2019), the
   source for financial, economic, and alternative datasets, serving investment
