@@ -1,6 +1,6 @@
 ###############################################################################
-# This code simulate algebraic distributions normalizing the complete time
-# series before the rotation and scale.
+# This code simulate algebraic distributions normalizing each epochs in the
+# time series before the rotation and scale.
 # Author: Anton J. Heckens
 ###############################################################################
 
@@ -32,35 +32,18 @@ Part = rmatrixt(n=en, mean=matrix(0, K, 1), U=CorrMat1, V=matrix(m), df=dof)
 # Take the values of the matrix we are interested
 PartMat = Part[,,1:en]
 
-# Multiply by the scaling factor
-PartMatNORM = scale(t(PartMat), center=TRUE, scale=TRUE) * sqrt(((en)/(en-1)))
-
-# Mean of the time series
-print('Mean 1: ')
-mean(PartMatNORM[,1])
-print('Mean 2: ')
-mean(PartMatNORM[,2])
-
-# Variance of the time series
-print('Var 1: ')
-TEST1 = PartMatNORM[,1]
-(1/length(TEST1) * sum((TEST1)^2))
-
-print('Var 2: ')
-TEST2 = PartMatNORM[,2]
-(1/length(TEST2) * sum((TEST2)^2))
-
 # Rotate and scale function
 RotateScaleFunc = function(irun, returnsDataset, a) {
 
 	returnCut = (returnsDataset[(0+irun):((a-1)+irun), ])
-    corrMat = ( cor( returnCut ,  method = c("pearson")) )
-	eigenList = eigen(corrMat, symmetric = TRUE,
+	returnCutNORM = scale(returnCut, center = TRUE, scale = FALSE)
+    covMat = ( cov( returnCut , method = c("pearson")) ) * ((a-1)/(a))
+	eigenList = eigen(covMat, symmetric = TRUE,
                       only.values = FALSE, EISPACK = FALSE)
 	LambdaEigenVal = eigenList[[1]]
 	EigenVec = eigenList[[2]]
 	squareLambda= 1/sqrt(LambdaEigenVal)
-	RotScaledReturnVec = diag(squareLambda) %*% (t(EigenVec) %*% t(returnCut))
+	RotScaledReturnVec = diag(squareLambda) %*% (t(EigenVec) %*% t(returnCutNORM))
 
 	return(list(RotScaledReturnVec))
 }
@@ -71,7 +54,7 @@ epochs <- list(10, 25, 40, 55, 100)
 for (a in epochs){
 
     # Normalized full time series
-    b = PartMatNORM
+    b = t(PartMat)
 
     # For disjunct intervals:
     disjunct_Max = floor((length(b[, 1])) / a)
@@ -91,5 +74,5 @@ for (a in epochs){
     agg_returns = do.call("c" , firstElement)
 
     write.csv(agg_returns,
-     sprintf('../data/epochs_sim/epochs_sim_algebraic_agg_dist_ret_market_data_long_win_%d_K_200.csv', a))
+     sprintf('../data/epochs_sim/epochs_sim_algebraic_agg_dist_ret_market_data_short_win_%d_K_200.csv', a))
 }
