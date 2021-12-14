@@ -1,4 +1,4 @@
-'''Exact distributions financial download data main module.
+"""Exact distributions financial download data main module.
 
 The functions in the module download data from Yahoo! Finance for several years
 in several intervals.
@@ -15,7 +15,7 @@ The module contains the following functions:
     * main - the main function of the script.
 
 .. moduleauthor:: Juan Camilo Henao Londono <www.github.com/juanhenao21>
-'''
+"""
 
 # -----------------------------------------------------------------------------
 # Modules
@@ -31,8 +31,9 @@ import download_data_tools
 # -----------------------------------------------------------------------------
 
 
-def exact_distributions_download_data(tickers: List[str], dates: List[str],
-                                      time_step: str) -> None:
+def exact_distributions_download_data(
+    tickers: List[str], dates: List[str], time_step: str
+) -> None:
     """Downloads the prices of a ticker for a time interval in a time step.
 
     :param tickers: list of the string abbreviation of the stocks to be
@@ -47,63 +48,64 @@ def exact_distributions_download_data(tickers: List[str], dates: List[str],
 
     try:
         function_name: str = exact_distributions_download_data.__name__
-        download_data_tools \
-            .function_header_print_data(function_name, tickers, dates,
-                                        time_step)
+        download_data_tools.function_header_print_data(
+            function_name, tickers, dates, time_step
+        )
 
-        init_year = int(dates[0].split('-')[0])
-        init_month = int(dates[0].split('-')[1])
-        init_day = int(dates[0].split('-')[2])
-        fin_year = int(dates[1].split('-')[0])
-        fin_month = int(dates[1].split('-')[1])
-        fin_day = int(dates[1].split('-')[2])
+        init_year = int(dates[0].split("-")[0])
+        init_month = int(dates[0].split("-")[1])
+        init_day = int(dates[0].split("-")[2])
+        fin_year = int(dates[1].split("-")[0])
+        fin_month = int(dates[1].split("-")[1])
+        fin_day = int(dates[1].split("-")[2])
         # last_day = monthrange(fin_year, fin_month)[1]
 
         init_date: dt = dt(year=init_year, month=init_month, day=init_day)
         fin_date: dt = dt(year=fin_year, month=fin_month, day=fin_day)
 
-        if time_step == '1wk':
-            time_step = '1d'
-            time_step_ori = '1wk'
-        elif time_step == '1mo':
-            time_step = '1d'
-            time_step_ori = '1mo'
+        if time_step == "1wk":
+            time_step = "1d"
+            time_step_ori = "1wk"
+        elif time_step == "1mo":
+            time_step = "1d"
+            time_step_ori = "1mo"
         else:
             time_step_ori = time_step
 
         # Not all the periods can be combined with the time steps.
-        raw_data: pd.DataFrame = \
-            yf.download(tickers=tickers, start=init_date, end=fin_date,
-                        interval=time_step)['Adj Close']
+        raw_data: pd.DataFrame = yf.download(
+            tickers=tickers, start=init_date, end=fin_date, interval=time_step
+        )["Adj Close"]
         # Order DataFrame columns by sector
         raw_data = raw_data[tickers]
 
         if raw_data.isnull().values.any():
             # Remove stocks that do not have data from the initial date
-            raw_data = raw_data.dropna(axis=1, thresh=len(raw_data) - 10) \
-                .fillna(method='ffill')
+            raw_data = raw_data.dropna(axis=1, thresh=len(raw_data) - 10).fillna(
+                method="ffill"
+            )
 
-        if time_step == '1m':
-            raw_data.index = raw_data.index.strftime('%Y-%m-%d %H:%M')
-        elif time_step == '1h':
-            raw_data.index = raw_data.index.strftime('%Y-%m-%d %H')
+        if time_step == "1m":
+            raw_data.index = raw_data.index.strftime("%Y-%m-%d %H:%M")
+        elif time_step == "1h":
+            raw_data.index = raw_data.index.strftime("%Y-%m-%d %H")
         else:
-            raw_data.index = \
-                pd.to_datetime(raw_data.index.strftime('%Y-%m-%d'))
-            raw_data = raw_data.resample('B').ffill()
+            raw_data.index = pd.to_datetime(raw_data.index.strftime("%Y-%m-%d"))
+            raw_data = raw_data.resample("B").ffill()
 
-        if time_step_ori == '1wk':
-            offset = pd.tseries.frequencies.to_offset('-6d')
-            raw_data = raw_data.resample('W-MON').first()
+        if time_step_ori == "1wk":
+            offset = pd.tseries.frequencies.to_offset("-6d")
+            raw_data = raw_data.resample("W-MON").first()
             raw_data.index = raw_data.index + offset
-        elif time_step_ori == '1mo':
-            raw_data = raw_data.resample('BM').last()
+        elif time_step_ori == "1mo":
+            raw_data = raw_data.resample("BM").last()
 
         download_data_tools.save_data(raw_data, dates, time_step_ori)
 
     except AssertionError as error:
-        print('No data')
+        print("No data")
         print(error)
+
 
 # -----------------------------------------------------------------------------
 
@@ -119,7 +121,7 @@ def main() -> None:
     download_data_tools.initial_message()
 
     # S&P 500 companies, initial year and time step
-    stocks: List[str] = download_data_tools.get_stocks(['all'])
+    stocks: List[str] = download_data_tools.get_stocks(["all"])
     # Stocks used in the paper "non-stationarity in financial time series"
     # stocks: List[str] = ['MMM', 'ABT', 'ADBE', 'AMD', 'AES', 'AET', 'AFL',
     #                      'APD', 'ARG', 'AA', 'AGN', 'ALTR', 'MO', 'AEP', 'AXP',
@@ -164,16 +166,16 @@ def main() -> None:
     #                      'WFM', 'WMB', 'WEC', 'XEL', 'XRX', 'XLNX', 'XL',
     #                      'ZION']
 
-    dates_1m: List[str] = ['2021-08-09', '2021-08-14']
-    dates_1h: List[str] = ['2021-07-31', '2021-10-01']
-    dates_1d: List[str] = ['1990-01-01', '2020-12-31']
-    dates_1wk: List[str] = ['1990-01-01', '2020-12-31']
-    dates_1mo: List[str] = ['1990-01-01', '2020-12-31']
-    time_step_1m: str = '1m'
-    time_step_1h: str = '1h'
-    time_step_1d: str = '1d'
-    time_step_1wk: str = '1wk'
-    time_step_1mo: str = '1mo'
+    dates_1m: List[str] = ["2021-08-09", "2021-08-14"]
+    dates_1h: List[str] = ["2021-07-31", "2021-10-01"]
+    dates_1d: List[str] = ["1990-01-01", "2020-12-31"]
+    dates_1wk: List[str] = ["1990-01-01", "2020-12-31"]
+    dates_1mo: List[str] = ["1990-01-01", "2020-12-31"]
+    time_step_1m: str = "1m"
+    time_step_1h: str = "1h"
+    time_step_1d: str = "1d"
+    time_step_1wk: str = "1wk"
+    time_step_1mo: str = "1mo"
 
     # Basic folders
     download_data_tools.start_folders()
@@ -207,10 +209,11 @@ def main() -> None:
 
     # pickle.dump(w, open('../data/original_data/original_data_2021-07-19_2021-08-14_step_1m.pickle', 'wb'))
 
-    print('Ay vamos!!!')
+    print("Ay vamos!!!")
+
 
 # -----------------------------------------------------------------------------
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

@@ -1,4 +1,4 @@
-'''Exact distributions covariance main module.
+"""Exact distributions covariance main module.
 
 The functions in the module compute the returns and correlation matrix of
 financial time series.
@@ -16,7 +16,7 @@ The module contains the following functions:
     * main - the main function of the script.
 
 .. moduleauthor:: Juan Camilo Henao Londono <www.github.com/juanhenao21>
-'''
+"""
 
 # -----------------------------------------------------------------------------
 # Modules
@@ -44,16 +44,19 @@ def data_plot_generator(cov_params: List[Tuple[Any]]) -> None:
     # Parallel computing
     with mp.Pool(processes=mp.cpu_count()) as pool:
         # Specific functions
-        pool.starmap(exact_distributions_covariance_analysis.returns_data,
-                     cov_params)
-        pool.starmap(exact_distributions_covariance_analysis
-                     .aggregated_dist_returns_market_data, cov_params)
+        pool.starmap(exact_distributions_covariance_analysis.returns_data, cov_params)
+        pool.starmap(
+            exact_distributions_covariance_analysis.aggregated_dist_returns_market_data,
+            cov_params,
+        )
 
         # Plot
-        pool.starmap(exact_distributions_covariance_plot.returns_plot,
-                     cov_params)
-        pool.starmap(exact_distributions_covariance_plot
-                     .aggregated_dist_returns_market_plot, cov_params)
+        pool.starmap(exact_distributions_covariance_plot.returns_plot, cov_params)
+        pool.starmap(
+            exact_distributions_covariance_plot.aggregated_dist_returns_market_plot,
+            cov_params,
+        )
+
 
 # -----------------------------------------------------------------------------
 
@@ -69,8 +72,8 @@ def main() -> None:
     exact_distributions_covariance_tools.initial_message()
 
     # Initial year and time step
-    dates: List[List[str]] = [['1990-01-01', '2020-12-31']]
-    time_steps: List[str] = ['1d']
+    dates: List[List[str]] = [["1990-01-01", "2020-12-31"]]
+    time_steps: List[str] = ["1d"]
     cov_params: List[Tuple[Any]] = list(zip(dates, time_steps))
 
     # Basic folders
@@ -80,10 +83,11 @@ def main() -> None:
     # Analysis and plot
     data_plot_generator(cov_params)
 
-    print('Ay vamos!!!')
+    print("Ay vamos!!!")
+
 
 # -----------------------------------------------------------------------------
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

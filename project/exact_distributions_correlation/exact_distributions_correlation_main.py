@@ -1,4 +1,4 @@
-'''Exact distributions correlation main module.
+"""Exact distributions correlation main module.
 
 The functions in the module compute the returns and correlation matrix of
 financial time series.
@@ -16,7 +16,7 @@ The module contains the following functions:
     * main - the main function of the script.
 
 .. moduleauthor:: Juan Camilo Henao Londono <www.github.com/juanhenao21>
-'''
+"""
 
 # -----------------------------------------------------------------------------
 # Modules
@@ -46,20 +46,28 @@ def data_plot_generator(dates: List[List[str]], time_steps: List[str]) -> None:
     # Parallel computing
     with mp.Pool(processes=mp.cpu_count()) as pool:
         # Specific functions
-        pool.starmap(exact_distributions_correlation_analysis
-                     .returns_data, iprod(dates, time_steps))
-        pool.starmap(exact_distributions_correlation_analysis
-                     .normalized_returns_data, iprod(dates, time_steps))
-        pool.starmap(exact_distributions_correlation_analysis
-                     .aggregated_dist_returns_market_data,
-                     iprod(dates, time_steps))
+        pool.starmap(
+            exact_distributions_correlation_analysis.returns_data,
+            iprod(dates, time_steps),
+        )
+        pool.starmap(
+            exact_distributions_correlation_analysis.normalized_returns_data,
+            iprod(dates, time_steps),
+        )
+        pool.starmap(
+            exact_distributions_correlation_analysis.aggregated_dist_returns_market_data,
+            iprod(dates, time_steps),
+        )
 
         # Plot
-        pool.starmap(exact_distributions_correlation_plot
-                     .returns_plot, iprod(dates, time_steps))
-        pool.starmap(exact_distributions_correlation_plot
-                     .aggregated_dist_returns_market_plot,
-                     iprod(dates, time_steps))
+        pool.starmap(
+            exact_distributions_correlation_plot.returns_plot, iprod(dates, time_steps)
+        )
+        pool.starmap(
+            exact_distributions_correlation_plot.aggregated_dist_returns_market_plot,
+            iprod(dates, time_steps),
+        )
+
 
 # -----------------------------------------------------------------------------
 
@@ -75,9 +83,12 @@ def main() -> None:
     exact_distributions_correlation_tools.initial_message()
 
     # Initial year and time step
-    dates: List[List[str]] = [['1972-01', '1992-12'], ['1992-01', '2012-12'],
-                              ['2012-01', '2020-12']]
-    time_steps: List[str] = ['1d']
+    dates: List[List[str]] = [
+        ["1972-01", "1992-12"],
+        ["1992-01", "2012-12"],
+        ["2012-01", "2020-12"],
+    ]
+    time_steps: List[str] = ["1d"]
 
     # Basic folders
     exact_distributions_correlation_tools.start_folders()
@@ -86,10 +97,11 @@ def main() -> None:
     # Analysis and plot
     data_plot_generator(dates, time_steps)
 
-    print('Ay vamos!!!')
+    print("Ay vamos!!!")
+
 
 # -----------------------------------------------------------------------------
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

@@ -1,4 +1,4 @@
-'''Epochs simulation analysis module.
+"""Epochs simulation analysis module.
 
 The functions in the module simulate the returns and their rotation and
 aggregation. They also compute key results from other methods.
@@ -22,7 +22,7 @@ The module contains the following functions:
     * main - the main function of the script.
 
 ..moduleauthor:: Juan Camilo Henao Londono <www.github.com/juanhenao21>
-'''
+"""
 
 # -----------------------------------------------------------------------------
 # Modules
@@ -32,6 +32,7 @@ from itertools import combinations as icomb
 import math
 import multiprocessing as mp
 import pickle
+
 # from scipy.stats import multivariate_t
 from typing import Any, Iterable, List, Tuple
 
@@ -43,9 +44,9 @@ import epochs_sim_tools
 # -----------------------------------------------------------------------------
 
 
-def returns_simulation_gaussian(out_diag_val: float,
-                                size_corr_mat: int,
-                                epochs_len: int) -> pd.DataFrame:
+def returns_simulation_gaussian(
+    out_diag_val: float, size_corr_mat: int, epochs_len: int
+) -> pd.DataFrame:
     """Simulates the gaussian distributed returns of a time series
 
     :param out_diag_val: numerical value of the off diagonal elements.
@@ -58,8 +59,7 @@ def returns_simulation_gaussian(out_diag_val: float,
     :rtype: pd.DataFrame
     """
 
-    corr_matrix: np.ndarray = out_diag_val * np.ones((size_corr_mat,
-                                                      size_corr_mat))
+    corr_matrix: np.ndarray = out_diag_val * np.ones((size_corr_mat, size_corr_mat))
     np.fill_diagonal(corr_matrix, 1)
 
     eig_val_corr: np.ndarray
@@ -74,24 +74,24 @@ def returns_simulation_gaussian(out_diag_val: float,
 
         z_val: np.ndarray = np.random.normal(0, 1, size_corr_mat)
 
-        ret_vals: np.ndarray =  \
-            (eig_vec_corr * eig_val_corr_mat * z_val).diagonal()
+        ret_vals: np.ndarray = (eig_vec_corr * eig_val_corr_mat * z_val).diagonal()
 
         ret_epochs_list.append(ret_vals)
 
     ret_epochs: np.ndarray = np.array(ret_epochs_list)
 
-    ret_epochs_df: pd.DataFrame = \
-        pd.DataFrame(ret_epochs, columns=[f'Stock_{i}'
-                                          for i in range(size_corr_mat)])
+    ret_epochs_df: pd.DataFrame = pd.DataFrame(
+        ret_epochs, columns=[f"Stock_{i}" for i in range(size_corr_mat)]
+    )
 
     return ret_epochs_df
+
 
 # -----------------------------------------------------------------------------
 
 
 def multivariate_t_rvs(m, S, df=np.inf, n=1):
-    '''generate random variables of multivariate t distribution
+    """generate random variables of multivariate t distribution
     Parameters
     ----------
     m : array_like
@@ -107,22 +107,25 @@ def multivariate_t_rvs(m, S, df=np.inf, n=1):
     rvs : ndarray, (n, len(m))
         each row is an independent draw of a multivariate t distributed
         random variable
-    '''
+    """
     m = np.asarray(m)
     d = len(m)
     if df == np.inf:
-        x = 1.
+        x = 1.0
     else:
-        x = np.random.chisquare(df, n)/df
-    z = np.random.multivariate_normal(np.zeros(d),S,(n,))
-    return m + z/np.sqrt(x)[:,None]   # same output format as random.multivariate_normal
+        x = np.random.chisquare(df, n) / df
+    z = np.random.multivariate_normal(np.zeros(d), S, (n,))
+    return (
+        m + z / np.sqrt(x)[:, None]
+    )  # same output format as random.multivariate_normal
+
 
 # -----------------------------------------------------------------------------
 
-def returns_simulation_algebraic(out_diag_val: float,
-                                 size_corr_mat: int,
-                                 epochs_len: int,
-                                 df: int) -> pd.DataFrame:
+
+def returns_simulation_algebraic(
+    out_diag_val: float, size_corr_mat: int, epochs_len: int, df: int
+) -> pd.DataFrame:
     """Simulates the algebraic distributed returns of a time series
 
     :param out_diag_val: numerical value of the off diagonal elements.
@@ -137,34 +140,34 @@ def returns_simulation_algebraic(out_diag_val: float,
     :rtype: pd.DataFrame
     """
 
-    corr_matrix: np.ndarray = out_diag_val * np.ones((size_corr_mat,
-                                                      size_corr_mat))
+    corr_matrix: np.ndarray = out_diag_val * np.ones((size_corr_mat, size_corr_mat))
     np.fill_diagonal(corr_matrix, 1)
 
     ret_epochs_list: List[np.ndarray] = []
 
     for _ in range(epochs_len):
 
-        ret_vals: np.ndarray =  \
-            multivariate_t_rvs(
-                np.array(np.zeros((size_corr_mat, size_corr_mat))),
-                corr_matrix, df=df)
+        ret_vals: np.ndarray = multivariate_t_rvs(
+            np.array(np.zeros((size_corr_mat, size_corr_mat))), corr_matrix, df=df
+        )
 
         ret_epochs_list.append(ret_vals[0])
 
     ret_epochs: np.ndarray = np.array(ret_epochs_list)
 
-    ret_epochs_df: pd.DataFrame = \
-        pd.DataFrame(ret_epochs, columns=[f'Stock_{i}'
-                                          for i in range(size_corr_mat)])
+    ret_epochs_df: pd.DataFrame = pd.DataFrame(
+        ret_epochs, columns=[f"Stock_{i}" for i in range(size_corr_mat)]
+    )
 
     return ret_epochs_df
+
 
 # -----------------------------------------------------------------------------
 
 
-def epochs_sim_agg_returns_pair_data(dataframe: pd.DataFrame,
-                                     normalized: bool =False) -> List[float]:
+def epochs_sim_agg_returns_pair_data(
+    dataframe: pd.DataFrame, normalized: bool = False
+) -> List[float]:
     """Uses local normalization to compute the aggregated distribution of
        returns for a pair of simulated stocks.
 
@@ -200,12 +203,12 @@ def epochs_sim_agg_returns_pair_data(dataframe: pd.DataFrame,
         # Length DataFrame
         col_length: int = len(trans_col.columns)
         # Name the columns with the used stocks
-        trans_col.columns = [f'Stock_{i}' for i in range(col_length)]
+        trans_col.columns = [f"Stock_{i}" for i in range(col_length)]
 
         one_col: List[Any] = []
 
         for idx in range(col_length):
-            one_col.append(trans_col[f'Stock_{idx}'])
+            one_col.append(trans_col[f"Stock_{idx}"])
 
         agg_ret_mkt_series: pd.Series = pd.concat(one_col, ignore_index=True)
 
@@ -220,25 +223,28 @@ def epochs_sim_agg_returns_pair_data(dataframe: pd.DataFrame,
         del trans_col
 
     # remove NaN and Inf
-    agg_ret_mkt_list: List[float] = \
-        [x for x in agg_ret_mkt_series if not math.isnan(x)
-         and not math.isinf(x)]
+    agg_ret_mkt_list: List[float] = [
+        x for x in agg_ret_mkt_series if not math.isnan(x) and not math.isinf(x)
+    ]
     # filter out values greater than 10 or smaller than -10
     agg_ret_mkt_list = [x for x in agg_ret_mkt_list if -10 <= x <= 10]
 
     return agg_ret_mkt_list
 
+
 # -----------------------------------------------------------------------------
 
 
-def epochs_sim_agg_returns_market_data(out_diag_val: float,
-                                       size_corr_matrix: int,
-                                       K_values: int,
-                                       epochs_num: int,
-                                       epochs_len: int,
-                                       normalized: bool = False,
-                                       kind: str = 'gaussian',
-                                       df: int = 10) -> pd.Series:
+def epochs_sim_agg_returns_market_data(
+    out_diag_val: float,
+    size_corr_matrix: int,
+    K_values: int,
+    epochs_num: int,
+    epochs_len: int,
+    normalized: bool = False,
+    kind: str = "gaussian",
+    df: int = 10,
+) -> pd.Series:
     """Uses local normalization to compute the aggregated distribution of
        returns for a simulated market.
 
@@ -262,33 +268,36 @@ def epochs_sim_agg_returns_market_data(out_diag_val: float,
     """
 
     function_name: str = epochs_sim_agg_returns_market_data.__name__
-    epochs_sim_tools \
-        .function_header_print_data(function_name, [''], '', '', '', sim=True)
+    epochs_sim_tools.function_header_print_data(
+        function_name, [""], "", "", "", sim=True
+    )
 
     agg_ret_mkt_list: List[float] = []
 
     for _ in range(K_values):
         for _ in range(epochs_num):
 
-            if kind == 'gaussian':
-                returns: pd.DataFrame = \
-                    returns_simulation_gaussian(out_diag_val, size_corr_matrix,
-                                                epochs_len)
+            if kind == "gaussian":
+                returns: pd.DataFrame = returns_simulation_gaussian(
+                    out_diag_val, size_corr_matrix, epochs_len
+                )
             else:
-                returns: pd.DataFrame = \
-                    returns_simulation_algebraic(out_diag_val, size_corr_matrix,
-                                                epochs_len, df)
+                returns: pd.DataFrame = returns_simulation_algebraic(
+                    out_diag_val, size_corr_matrix, epochs_len, df
+                )
 
-            agg_ret_list: List[float] = \
-                epochs_sim_agg_returns_pair_data(returns,normalized=normalized)
+            agg_ret_list: List[float] = epochs_sim_agg_returns_pair_data(
+                returns, normalized=normalized
+            )
             agg_ret_mkt_list.extend(agg_ret_list)
 
     agg_ret_mkt_series: pd.Series = pd.Series(agg_ret_mkt_list)
 
-    print(f'mean = {agg_ret_mkt_series.mean()}')
-    print(f'std  = {agg_ret_mkt_series.std()}')
+    print(f"mean = {agg_ret_mkt_series.mean()}")
+    print(f"std  = {agg_ret_mkt_series.std()}")
 
     return agg_ret_mkt_series
+
 
 # ----------------------------------------------------------------------------
 
@@ -301,10 +310,11 @@ def epochs_sim_agg_returns_cov_market_data(returns: pd.DataFrame) -> pd.Series:
     """
 
     function_name: str = epochs_sim_agg_returns_cov_market_data.__name__
-    epochs_sim_tools \
-        .function_header_print_data(function_name, [''], '', '', '', sim=True)
+    epochs_sim_tools.function_header_print_data(
+        function_name, [""], "", "", "", sim=True
+    )
 
-    print('Size of time series and number of companies: ', returns.shape)
+    print("Size of time series and number of companies: ", returns.shape)
 
     cov: pd.DataFrame = returns.cov()
     # eig_vec:  eigenvector, eig_val: eigenvalues
@@ -328,15 +338,15 @@ def epochs_sim_agg_returns_cov_market_data(returns: pd.DataFrame) -> pd.Series:
     agg_returns: pd.Series = pd.concat(one_col, ignore_index=True)
 
     # remove NaN and Inf
-    agg_returns_list: List[float] = [x for x in agg_returns
-                                     if not math.isnan(x)
-                                     and not math.isinf(x)]
+    agg_returns_list: List[float] = [
+        x for x in agg_returns if not math.isnan(x) and not math.isinf(x)
+    ]
     # filter out values greater than 10 or smaller than -10
     agg_returns_list = [x for x in agg_returns_list if -10 <= x <= 10]
 
     agg_returns_series: pd.Series = pd.Series(agg_returns_list)
-    print(f'mean = {agg_returns_series.mean()}')
-    print(f'std  = {agg_returns_series.std()}')
+    print(f"mean = {agg_returns_series.mean()}")
+    print(f"std  = {agg_returns_series.std()}")
 
     del returns
     del trans_returns
@@ -344,13 +354,13 @@ def epochs_sim_agg_returns_cov_market_data(returns: pd.DataFrame) -> pd.Series:
 
     return agg_returns_series
 
+
 # ----------------------------------------------------------------------------
 
 
-def epochs_sim_rot_pair_data(kind: str,
-                             K_value: str,
-                             cols: List[str],
-                             window: str) -> List[float]:
+def epochs_sim_rot_pair_data(
+    kind: str, K_value: str, cols: List[str], window: str
+) -> List[float]:
     """Uses local normalization to compute the aggregated distribution of
        returns for a pair of stocks.
 
@@ -364,12 +374,14 @@ def epochs_sim_rot_pair_data(kind: str,
     try:
 
         # Load data
-        two_col: pd.DataFrame = pickle.load(open(
-            f'../data/epochs_sim/returns_simulation_{kind}_K_{K_value}.pickle',
-            'rb'))[[cols[0], cols[1]]]
+        two_col: pd.DataFrame = pickle.load(
+            open(
+                f"../data/epochs_sim/returns_simulation_{kind}_K_{K_value}.pickle", "rb"
+            )
+        )[[cols[0], cols[1]]]
 
     except FileNotFoundError as error:
-        print('No data')
+        print("No data")
         print(error)
         print()
         return [0]
@@ -380,13 +392,12 @@ def epochs_sim_rot_pair_data(kind: str,
     agg_ret_mkt_list: List[float] = []
 
     # Add a column grouping the returns in the time window
-    two_col['Group'] = np.arange(len(two_col)) // int(window)
+    two_col["Group"] = np.arange(len(two_col)) // int(window)
 
     # Remove groups that are smaller than the window to avoid linalg errors
-    two_col = two_col.groupby('Group') \
-        .filter(lambda x: len(x) >= int(window) - 5)
+    two_col = two_col.groupby("Group").filter(lambda x: len(x) >= int(window) - 5)
 
-    for local_data in two_col.groupby(by=['Group']):
+    for local_data in two_col.groupby(by=["Group"]):
 
         # Use the return columns
         local_data_df: pd.DataFrame = local_data[1][[cols[0], cols[1]]]
@@ -407,8 +418,9 @@ def epochs_sim_rot_pair_data(kind: str,
             # Name the columns with the used stocks
             trans_two_col.columns = [cols[0], cols[1]]
 
-            one_col = trans_two_col[cols[0]].append(trans_two_col[cols[1]],
-                                                    ignore_index=True)
+            one_col = trans_two_col[cols[0]].append(
+                trans_two_col[cols[1]], ignore_index=True
+            )
 
             agg_ret_mkt_list.extend(one_col)
 
@@ -427,8 +439,9 @@ def epochs_sim_rot_pair_data(kind: str,
     del two_col
 
     # remove NaN and Inf
-    agg_ret_mkt_list = [x for x in agg_ret_mkt_list if not math.isnan(x)
-                        and not math.isinf(x)]
+    agg_ret_mkt_list = [
+        x for x in agg_ret_mkt_list if not math.isnan(x) and not math.isinf(x)
+    ]
     # filter out values greater than 10 or smaller than -10
     agg_ret_mkt_list = [x for x in agg_ret_mkt_list if -10 <= x <= 10]
 
@@ -438,9 +451,7 @@ def epochs_sim_rot_pair_data(kind: str,
 # ----------------------------------------------------------------------------
 
 
-def epochs_sim_rot_market_data(kind: str,
-                               K_value: str,
-                               window: str) -> None:
+def epochs_sim_rot_market_data(kind: str, K_value: str, window: str) -> None:
     """Computes the aggregated distribution of returns for a market.
 
     :param kind: kind of returns to be used (i.e 'gaussian').
@@ -451,18 +462,20 @@ def epochs_sim_rot_market_data(kind: str,
     """
 
     function_name: str = epochs_sim_rot_market_data.__name__
-    epochs_sim_tools \
-        .function_header_print_data(function_name, [''], '', window, '',
-                                    sim=True)
+    epochs_sim_tools.function_header_print_data(
+        function_name, [""], "", window, "", sim=True
+    )
     try:
 
         # Load data
-        stocks_name: pd.DataFrame = pickle.load(open(
-            f'../data/epochs_sim/returns_simulation_{kind}_K_{K_value}.pickle',
-            'rb'))
+        stocks_name: pd.DataFrame = pickle.load(
+            open(
+                f"../data/epochs_sim/returns_simulation_{kind}_K_{K_value}.pickle", "rb"
+            )
+        )
 
     except FileNotFoundError as error:
-        print('No data')
+        print("No data")
         print(error)
         print()
         return [0]
@@ -475,24 +488,31 @@ def epochs_sim_rot_market_data(kind: str,
 
     # Parallel computing
     with mp.Pool(processes=mp.cpu_count()) as pool:
-        agg_ret_mkt_list.extend(pool.starmap(epochs_sim_rot_pair_data,
-                                             args_prod))
+        agg_ret_mkt_list.extend(pool.starmap(epochs_sim_rot_pair_data, args_prod))
 
     # Flatten the list
-    agg_ret_mkt_list_flat: List[float] = \
-        [val for sublist in agg_ret_mkt_list for val in sublist]
+    agg_ret_mkt_list_flat: List[float] = [
+        val for sublist in agg_ret_mkt_list for val in sublist
+    ]
     agg_ret_mkt_series: pd.Series = pd.Series(agg_ret_mkt_list_flat)
 
-    print(f'mean = {agg_ret_mkt_series.mean()}')
-    print(f'std  = {agg_ret_mkt_series.std()}')
+    print(f"mean = {agg_ret_mkt_series.mean()}")
+    print(f"std  = {agg_ret_mkt_series.std()}")
 
     # Saving data
-    pickle.dump(agg_ret_mkt_series, open(
-        f'../data/epochs_sim/epochs_sim_{kind}_agg_dist_ret_market_data_long'
-        + f'_win_{window}_K_{K_value}.pickle', 'wb'), protocol=4)
+    pickle.dump(
+        agg_ret_mkt_series,
+        open(
+            f"../data/epochs_sim/epochs_sim_{kind}_agg_dist_ret_market_data_long"
+            + f"_win_{window}_K_{K_value}.pickle",
+            "wb",
+        ),
+        protocol=4,
+    )
 
     del agg_ret_mkt_list
     del agg_ret_mkt_series
+
 
 # -----------------------------------------------------------------------------
 
@@ -514,21 +534,29 @@ def main() -> None:
     # Gaussian
     ret_gauss: pd.DataFrame = returns_simulation_gaussian(0.3, K_value, 8000)
     print(ret_gauss.head())
-    pickle.dump(ret_gauss, open(
-        f'../data/epochs_sim/returns_simulation_gaussian_K_{K_value}.pickle',
-        'wb'), protocol=4)
+    pickle.dump(
+        ret_gauss,
+        open(
+            f"../data/epochs_sim/returns_simulation_gaussian_K_{K_value}.pickle", "wb"
+        ),
+        protocol=4,
+    )
     # Algebraic
-    ret_alg: pd.DataFrame = \
-        returns_simulation_algebraic(0.3, K_value, 8000, 10)
+    ret_alg: pd.DataFrame = returns_simulation_algebraic(0.3, K_value, 8000, 10)
     print(ret_alg.head())
-    pickle.dump(ret_gauss, open(
-        f'../data/epochs_sim/returns_simulation_algebraic_K_{K_value}.pickle',
-        'wb'), protocol=4)
+    pickle.dump(
+        ret_gauss,
+        open(
+            f"../data/epochs_sim/returns_simulation_algebraic_K_{K_value}.pickle", "wb"
+        ),
+        protocol=4,
+    )
     ################
 
     for win in windows:
-        epochs_sim_rot_market_data('gaussian', K_value, win)
-        epochs_sim_rot_market_data('algebraic', K_value, win)
+        epochs_sim_rot_market_data("gaussian", K_value, win)
+        epochs_sim_rot_market_data("algebraic", K_value, win)
+
 
 # -----------------------------------------------------------------------------
 

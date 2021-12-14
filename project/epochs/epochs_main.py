@@ -1,4 +1,4 @@
-'''Epochs main module.
+"""Epochs main module.
 
 The functions in the module compute the returns and correlation matrix of
 financial time series.
@@ -14,7 +14,7 @@ The module contains the following functions:
     * main - the main function of the script.
 
 .. moduleauthor:: Juan Camilo Henao Londono <www.github.com/juanhenao21>
-'''
+"""
 
 # -----------------------------------------------------------------------------
 # Modules
@@ -28,8 +28,12 @@ import epochs_tools
 # -----------------------------------------------------------------------------
 
 
-def data_plot_generator(dates: List[List[str]], time_steps: List[str],
-                        windows: List[str], K_values: List[str]) -> None:
+def data_plot_generator(
+    dates: List[List[str]],
+    time_steps: List[str],
+    windows: List[str],
+    K_values: List[str],
+) -> None:
     """Generates all the analysis and plots from the data.
 
     :param dates: list of lists of the string of the dates to be analyzed
@@ -52,20 +56,17 @@ def data_plot_generator(dates: List[List[str]], time_steps: List[str],
         for window in windows:
             for idx, _ in enumerate(dates):
 
-                epochs_analysis. \
-                    epochs_aggregated_dist_returns_market_data(dates[idx],
-                                                               time_steps[idx],
-                                                               window, K_value,
-                                                               norm='long')
-                epochs_analysis. \
-                    epochs_aggregated_dist_returns_market_data(dates[idx],
-                                                               time_steps[idx],
-                                                               window, K_value,
-                                                               norm='short')
+                epochs_analysis.epochs_aggregated_dist_returns_market_data(
+                    dates[idx], time_steps[idx], window, K_value, norm="long"
+                )
+                epochs_analysis.epochs_aggregated_dist_returns_market_data(
+                    dates[idx], time_steps[idx], window, K_value, norm="short"
+                )
 
     # epochs_plot.epochs_var_win_all_empirical_dist_returns_market_plot()
     # epochs_plot.epochs_var_K_all_empirical_dist_returns_market_plot()
     # epochs_plot.epochs_var_time_step_all_empirical_dist_returns_market_plot()
+
 
 # -----------------------------------------------------------------------------
 
@@ -81,10 +82,10 @@ def main() -> None:
     epochs_tools.initial_message()
 
     # Initial year and time step
-    dates: List[List[str]] = [['1990-01-01', '2020-12-31']]
-    time_steps: List[str] = ['1d']
-    windows: List[str] = ['55', '40', '25', '10']
-    K_values: List[str] = ['20', '50', 'all']
+    dates: List[List[str]] = [["1990-01-01", "2020-12-31"]]
+    time_steps: List[str] = ["1d"]
+    windows: List[str] = ["55", "40", "25", "10"]
+    K_values: List[str] = ["20", "50", "all"]
 
     # Basic folders
     epochs_tools.start_folders()
@@ -93,10 +94,11 @@ def main() -> None:
     # Analysis and plot
     data_plot_generator(dates, time_steps, windows, K_values)
 
-    print('Ay vamos!!!')
+    print("Ay vamos!!!")
+
 
 # -----------------------------------------------------------------------------
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

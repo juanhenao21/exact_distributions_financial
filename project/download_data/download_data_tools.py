@@ -1,4 +1,4 @@
-'''Exact distributions financial download data tools module.
+"""Exact distributions financial download data tools module.
 
 The functions in the module do small repetitive tasks, that are used along the
 whole implementation. These tools improve the way the tasks are standardized
@@ -19,7 +19,7 @@ The module contains the following functions:
     * main - the main function of the script.
 
 .. moduleauthor:: Juan Camilo Henao Londono <www.github.com/juanhenao21>
-'''
+"""
 
 # -----------------------------------------------------------------------------
 # Modules
@@ -34,7 +34,7 @@ import pandas as pd  # type: ignore
 
 
 def save_data(data: pd.DataFrame, dates: List[str], time_step: str) -> None:
-    """ Saves the data downloaded.
+    """Saves the data downloaded.
 
     :param dates: List of the interval of dates to be analyzed
      (i.e. ['1980-01-01', '2020-12-31']).
@@ -45,17 +45,25 @@ def save_data(data: pd.DataFrame, dates: List[str], time_step: str) -> None:
 
     # Saving data
 
-    pickle.dump(data, open(f'../data/original_data/original_data_{dates[0]}'
-                           + f'_{dates[1]}_step_{time_step}.pickle', 'wb'))
+    pickle.dump(
+        data,
+        open(
+            f"../data/original_data/original_data_{dates[0]}"
+            + f"_{dates[1]}_step_{time_step}.pickle",
+            "wb",
+        ),
+    )
 
-    print('Data Saved')
+    print("Data Saved")
     print()
+
 
 # -----------------------------------------------------------------------------
 
 
-def function_header_print_data(function_name: str, tickers: List[str],
-                               dates: List[str], time_step: str) -> None:
+def function_header_print_data(
+    function_name: str, tickers: List[str], dates: List[str], time_step: str
+) -> None:
     """Prints a header of a function that generates data when it is running.
 
     :param function_name: name of the function that generates the data.
@@ -68,13 +76,16 @@ def function_header_print_data(function_name: str, tickers: List[str],
     :return: None -- The function prints a message and does not return a value.
     """
 
-    print('Exact distributions')
+    print("Exact distributions")
     print(function_name)
 
-    print(f'Downloading data for the tickers {tickers} in the interval time'
-          + f' from the years {dates[0]} to {dates[1]} in time steps of'
-          + f' {time_step}')
+    print(
+        f"Downloading data for the tickers {tickers} in the interval time"
+        + f" from the years {dates[0]} to {dates[1]} in time steps of"
+        + f" {time_step}"
+    )
     print()
+
 
 # -----------------------------------------------------------------------------
 
@@ -85,25 +96,26 @@ def start_folders() -> None:
     :return: None -- The function creates folders and does not return a value.
     """
     try:
-        os.mkdir('../data')
-        os.mkdir('../plot')
-        print('Folder to save data created')
+        os.mkdir("../data")
+        os.mkdir("../plot")
+        print("Folder to save data created")
         print()
 
     except FileExistsError as error:
-        print('Folder exists. The folder was not created')
+        print("Folder exists. The folder was not created")
         print(error)
         print()
 
     try:
-        os.mkdir('../data/original_data')
-        print('Folder to save data created')
+        os.mkdir("../data/original_data")
+        print("Folder to save data created")
         print()
 
     except FileExistsError as error:
-        print('Folder exists. The folder was not created')
+        print("Folder exists. The folder was not created")
         print(error)
         print()
+
 
 # -----------------------------------------------------------------------------
 
@@ -115,18 +127,19 @@ def initial_message() -> None:
     """
 
     print()
-    print('#####################')
-    print('Download tickers data')
-    print('#####################')
-    print('AG Guhr')
-    print('Faculty of Physics')
-    print('University of Duisburg-Essen')
-    print('Author: Juan Camilo Henao Londono')
-    print('More information in:')
-    print('* https://juanhenao21.github.io/')
-    print('* https://github.com/juanhenao21/exact_distributions_financial')
+    print("#####################")
+    print("Download tickers data")
+    print("#####################")
+    print("AG Guhr")
+    print("Faculty of Physics")
+    print("University of Duisburg-Essen")
+    print("Author: Juan Camilo Henao Londono")
+    print("More information in:")
+    print("* https://juanhenao21.github.io/")
+    print("* https://github.com/juanhenao21/exact_distributions_financial")
     # print('* https://forex-response_spread-year.readthedocs.io/en/latest/')
     print()
+
 
 # -----------------------------------------------------------------------------
 
@@ -139,22 +152,23 @@ def get_stocks(sectors: List[str]) -> List:
     :return: List -- The function returns a list with stocks symbols.
     """
 
-    data = pd.read_html(
-        'https://en.wikipedia.org/wiki/List_of_S%26P_500_companies')[0]
+    data = pd.read_html("https://en.wikipedia.org/wiki/List_of_S%26P_500_companies")[0]
 
-    data = data.sort_values(by=['GICS Sector'], ignore_index=True)
+    data = data.sort_values(by=["GICS Sector"], ignore_index=True)
 
-    data = data.groupby(by=['GICS Sector']) \
-        .apply(lambda x: x.sort_values(by=['Security'], ignore_index=True))
+    data = data.groupby(by=["GICS Sector"]).apply(
+        lambda x: x.sort_values(by=["Security"], ignore_index=True)
+    )
 
-    if sectors[0] == 'all':
-        stocks = list(data['Symbol'].values)
+    if sectors[0] == "all":
+        stocks = list(data["Symbol"].values)
     else:
         stocks = []
         for sector in sectors:
-            stocks.extend(data[data['GICS Sector'] == sector]['Symbol'].values)
+            stocks.extend(data[data["GICS Sector"] == sector]["Symbol"].values)
 
     return stocks
+
 
 # -----------------------------------------------------------------------------
 
@@ -167,8 +181,9 @@ def main() -> None:
     :return: None.
     """
 
+
 # -----------------------------------------------------------------------------
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

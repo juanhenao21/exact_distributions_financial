@@ -1,4 +1,4 @@
-'''Exact distributions correlation plot module.
+"""Exact distributions correlation plot module.
 
 The functions in the module plot the data obtained in the
 exact_distributions_correlation_analysis module.
@@ -20,7 +20,7 @@ The module contains the following functions:
     * main - the main function of the script.
 
 .. moduleauthor:: Juan Camilo Henao Londono <www.github.com/juanhenao21>
-'''
+"""
 
 # -----------------------------------------------------------------------------
 # Modules
@@ -50,30 +50,35 @@ def returns_plot(dates: List[str], time_step: str) -> None:
     """
 
     function_name: str = returns_plot.__name__
-    exact_distributions_correlation_tools \
-        .function_header_print_plot(function_name, dates, time_step)
+    exact_distributions_correlation_tools.function_header_print_plot(
+        function_name, dates, time_step
+    )
 
     try:
 
         # Load data
-        returns_data: pd.DataFrame = pickle.load(open(
-                        f'../data/exact_distributions_correlation/returns_data'
-                        + f'_{dates[0]}_{dates[1]}_step_{time_step}.pickle',
-                        'rb')).iloc[:, :5]
+        returns_data: pd.DataFrame = pickle.load(
+            open(
+                f"../data/exact_distributions_correlation/returns_data"
+                + f"_{dates[0]}_{dates[1]}_step_{time_step}.pickle",
+                "rb",
+            )
+        ).iloc[:, :5]
 
-        plot: np.ndarray = returns_data.plot(subplots=True, sharex=True,
-                                             figsize=(16, 16), grid=True,
-                                             sort_columns=True)
+        plot: np.ndarray = returns_data.plot(
+            subplots=True, sharex=True, figsize=(16, 16), grid=True, sort_columns=True
+        )
 
-        _ = [ax.set_ylabel('Returns', fontsize=20) for ax in plot]
+        _ = [ax.set_ylabel("Returns", fontsize=20) for ax in plot]
         _ = [plot.legend(loc=1, fontsize=20) for plot in plt.gcf().axes]
-        plt.xlabel(f'Date - {time_step}', fontsize=20)
+        plt.xlabel(f"Date - {time_step}", fontsize=20)
         plt.tight_layout(pad=0.5)
         figure: plt.Figure = plot[0].get_figure()
 
         # Plotting
-        exact_distributions_correlation_tools \
-            .save_plot(figure, function_name, dates, time_step)
+        exact_distributions_correlation_tools.save_plot(
+            figure, function_name, dates, time_step
+        )
 
         plt.close()
         del returns_data
@@ -81,15 +86,15 @@ def returns_plot(dates: List[str], time_step: str) -> None:
         gc.collect()
 
     except FileNotFoundError as error:
-        print('No data')
+        print("No data")
         print(error)
         print()
+
 
 # -----------------------------------------------------------------------------
 
 
-def aggregated_dist_returns_market_plot(dates: List[str],
-                                        time_step: str) -> None:
+def aggregated_dist_returns_market_plot(dates: List[str], time_step: str) -> None:
     """Plots the aggregated distribution of returns for a market.
 
     :param dates: List of the interval of dates to be analyzed
@@ -100,34 +105,43 @@ def aggregated_dist_returns_market_plot(dates: List[str],
     """
 
     function_name: str = aggregated_dist_returns_market_plot.__name__
-    exact_distributions_correlation_tools \
-        .function_header_print_plot(function_name, dates, time_step)
+    exact_distributions_correlation_tools.function_header_print_plot(
+        function_name, dates, time_step
+    )
 
     try:
 
         # Load data
-        agg_returns_data: pd.Series = pickle.load(open(
-            '../data/exact_distributions_correlation/aggregated_dist_returns'
-            + f'_market_data_{dates[0]}_{dates[1]}_step_{time_step}.pickle',
-            'rb'))
+        agg_returns_data: pd.Series = pickle.load(
+            open(
+                "../data/exact_distributions_correlation/aggregated_dist_returns"
+                + f"_market_data_{dates[0]}_{dates[1]}_step_{time_step}.pickle",
+                "rb",
+            )
+        )
 
-        agg_returns_data = agg_returns_data.rename('Agg. returns')
+        agg_returns_data = agg_returns_data.rename("Agg. returns")
 
         x_gauss: np.ndarray = np.arange(-10, 10, 0.1)
-        gaussian: np.ndarray = exact_distributions_correlation_tools \
-            .gaussian_distribution(0, 1, x_gauss)
+        gaussian: np.ndarray = (
+            exact_distributions_correlation_tools.gaussian_distribution(0, 1, x_gauss)
+        )
 
         # Log plot
-        plot_log = agg_returns_data.plot(kind='density', style='-', logy=True,
-                                         figsize=(16, 9), legend=True, lw=3)
+        plot_log = agg_returns_data.plot(
+            kind="density", style="-", logy=True, figsize=(16, 9), legend=True, lw=3
+        )
 
-        plt.semilogy(x_gauss, gaussian, 'o', lw=3, label='Gaussian')
+        plt.semilogy(x_gauss, gaussian, "o", lw=3, label="Gaussian")
 
         plt.legend(fontsize=20)
-        plt.title(f'Aggregated distribution returns from {dates[0]} to'
-                  + f' {dates[1]} - {time_step}', fontsize=30)
-        plt.xlabel('Aggregated returns', fontsize=25)
-        plt.ylabel('PDF', fontsize=25)
+        plt.title(
+            f"Aggregated distribution returns from {dates[0]} to"
+            + f" {dates[1]} - {time_step}",
+            fontsize=30,
+        )
+        plt.xlabel("Aggregated returns", fontsize=25)
+        plt.ylabel("PDF", fontsize=25)
         plt.xticks(fontsize=15)
         plt.yticks(fontsize=15)
         plt.xlim(-10, 10)
@@ -138,15 +152,16 @@ def aggregated_dist_returns_market_plot(dates: List[str],
 
         left, bottom, width, height = [0.36, 0.13, 0.35, 0.3]
         ax2 = figure_log.add_axes([left, bottom, width, height])
-        agg_returns_data.plot(kind='density', style='-', legend=False, lw=3)
-        ax2.plot(x_gauss, gaussian, 'o')
+        agg_returns_data.plot(kind="density", style="-", legend=False, lw=3)
+        ax2.plot(x_gauss, gaussian, "o")
         plt.xlim(-2, 2)
         plt.ylim(0, 0.6)
         plt.grid(True)
 
         # Plotting
-        exact_distributions_correlation_tools \
-            .save_plot(figure_log, function_name + '_log', dates, time_step)
+        exact_distributions_correlation_tools.save_plot(
+            figure_log, function_name + "_log", dates, time_step
+        )
 
         plt.close()
         del agg_returns_data
@@ -155,9 +170,10 @@ def aggregated_dist_returns_market_plot(dates: List[str],
         gc.collect()
 
     except FileNotFoundError as error:
-        print('No data')
+        print("No data")
         print(error)
         print()
+
 
 # -----------------------------------------------------------------------------
 
@@ -174,44 +190,50 @@ def pdf_gg_plot(dates: List[str], time_step: str) -> None:
     """
 
     function_name: str = pdf_gg_plot.__name__
-    exact_distributions_correlation_tools \
-        .function_header_print_plot(function_name, dates, time_step)
+    exact_distributions_correlation_tools.function_header_print_plot(
+        function_name, dates, time_step
+    )
 
     try:
 
         # Load data
-        agg_returns_data: pd.Series = pickle.load(open(
-            '../data/exact_distributions_correlation/aggregated_dist_returns'
-            + f'_market_data_{dates[0]}_{dates[1]}_step_{time_step}.pickle',
-            'rb'))
+        agg_returns_data: pd.Series = pickle.load(
+            open(
+                "../data/exact_distributions_correlation/aggregated_dist_returns"
+                + f"_market_data_{dates[0]}_{dates[1]}_step_{time_step}.pickle",
+                "rb",
+            )
+        )
 
-        agg_returns_data = agg_returns_data.rename('Agg. returns')
+        agg_returns_data = agg_returns_data.rename("Agg. returns")
 
         x_val: np.ndarray = np.arange(-10, 10, 0.1)
 
         # Log plot
-        plot_log = agg_returns_data.plot(kind='density', style='-', logy=True,
-                                         figsize=(16, 9), legend=True, lw=3)
+        plot_log = agg_returns_data.plot(
+            kind="density", style="-", logy=True, figsize=(16, 9), legend=True, lw=3
+        )
 
-
-        if dates[0] == '1972-01':
+        if dates[0] == "1972-01":
             N = 5.5
-        elif dates[0] == '1992-01':
+        elif dates[0] == "1992-01":
             N = 5
         else:
             N = 7
 
-        gg_distribution: np.ndarray = \
-            exact_distributions_correlation_tools\
-            .pdf_gaussian_gaussian(x_val, N, 1)
-        plt.semilogy(x_val, gg_distribution, 'o', lw=3,
-                        label=f'GG - N = {N}')
+        gg_distribution: np.ndarray = (
+            exact_distributions_correlation_tools.pdf_gaussian_gaussian(x_val, N, 1)
+        )
+        plt.semilogy(x_val, gg_distribution, "o", lw=3, label=f"GG - N = {N}")
 
         plt.legend(fontsize=20)
-        plt.title(f'Aggregated distribution returns from {dates[0]} to'
-                  + f' {dates[1]} - {time_step}', fontsize=30)
-        plt.xlabel('Aggregated returns', fontsize=25)
-        plt.ylabel('PDF', fontsize=25)
+        plt.title(
+            f"Aggregated distribution returns from {dates[0]} to"
+            + f" {dates[1]} - {time_step}",
+            fontsize=30,
+        )
+        plt.xlabel("Aggregated returns", fontsize=25)
+        plt.ylabel("PDF", fontsize=25)
         plt.xticks(fontsize=15)
         plt.yticks(fontsize=15)
         plt.xlim(-10, 10)
@@ -222,15 +244,16 @@ def pdf_gg_plot(dates: List[str], time_step: str) -> None:
 
         left, bottom, width, height = [0.36, 0.13, 0.35, 0.3]
         ax2 = figure_log.add_axes([left, bottom, width, height])
-        agg_returns_data.plot(kind='density', style='-', legend=False, lw=3)
-        ax2.plot(x_val, gg_distribution, 'o')
+        agg_returns_data.plot(kind="density", style="-", legend=False, lw=3)
+        ax2.plot(x_val, gg_distribution, "o")
         plt.xlim(-2, 2)
         plt.ylim(0, 0.6)
         plt.grid(True)
 
         # Plotting
-        exact_distributions_correlation_tools \
-            .save_plot(figure_log, function_name, dates, time_step)
+        exact_distributions_correlation_tools.save_plot(
+            figure_log, function_name, dates, time_step
+        )
 
         plt.close()
         del agg_returns_data
@@ -239,9 +262,10 @@ def pdf_gg_plot(dates: List[str], time_step: str) -> None:
         gc.collect()
 
     except FileNotFoundError as error:
-        print('No data')
+        print("No data")
         print(error)
         print()
+
 
 # -----------------------------------------------------------------------------
 
@@ -258,30 +282,35 @@ def pdf_ga_plot(dates: List[str], time_step: str) -> None:
     """
 
     function_name: str = pdf_ga_plot.__name__
-    exact_distributions_correlation_tools \
-        .function_header_print_plot(function_name, dates, time_step)
+    exact_distributions_correlation_tools.function_header_print_plot(
+        function_name, dates, time_step
+    )
 
     try:
 
         # Load data
-        agg_returns_data: pd.Series = pickle.load(open(
-            '../data/exact_distributions_correlation/aggregated_dist_returns'
-            + f'_market_data_{dates[0]}_{dates[1]}_step_{time_step}.pickle',
-            'rb'))
+        agg_returns_data: pd.Series = pickle.load(
+            open(
+                "../data/exact_distributions_correlation/aggregated_dist_returns"
+                + f"_market_data_{dates[0]}_{dates[1]}_step_{time_step}.pickle",
+                "rb",
+            )
+        )
 
-        agg_returns_data = agg_returns_data.rename('Agg. returns')
+        agg_returns_data = agg_returns_data.rename("Agg. returns")
 
         x_val: np.ndarray = np.arange(-10, 10, 0.1)
 
         # Log plot
-        plot_log = agg_returns_data.plot(kind='density', style='-', logy=True,
-                                         figsize=(16, 9), legend=True, lw=3)
+        plot_log = agg_returns_data.plot(
+            kind="density", style="-", logy=True, figsize=(16, 9), legend=True, lw=3
+        )
 
-        if dates[0] == '1972-01':
+        if dates[0] == "1972-01":
             N = 5.5
             K = 23
             L = 55
-        elif dates[0] == '1992-01':
+        elif dates[0] == "1992-01":
             N = 6
             K = 277
             L = 150
@@ -290,17 +319,23 @@ def pdf_ga_plot(dates: List[str], time_step: str) -> None:
             K = 461
             L = 280
 
-        ga_distribution: np.ndarray = \
-            exact_distributions_correlation_tools \
-            .pdf_gaussian_algebraic(x_val, K, L, N, 1)
-        plt.semilogy(x_val, ga_distribution, 'o', lw=3,
-                        label=f'GA - N = {N} - K = {K} - L = {L}')
+        ga_distribution: np.ndarray = (
+            exact_distributions_correlation_tools.pdf_gaussian_algebraic(
+                x_val, K, L, N, 1
+            )
+        )
+        plt.semilogy(
+            x_val, ga_distribution, "o", lw=3, label=f"GA - N = {N} - K = {K} - L = {L}"
+        )
 
         plt.legend(fontsize=20)
-        plt.title(f'Aggregated distribution returns from {dates[0]} to'
-                  + f' {dates[1]} - {time_step}', fontsize=30)
-        plt.xlabel('Aggregated returns', fontsize=25)
-        plt.ylabel('PDF', fontsize=25)
+        plt.title(
+            f"Aggregated distribution returns from {dates[0]} to"
+            + f" {dates[1]} - {time_step}",
+            fontsize=30,
+        )
+        plt.xlabel("Aggregated returns", fontsize=25)
+        plt.ylabel("PDF", fontsize=25)
         plt.xticks(fontsize=15)
         plt.yticks(fontsize=15)
         plt.xlim(-10, 10)
@@ -311,15 +346,16 @@ def pdf_ga_plot(dates: List[str], time_step: str) -> None:
 
         left, bottom, width, height = [0.36, 0.13, 0.35, 0.3]
         ax2 = figure_log.add_axes([left, bottom, width, height])
-        agg_returns_data.plot(kind='density', style='-', legend=False, lw=3)
-        ax2.plot(x_val, ga_distribution, 'o')
+        agg_returns_data.plot(kind="density", style="-", legend=False, lw=3)
+        ax2.plot(x_val, ga_distribution, "o")
         plt.xlim(-2, 2)
         plt.ylim(0, 0.6)
         plt.grid(True)
 
         # Plotting
-        exact_distributions_correlation_tools \
-            .save_plot(figure_log, function_name, dates, time_step)
+        exact_distributions_correlation_tools.save_plot(
+            figure_log, function_name, dates, time_step
+        )
 
         plt.close()
         del agg_returns_data
@@ -328,9 +364,10 @@ def pdf_ga_plot(dates: List[str], time_step: str) -> None:
         gc.collect()
 
     except FileNotFoundError as error:
-        print('No data')
+        print("No data")
         print(error)
         print()
+
 
 # -----------------------------------------------------------------------------
 
@@ -347,30 +384,35 @@ def pdf_ag_plot(dates: List[str], time_step: str) -> None:
     """
 
     function_name: str = pdf_ag_plot.__name__
-    exact_distributions_correlation_tools \
-        .function_header_print_plot(function_name, dates, time_step)
+    exact_distributions_correlation_tools.function_header_print_plot(
+        function_name, dates, time_step
+    )
 
     try:
 
         # Load data
-        agg_returns_data: pd.Series = pickle.load(open(
-            '../data/exact_distributions_correlation/aggregated_dist_returns'
-            + f'_market_data_{dates[0]}_{dates[1]}_step_{time_step}.pickle',
-            'rb'))
+        agg_returns_data: pd.Series = pickle.load(
+            open(
+                "../data/exact_distributions_correlation/aggregated_dist_returns"
+                + f"_market_data_{dates[0]}_{dates[1]}_step_{time_step}.pickle",
+                "rb",
+            )
+        )
 
-        agg_returns_data = agg_returns_data.rename('Agg. returns')
+        agg_returns_data = agg_returns_data.rename("Agg. returns")
 
         x_val: np.ndarray = np.arange(-10, 10, 0.1)
 
         # Log plot
-        plot_log = agg_returns_data.plot(kind='density', style='-', logy=True,
-                                         figsize=(16, 9), legend=True, lw=3)
+        plot_log = agg_returns_data.plot(
+            kind="density", style="-", logy=True, figsize=(16, 9), legend=True, lw=3
+        )
 
-        if dates[0] == '1972-01':
+        if dates[0] == "1972-01":
             N = 5.5
             K = 23
             l = 55
-        elif dates[0] == '1992-01':
+        elif dates[0] == "1992-01":
             N = 6
             K = 277
             l = 150
@@ -379,17 +421,23 @@ def pdf_ag_plot(dates: List[str], time_step: str) -> None:
             K = 461
             l = 280
 
-        ag_distribution: np.ndarray = \
-            exact_distributions_correlation_tools \
-            .pdf_algebraic_gaussian(x_val, K, l, N, 1)
-        plt.semilogy(x_val, ag_distribution, 'o', lw=3,
-                        label=f'AG - N = {N} - K = {K} - l = {l}')
+        ag_distribution: np.ndarray = (
+            exact_distributions_correlation_tools.pdf_algebraic_gaussian(
+                x_val, K, l, N, 1
+            )
+        )
+        plt.semilogy(
+            x_val, ag_distribution, "o", lw=3, label=f"AG - N = {N} - K = {K} - l = {l}"
+        )
 
         plt.legend(fontsize=20)
-        plt.title(f'Aggregated distribution returns from {dates[0]} to'
-                  + f' {dates[1]} - {time_step}', fontsize=30)
-        plt.xlabel('Aggregated returns', fontsize=25)
-        plt.ylabel('PDF', fontsize=25)
+        plt.title(
+            f"Aggregated distribution returns from {dates[0]} to"
+            + f" {dates[1]} - {time_step}",
+            fontsize=30,
+        )
+        plt.xlabel("Aggregated returns", fontsize=25)
+        plt.ylabel("PDF", fontsize=25)
         plt.xticks(fontsize=15)
         plt.yticks(fontsize=15)
         plt.xlim(-10, 10)
@@ -400,15 +448,16 @@ def pdf_ag_plot(dates: List[str], time_step: str) -> None:
 
         left, bottom, width, height = [0.36, 0.13, 0.35, 0.3]
         ax2 = figure_log.add_axes([left, bottom, width, height])
-        agg_returns_data.plot(kind='density', style='-', legend=False, lw=3)
-        ax2.plot(x_val, ag_distribution, 'o')
+        agg_returns_data.plot(kind="density", style="-", legend=False, lw=3)
+        ax2.plot(x_val, ag_distribution, "o")
         plt.xlim(-2, 2)
         plt.ylim(0, 0.6)
         plt.grid(True)
 
         # Plotting
-        exact_distributions_correlation_tools \
-            .save_plot(figure_log, function_name, dates, time_step)
+        exact_distributions_correlation_tools.save_plot(
+            figure_log, function_name, dates, time_step
+        )
 
         plt.close()
         del agg_returns_data
@@ -417,9 +466,10 @@ def pdf_ag_plot(dates: List[str], time_step: str) -> None:
         gc.collect()
 
     except FileNotFoundError as error:
-        print('No data')
+        print("No data")
         print(error)
         print()
+
 
 # -----------------------------------------------------------------------------
 
@@ -436,31 +486,36 @@ def pdf_aa_plot(dates: List[str], time_step: str) -> None:
     """
 
     function_name: str = pdf_aa_plot.__name__
-    exact_distributions_correlation_tools \
-        .function_header_print_plot(function_name, dates, time_step)
+    exact_distributions_correlation_tools.function_header_print_plot(
+        function_name, dates, time_step
+    )
 
     try:
 
         # Load data
-        agg_returns_data: pd.Series = pickle.load(open(
-            '../data/exact_distributions_correlation/aggregated_dist_returns'
-            + f'_market_data_{dates[0]}_{dates[1]}_step_{time_step}.pickle',
-            'rb'))
+        agg_returns_data: pd.Series = pickle.load(
+            open(
+                "../data/exact_distributions_correlation/aggregated_dist_returns"
+                + f"_market_data_{dates[0]}_{dates[1]}_step_{time_step}.pickle",
+                "rb",
+            )
+        )
 
-        agg_returns_data = agg_returns_data.rename('Agg. returns')
+        agg_returns_data = agg_returns_data.rename("Agg. returns")
 
         x_val: np.ndarray = np.arange(-10, 10, 0.1)
 
         # Log plot
-        plot_log = agg_returns_data.plot(kind='density', style='-', logy=True,
-                                         figsize=(16, 9), legend=True, lw=3)
+        plot_log = agg_returns_data.plot(
+            kind="density", style="-", logy=True, figsize=(16, 9), legend=True, lw=3
+        )
 
-        if dates[0] == '1972-01':
+        if dates[0] == "1972-01":
             N = 6
             K = 23
             L = 55
             l = 55
-        elif dates[0] == '1992-01':
+        elif dates[0] == "1992-01":
             N = 9
             K = 277
             L = 150
@@ -471,18 +526,27 @@ def pdf_aa_plot(dates: List[str], time_step: str) -> None:
             L = 280
             l = 280
 
-        aa_distribution: np.ndarray = \
-            exact_distributions_correlation_tools \
-            .pdf_algebraic_algebraic(x_val, K, L, l, N, 1)
-        plt.semilogy(x_val, aa_distribution, 'o', lw=3,
-                        label=f'AA - N = {N} - K = {K} - L = {L}'
-                        + f' - l = {l}')
+        aa_distribution: np.ndarray = (
+            exact_distributions_correlation_tools.pdf_algebraic_algebraic(
+                x_val, K, L, l, N, 1
+            )
+        )
+        plt.semilogy(
+            x_val,
+            aa_distribution,
+            "o",
+            lw=3,
+            label=f"AA - N = {N} - K = {K} - L = {L}" + f" - l = {l}",
+        )
 
-        plt.legend(loc='upper right', fontsize=20)
-        plt.title(f'Aggregated distribution returns from {dates[0]} to'
-                  + f' {dates[1]} - {time_step}', fontsize=30)
-        plt.xlabel('Aggregated returns', fontsize=25)
-        plt.ylabel('PDF', fontsize=25)
+        plt.legend(loc="upper right", fontsize=20)
+        plt.title(
+            f"Aggregated distribution returns from {dates[0]} to"
+            + f" {dates[1]} - {time_step}",
+            fontsize=30,
+        )
+        plt.xlabel("Aggregated returns", fontsize=25)
+        plt.ylabel("PDF", fontsize=25)
         plt.xticks(fontsize=15)
         plt.yticks(fontsize=15)
         plt.xlim(-10, 10)
@@ -493,15 +557,16 @@ def pdf_aa_plot(dates: List[str], time_step: str) -> None:
 
         left, bottom, width, height = [0.36, 0.13, 0.35, 0.3]
         ax2 = figure_log.add_axes([left, bottom, width, height])
-        agg_returns_data.plot(kind='density', style='-', legend=False, lw=3)
-        ax2.plot(x_val, aa_distribution, 'o')
+        agg_returns_data.plot(kind="density", style="-", legend=False, lw=3)
+        ax2.plot(x_val, aa_distribution, "o")
         plt.xlim(-2, 2)
         plt.ylim(0, 0.6)
         plt.grid(True)
 
         # Plotting
-        exact_distributions_correlation_tools \
-            .save_plot(figure_log, function_name, dates, time_step)
+        exact_distributions_correlation_tools.save_plot(
+            figure_log, function_name, dates, time_step
+        )
 
         plt.close()
         del agg_returns_data
@@ -510,9 +575,10 @@ def pdf_aa_plot(dates: List[str], time_step: str) -> None:
         gc.collect()
 
     except FileNotFoundError as error:
-        print('No data')
+        print("No data")
         print(error)
         print()
+
 
 # -----------------------------------------------------------------------------
 
@@ -528,58 +594,82 @@ def pdf_lin_all_distributions_plot(dates: List[str], time_step: str) -> None:
     """
 
     function_name: str = pdf_lin_all_distributions_plot.__name__
-    exact_distributions_correlation_tools \
-        .function_header_print_plot(function_name, dates, time_step)
+    exact_distributions_correlation_tools.function_header_print_plot(
+        function_name, dates, time_step
+    )
 
     try:
 
         # Load data
-        agg_returns_data: pd.Series = pickle.load(open(
-            '../data/exact_distributions_correlation/aggregated_dist_returns'
-            + f'_market_data_{dates[0]}_{dates[1]}_step_{time_step}.pickle',
-            'rb'))
+        agg_returns_data: pd.Series = pickle.load(
+            open(
+                "../data/exact_distributions_correlation/aggregated_dist_returns"
+                + f"_market_data_{dates[0]}_{dates[1]}_step_{time_step}.pickle",
+                "rb",
+            )
+        )
 
-        agg_returns_data = agg_returns_data.rename('Agg. returns')
+        agg_returns_data = agg_returns_data.rename("Agg. returns")
 
         x_val: np.ndarray = np.arange(-10, 10, 0.1)
 
         # Lin plot
-        plot_lin = agg_returns_data.plot(kind='density', style='-',
-                                         figsize=(16, 9), legend=True, lw=3)
+        plot_lin = agg_returns_data.plot(
+            kind="density", style="-", figsize=(16, 9), legend=True, lw=3
+        )
 
-        if dates[0] == '1972-01':
+        if dates[0] == "1972-01":
             N = 5.5
             N_aa = 6
             K = 23
             L = 55
             l = 55
 
-            gg_distribution: np.ndarray = \
-                exact_distributions_correlation_tools\
-                .pdf_gaussian_gaussian(x_val, N, 1)
-            plt.plot(x_val, gg_distribution, 'o', lw=3,
-                         label=f'GG - N = {N}')
+            gg_distribution: np.ndarray = (
+                exact_distributions_correlation_tools.pdf_gaussian_gaussian(x_val, N, 1)
+            )
+            plt.plot(x_val, gg_distribution, "o", lw=3, label=f"GG - N = {N}")
 
-            ga_distribution: np.ndarray = \
-                exact_distributions_correlation_tools\
-                .pdf_gaussian_algebraic(x_val, K, L, N, 1)
-            plt.plot(x_val, ga_distribution, 'o', lw=3,
-                         label=f'GA - N = {N} - K = {K} - L = {L}')
+            ga_distribution: np.ndarray = (
+                exact_distributions_correlation_tools.pdf_gaussian_algebraic(
+                    x_val, K, L, N, 1
+                )
+            )
+            plt.plot(
+                x_val,
+                ga_distribution,
+                "o",
+                lw=3,
+                label=f"GA - N = {N} - K = {K} - L = {L}",
+            )
 
-            ag_distribution: np.ndarray = \
-                exact_distributions_correlation_tools\
-                .pdf_algebraic_gaussian(x_val, K, l, N, 1)
-            plt.plot(x_val, ag_distribution, 'o', lw=3,
-                         label=f'AG - N = {N} - K = {K} - l = {l}')
+            ag_distribution: np.ndarray = (
+                exact_distributions_correlation_tools.pdf_algebraic_gaussian(
+                    x_val, K, l, N, 1
+                )
+            )
+            plt.plot(
+                x_val,
+                ag_distribution,
+                "o",
+                lw=3,
+                label=f"AG - N = {N} - K = {K} - l = {l}",
+            )
 
-            aa_distribution: np.ndarray = \
-                exact_distributions_correlation_tools\
-                .pdf_algebraic_algebraic(x_val, K, L, l, N_aa, 1)
-            plt.plot(x_val, aa_distribution, 'o', lw=3,
-                         label=f'AA - N = {N_aa} - K = {K} - L = {L}'
-                         + f' - l = {l}')
+            aa_distribution: np.ndarray = (
+                exact_distributions_correlation_tools.pdf_algebraic_algebraic(
+                    x_val, K, L, l, N_aa, 1
+                )
+            )
+            plt.plot(
+                x_val,
+                aa_distribution,
+                "o",
+                lw=3,
+                label=f"AA - N = {N_aa} - K = {K} - L = {L}" + f" - l = {l}",
+            )
 
-        elif dates[0] == '1992-01':
+        elif dates[0] == "1992-01":
             N = 6
             N_gg = 5
             N_aa = 9
@@ -587,30 +677,51 @@ def pdf_lin_all_distributions_plot(dates: List[str], time_step: str) -> None:
             L = 150
             l = 150
 
-            gg_distribution: np.ndarray = \
-                exact_distributions_correlation_tools\
-                .pdf_gaussian_gaussian(x_val, N_gg, 1)
-            plt.plot(x_val, gg_distribution, 'o', lw=3,
-                         label=f'GG - N = {N_gg}')
+            gg_distribution: np.ndarray = (
+                exact_distributions_correlation_tools.pdf_gaussian_gaussian(
+                    x_val, N_gg, 1
+                )
+            )
+            plt.plot(x_val, gg_distribution, "o", lw=3, label=f"GG - N = {N_gg}")
 
-            ga_distribution: np.ndarray = \
-                exact_distributions_correlation_tools\
-                .pdf_gaussian_algebraic(x_val, K, L, N, 1)
-            plt.plot(x_val, ga_distribution, 'o', lw=3,
-                         label=f'GA - N = {N} - K = {K} - L = {L}')
+            ga_distribution: np.ndarray = (
+                exact_distributions_correlation_tools.pdf_gaussian_algebraic(
+                    x_val, K, L, N, 1
+                )
+            )
+            plt.plot(
+                x_val,
+                ga_distribution,
+                "o",
+                lw=3,
+                label=f"GA - N = {N} - K = {K} - L = {L}",
+            )
 
-            ag_distribution: np.ndarray = \
-                exact_distributions_correlation_tools\
-                .pdf_algebraic_gaussian(x_val, K, l, N, 1)
-            plt.plot(x_val, ag_distribution, 'o', lw=3,
-                         label=f'AG - N = {N} - K = {K} - l = {l}')
+            ag_distribution: np.ndarray = (
+                exact_distributions_correlation_tools.pdf_algebraic_gaussian(
+                    x_val, K, l, N, 1
+                )
+            )
+            plt.plot(
+                x_val,
+                ag_distribution,
+                "o",
+                lw=3,
+                label=f"AG - N = {N} - K = {K} - l = {l}",
+            )
 
-            aa_distribution: np.ndarray = \
-                exact_distributions_correlation_tools\
-                .pdf_algebraic_algebraic(x_val, K, L, l, N_aa, 1)
-            plt.plot(x_val, aa_distribution, 'o', lw=3,
-                         label=f'AA - N = {N_aa} - K = {K} - L = {L}'
-                         + f' - l = {l}')
+            aa_distribution: np.ndarray = (
+                exact_distributions_correlation_tools.pdf_algebraic_algebraic(
+                    x_val, K, L, l, N_aa, 1
+                )
+            )
+            plt.plot(
+                x_val,
+                aa_distribution,
+                "o",
+                lw=3,
+                label=f"AA - N = {N_aa} - K = {K} - L = {L}" + f" - l = {l}",
+            )
 
         else:
             N = 7
@@ -619,36 +730,58 @@ def pdf_lin_all_distributions_plot(dates: List[str], time_step: str) -> None:
             L = 280
             l = 280
 
-            gg_distribution: np.ndarray = \
-                exact_distributions_correlation_tools\
-                .pdf_gaussian_gaussian(x_val, N, 1)
-            plt.plot(x_val, gg_distribution, 'o', lw=3,
-                         label=f'GG - N = {N}')
+            gg_distribution: np.ndarray = (
+                exact_distributions_correlation_tools.pdf_gaussian_gaussian(x_val, N, 1)
+            )
+            plt.plot(x_val, gg_distribution, "o", lw=3, label=f"GG - N = {N}")
 
-            ga_distribution: np.ndarray = \
-                exact_distributions_correlation_tools\
-                .pdf_gaussian_algebraic(x_val, K, L, N, 1)
-            plt.plot(x_val, ga_distribution, 'o', lw=3,
-                         label=f'GA - N = {N} - K = {K} - L = {L}')
+            ga_distribution: np.ndarray = (
+                exact_distributions_correlation_tools.pdf_gaussian_algebraic(
+                    x_val, K, L, N, 1
+                )
+            )
+            plt.plot(
+                x_val,
+                ga_distribution,
+                "o",
+                lw=3,
+                label=f"GA - N = {N} - K = {K} - L = {L}",
+            )
 
-            ag_distribution: np.ndarray = \
-                exact_distributions_correlation_tools\
-                .pdf_algebraic_gaussian(x_val, K, l, N, 1)
-            plt.plot(x_val, ag_distribution, 'o', lw=3,
-                         label=f'AG - N = {N} - K = {K} - l = {l}')
+            ag_distribution: np.ndarray = (
+                exact_distributions_correlation_tools.pdf_algebraic_gaussian(
+                    x_val, K, l, N, 1
+                )
+            )
+            plt.plot(
+                x_val,
+                ag_distribution,
+                "o",
+                lw=3,
+                label=f"AG - N = {N} - K = {K} - l = {l}",
+            )
 
-            aa_distribution: np.ndarray = \
-                exact_distributions_correlation_tools\
-                .pdf_algebraic_algebraic(x_val, K, L, l, N_aa, 1)
-            plt.plot(x_val, aa_distribution, 'o', lw=3,
-                         label=f'AA - N = {N_aa} - K = {K} - L = {L}'
-                         + f' - l = {l}')
+            aa_distribution: np.ndarray = (
+                exact_distributions_correlation_tools.pdf_algebraic_algebraic(
+                    x_val, K, L, l, N_aa, 1
+                )
+            )
+            plt.plot(
+                x_val,
+                aa_distribution,
+                "o",
+                lw=3,
+                label=f"AA - N = {N_aa} - K = {K} - L = {L}" + f" - l = {l}",
+            )
 
         plt.legend(fontsize=20)
-        plt.title(f'Aggregated distribution returns from {dates[0]} to'
-                  + f' {dates[1]} - {time_step}', fontsize=30)
-        plt.xlabel('Aggregated returns', fontsize=25)
-        plt.ylabel('PDF', fontsize=25)
+        plt.title(
+            f"Aggregated distribution returns from {dates[0]} to"
+            + f" {dates[1]} - {time_step}",
+            fontsize=30,
+        )
+        plt.xlabel("Aggregated returns", fontsize=25)
+        plt.ylabel("PDF", fontsize=25)
         plt.xticks(fontsize=15)
         plt.yticks(fontsize=15)
         plt.xlim(-2, 2)
@@ -658,8 +791,9 @@ def pdf_lin_all_distributions_plot(dates: List[str], time_step: str) -> None:
         figure_lin: plt.Figure = plot_lin.get_figure()
 
         # Plotting
-        exact_distributions_correlation_tools \
-            .save_plot(figure_lin, function_name, dates, time_step)
+        exact_distributions_correlation_tools.save_plot(
+            figure_lin, function_name, dates, time_step
+        )
 
         plt.close()
         del agg_returns_data
@@ -668,9 +802,10 @@ def pdf_lin_all_distributions_plot(dates: List[str], time_step: str) -> None:
         gc.collect()
 
     except FileNotFoundError as error:
-        print('No data')
+        print("No data")
         print(error)
         print()
+
 
 # -----------------------------------------------------------------------------
 
@@ -686,58 +821,82 @@ def pdf_log_all_distributions_plot(dates: List[str], time_step: str) -> None:
     """
 
     function_name: str = pdf_log_all_distributions_plot.__name__
-    exact_distributions_correlation_tools \
-        .function_header_print_plot(function_name, dates, time_step)
+    exact_distributions_correlation_tools.function_header_print_plot(
+        function_name, dates, time_step
+    )
 
     try:
 
         # Load data
-        agg_returns_data: pd.Series = pickle.load(open(
-            '../data/exact_distributions_correlation/aggregated_dist_returns'
-            + f'_market_data_{dates[0]}_{dates[1]}_step_{time_step}.pickle',
-            'rb'))
+        agg_returns_data: pd.Series = pickle.load(
+            open(
+                "../data/exact_distributions_correlation/aggregated_dist_returns"
+                + f"_market_data_{dates[0]}_{dates[1]}_step_{time_step}.pickle",
+                "rb",
+            )
+        )
 
-        agg_returns_data = agg_returns_data.rename('Agg. returns')
+        agg_returns_data = agg_returns_data.rename("Agg. returns")
 
         x_val: np.ndarray = np.arange(-10, 10, 0.1)
 
         # Log plot
-        plot_log = agg_returns_data.plot(kind='density', style='-', logy=True,
-                                         figsize=(16, 9), legend=True, lw=3)
+        plot_log = agg_returns_data.plot(
+            kind="density", style="-", logy=True, figsize=(16, 9), legend=True, lw=3
+        )
 
-        if dates[0] == '1972-01':
+        if dates[0] == "1972-01":
             N = 5.5
             N_aa = 6
             K = 23
             L = 55
             l = 55
 
-            gg_distribution: np.ndarray = \
-                exact_distributions_correlation_tools\
-                .pdf_gaussian_gaussian(x_val, N, 1)
-            plt.semilogy(x_val, gg_distribution, 'o', lw=3,
-                         label=f'GG - N = {N}')
+            gg_distribution: np.ndarray = (
+                exact_distributions_correlation_tools.pdf_gaussian_gaussian(x_val, N, 1)
+            )
+            plt.semilogy(x_val, gg_distribution, "o", lw=3, label=f"GG - N = {N}")
 
-            ga_distribution: np.ndarray = \
-                exact_distributions_correlation_tools\
-                .pdf_gaussian_algebraic(x_val, K, L, N, 1)
-            plt.semilogy(x_val, ga_distribution, 'o', lw=3,
-                         label=f'GA - N = {N} - K = {K} - L = {L}')
+            ga_distribution: np.ndarray = (
+                exact_distributions_correlation_tools.pdf_gaussian_algebraic(
+                    x_val, K, L, N, 1
+                )
+            )
+            plt.semilogy(
+                x_val,
+                ga_distribution,
+                "o",
+                lw=3,
+                label=f"GA - N = {N} - K = {K} - L = {L}",
+            )
 
-            ag_distribution: np.ndarray = \
-                exact_distributions_correlation_tools\
-                .pdf_algebraic_gaussian(x_val, K, l, N, 1)
-            plt.semilogy(x_val, ag_distribution, 'o', lw=3,
-                         label=f'AG - N = {N} - K = {K} - l = {l}')
+            ag_distribution: np.ndarray = (
+                exact_distributions_correlation_tools.pdf_algebraic_gaussian(
+                    x_val, K, l, N, 1
+                )
+            )
+            plt.semilogy(
+                x_val,
+                ag_distribution,
+                "o",
+                lw=3,
+                label=f"AG - N = {N} - K = {K} - l = {l}",
+            )
 
-            aa_distribution: np.ndarray = \
-                exact_distributions_correlation_tools\
-                .pdf_algebraic_algebraic(x_val, K, L, l, N_aa, 1)
-            plt.semilogy(x_val, aa_distribution, 'o', lw=3,
-                         label=f'AA - N = {N_aa} - K = {K} - L = {L}'
-                         + f' - l = {l}')
+            aa_distribution: np.ndarray = (
+                exact_distributions_correlation_tools.pdf_algebraic_algebraic(
+                    x_val, K, L, l, N_aa, 1
+                )
+            )
+            plt.semilogy(
+                x_val,
+                aa_distribution,
+                "o",
+                lw=3,
+                label=f"AA - N = {N_aa} - K = {K} - L = {L}" + f" - l = {l}",
+            )
 
-        elif dates[0] == '1992-01':
+        elif dates[0] == "1992-01":
             N = 6
             N_gg = 5
             N_aa = 9
@@ -745,30 +904,51 @@ def pdf_log_all_distributions_plot(dates: List[str], time_step: str) -> None:
             L = 150
             l = 150
 
-            gg_distribution: np.ndarray = \
-                exact_distributions_correlation_tools\
-                .pdf_gaussian_gaussian(x_val, N_gg, 1)
-            plt.semilogy(x_val, gg_distribution, 'o', lw=3,
-                         label=f'GG - N = {N_gg}')
+            gg_distribution: np.ndarray = (
+                exact_distributions_correlation_tools.pdf_gaussian_gaussian(
+                    x_val, N_gg, 1
+                )
+            )
+            plt.semilogy(x_val, gg_distribution, "o", lw=3, label=f"GG - N = {N_gg}")
 
-            ga_distribution: np.ndarray = \
-                exact_distributions_correlation_tools\
-                .pdf_gaussian_algebraic(x_val, K, L, N, 1)
-            plt.semilogy(x_val, ga_distribution, 'o', lw=3,
-                         label=f'GA - N = {N} - K = {K} - L = {L}')
+            ga_distribution: np.ndarray = (
+                exact_distributions_correlation_tools.pdf_gaussian_algebraic(
+                    x_val, K, L, N, 1
+                )
+            )
+            plt.semilogy(
+                x_val,
+                ga_distribution,
+                "o",
+                lw=3,
+                label=f"GA - N = {N} - K = {K} - L = {L}",
+            )
 
-            ag_distribution: np.ndarray = \
-                exact_distributions_correlation_tools\
-                .pdf_algebraic_gaussian(x_val, K, l, N, 1)
-            plt.semilogy(x_val, ag_distribution, 'o', lw=3,
-                         label=f'AG - N = {N} - K = {K} - l = {l}')
+            ag_distribution: np.ndarray = (
+                exact_distributions_correlation_tools.pdf_algebraic_gaussian(
+                    x_val, K, l, N, 1
+                )
+            )
+            plt.semilogy(
+                x_val,
+                ag_distribution,
+                "o",
+                lw=3,
+                label=f"AG - N = {N} - K = {K} - l = {l}",
+            )
 
-            aa_distribution: np.ndarray = \
-                exact_distributions_correlation_tools\
-                .pdf_algebraic_algebraic(x_val, K, L, l, N_aa, 1)
-            plt.semilogy(x_val, aa_distribution, 'o', lw=3,
-                         label=f'AA - N = {N_aa} - K = {K} - L = {L}'
-                         + f' - l = {l}')
+            aa_distribution: np.ndarray = (
+                exact_distributions_correlation_tools.pdf_algebraic_algebraic(
+                    x_val, K, L, l, N_aa, 1
+                )
+            )
+            plt.semilogy(
+                x_val,
+                aa_distribution,
+                "o",
+                lw=3,
+                label=f"AA - N = {N_aa} - K = {K} - L = {L}" + f" - l = {l}",
+            )
 
         else:
             N = 7
@@ -777,36 +957,58 @@ def pdf_log_all_distributions_plot(dates: List[str], time_step: str) -> None:
             L = 280
             l = 280
 
-            gg_distribution: np.ndarray = \
-                exact_distributions_correlation_tools\
-                .pdf_gaussian_gaussian(x_val, N, 1)
-            plt.semilogy(x_val, gg_distribution, 'o', lw=3,
-                         label=f'GG - N = {N}')
+            gg_distribution: np.ndarray = (
+                exact_distributions_correlation_tools.pdf_gaussian_gaussian(x_val, N, 1)
+            )
+            plt.semilogy(x_val, gg_distribution, "o", lw=3, label=f"GG - N = {N}")
 
-            ga_distribution: np.ndarray = \
-                exact_distributions_correlation_tools\
-                .pdf_gaussian_algebraic(x_val, K, L, N, 1)
-            plt.semilogy(x_val, ga_distribution, 'o', lw=3,
-                         label=f'GA - N = {N} - K = {K} - L = {L}')
+            ga_distribution: np.ndarray = (
+                exact_distributions_correlation_tools.pdf_gaussian_algebraic(
+                    x_val, K, L, N, 1
+                )
+            )
+            plt.semilogy(
+                x_val,
+                ga_distribution,
+                "o",
+                lw=3,
+                label=f"GA - N = {N} - K = {K} - L = {L}",
+            )
 
-            ag_distribution: np.ndarray = \
-                exact_distributions_correlation_tools\
-                .pdf_algebraic_gaussian(x_val, K, l, N, 1)
-            plt.semilogy(x_val, ag_distribution, 'o', lw=3,
-                         label=f'AG - N = {N} - K = {K} - l = {l}')
+            ag_distribution: np.ndarray = (
+                exact_distributions_correlation_tools.pdf_algebraic_gaussian(
+                    x_val, K, l, N, 1
+                )
+            )
+            plt.semilogy(
+                x_val,
+                ag_distribution,
+                "o",
+                lw=3,
+                label=f"AG - N = {N} - K = {K} - l = {l}",
+            )
 
-            aa_distribution: np.ndarray = \
-                exact_distributions_correlation_tools\
-                .pdf_algebraic_algebraic(x_val, K, L, l, N_aa, 1)
-            plt.semilogy(x_val, aa_distribution, 'o', lw=3,
-                         label=f'AA - N = {N_aa} - K = {K} - L = {L}'
-                         + f' - l = {l}')
+            aa_distribution: np.ndarray = (
+                exact_distributions_correlation_tools.pdf_algebraic_algebraic(
+                    x_val, K, L, l, N_aa, 1
+                )
+            )
+            plt.semilogy(
+                x_val,
+                aa_distribution,
+                "o",
+                lw=3,
+                label=f"AA - N = {N_aa} - K = {K} - L = {L}" + f" - l = {l}",
+            )
 
         plt.legend(fontsize=20)
-        plt.title(f'Aggregated distribution returns from {dates[0]} to'
-                  + f' {dates[1]} - {time_step}', fontsize=30)
-        plt.xlabel('Aggregated returns', fontsize=25)
-        plt.ylabel('PDF', fontsize=25)
+        plt.title(
+            f"Aggregated distribution returns from {dates[0]} to"
+            + f" {dates[1]} - {time_step}",
+            fontsize=30,
+        )
+        plt.xlabel("Aggregated returns", fontsize=25)
+        plt.ylabel("PDF", fontsize=25)
         plt.xticks(fontsize=15)
         plt.yticks(fontsize=15)
         plt.xlim(-10, 10)
@@ -816,8 +1018,9 @@ def pdf_log_all_distributions_plot(dates: List[str], time_step: str) -> None:
         figure_log: plt.Figure = plot_log.get_figure()
 
         # Plotting
-        exact_distributions_correlation_tools \
-            .save_plot(figure_log, function_name, dates, time_step)
+        exact_distributions_correlation_tools.save_plot(
+            figure_log, function_name, dates, time_step
+        )
 
         plt.close()
         del agg_returns_data
@@ -826,9 +1029,10 @@ def pdf_log_all_distributions_plot(dates: List[str], time_step: str) -> None:
         gc.collect()
 
     except FileNotFoundError as error:
-        print('No data')
+        print("No data")
         print(error)
         print()
+
 
 # -----------------------------------------------------------------------------
 
@@ -841,33 +1045,34 @@ def main() -> None:
     :return: None.
     """
 
-    dates_1 = ['1972-01', '1992-12']
-    dates_2 = ['1992-01', '2012-12']
-    dates_3 = ['2012-01', '2020-12']
+    dates_1 = ["1972-01", "1992-12"]
+    dates_2 = ["1992-01", "2012-12"]
+    dates_3 = ["2012-01", "2020-12"]
 
-    pdf_gg_plot(dates_1, '1d')
-    pdf_gg_plot(dates_2, '1d')
-    pdf_gg_plot(dates_3, '1d')
+    pdf_gg_plot(dates_1, "1d")
+    pdf_gg_plot(dates_2, "1d")
+    pdf_gg_plot(dates_3, "1d")
 
-    pdf_ga_plot(dates_1, '1d')
-    pdf_ga_plot(dates_2, '1d')
-    pdf_ga_plot(dates_3, '1d')
+    pdf_ga_plot(dates_1, "1d")
+    pdf_ga_plot(dates_2, "1d")
+    pdf_ga_plot(dates_3, "1d")
 
-    pdf_ag_plot(dates_1, '1d')
-    pdf_ag_plot(dates_2, '1d')
-    pdf_ag_plot(dates_3, '1d')
+    pdf_ag_plot(dates_1, "1d")
+    pdf_ag_plot(dates_2, "1d")
+    pdf_ag_plot(dates_3, "1d")
 
-    pdf_aa_plot(dates_1, '1d')
-    pdf_aa_plot(dates_2, '1d')
-    pdf_aa_plot(dates_3, '1d')
+    pdf_aa_plot(dates_1, "1d")
+    pdf_aa_plot(dates_2, "1d")
+    pdf_aa_plot(dates_3, "1d")
 
-    pdf_log_all_distributions_plot(dates_1, '1d')
-    pdf_log_all_distributions_plot(dates_2, '1d')
-    pdf_log_all_distributions_plot(dates_3, '1d')
+    pdf_log_all_distributions_plot(dates_1, "1d")
+    pdf_log_all_distributions_plot(dates_2, "1d")
+    pdf_log_all_distributions_plot(dates_3, "1d")
 
-    pdf_lin_all_distributions_plot(dates_1, '1d')
-    pdf_lin_all_distributions_plot(dates_2, '1d')
-    pdf_lin_all_distributions_plot(dates_3, '1d')
+    pdf_lin_all_distributions_plot(dates_1, "1d")
+    pdf_lin_all_distributions_plot(dates_2, "1d")
+    pdf_lin_all_distributions_plot(dates_3, "1d")
+
 
 # -----------------------------------------------------------------------------
 

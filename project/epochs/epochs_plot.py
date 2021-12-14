@@ -1,4 +1,4 @@
-'''Local normalization plot module.
+"""Local normalization plot module.
 
 The functions in the module plot the data obtained in the
 epochs_analysis module.
@@ -31,7 +31,7 @@ The module contains the following functions:
     * main - the main function of the script.
 
 .. moduleauthor:: Juan Camilo Henao Londono <www.github.com/juanhenao21>
-'''
+"""
 
 # -----------------------------------------------------------------------------
 # Modules
@@ -50,8 +50,7 @@ import epochs_tools
 # -----------------------------------------------------------------------------
 
 
-def epochs_volatility_plot(dates: List[str], time_step: str,
-                           window: str) -> None:
+def epochs_volatility_plot(dates: List[str], time_step: str, window: str) -> None:
     """Plots the local normalized volatility of five stocks.
 
     :param dates: List of the interval of dates to be analyzed
@@ -64,30 +63,31 @@ def epochs_volatility_plot(dates: List[str], time_step: str,
     """
 
     function_name: str = epochs_volatility_plot.__name__
-    epochs_tools \
-        .function_header_print_plot(function_name, dates, time_step, window)
+    epochs_tools.function_header_print_plot(function_name, dates, time_step, window)
 
     try:
 
         # Load data
-        volatility_data: pd.DataFrame = pickle.load(open(
-                        f'../data/epochs/epochs_volatility_data_{dates[0]}'
-                        + f'_{dates[1]}_step_{time_step}_win_{window}.pickle',
-                        'rb')).iloc[:, :5]
+        volatility_data: pd.DataFrame = pickle.load(
+            open(
+                f"../data/epochs/epochs_volatility_data_{dates[0]}"
+                + f"_{dates[1]}_step_{time_step}_win_{window}.pickle",
+                "rb",
+            )
+        ).iloc[:, :5]
 
-        plot_vol: np.ndarray = volatility_data \
-            .plot(subplots=True, sharex=True, figsize=(16, 16), grid=True,
-                  sort_columns=True)
+        plot_vol: np.ndarray = volatility_data.plot(
+            subplots=True, sharex=True, figsize=(16, 16), grid=True, sort_columns=True
+        )
 
-        _ = [ax.set_ylabel('Volatility', fontsize=20) for ax in plot_vol]
+        _ = [ax.set_ylabel("Volatility", fontsize=20) for ax in plot_vol]
         _ = [plot.legend(loc=1, fontsize=20) for plot in plt.gcf().axes]
-        plt.xlabel(f'Date - {time_step} - time window {window}', fontsize=20)
+        plt.xlabel(f"Date - {time_step} - time window {window}", fontsize=20)
         plt.tight_layout(pad=0.5)
         figure_vol: plt.Figure = plot_vol[0].get_figure()
 
         # Plotting
-        epochs_tools \
-            .save_plot(figure_vol, function_name, dates, time_step, window)
+        epochs_tools.save_plot(figure_vol, function_name, dates, time_step, window)
 
         plt.close()
         del volatility_data
@@ -96,15 +96,17 @@ def epochs_volatility_plot(dates: List[str], time_step: str,
         gc.collect()
 
     except FileNotFoundError as error:
-        print('No data')
+        print("No data")
         print(error)
         print()
+
 
 # -----------------------------------------------------------------------------
 
 
-def epochs_volatility_one_stock_plot(dates: List[str], time_step: str,
-                                     window: str) -> None:
+def epochs_volatility_one_stock_plot(
+    dates: List[str], time_step: str, window: str
+) -> None:
     """plots the local normalized volatility of one stocks.
 
     :param dates: List of the interval of dates to be analyzed
@@ -117,30 +119,31 @@ def epochs_volatility_one_stock_plot(dates: List[str], time_step: str,
     """
 
     function_name: str = epochs_volatility_one_stock_plot.__name__
-    epochs_tools \
-        .function_header_print_plot(function_name, dates, time_step, window)
+    epochs_tools.function_header_print_plot(function_name, dates, time_step, window)
 
     try:
 
         # Load data
-        volatility_data: pd.DataFrame = pickle.load(open(
-                        f'../data/epochs/epochs_volatility_data_{dates[0]}'
-                        + f'_{dates[1]}_step_{time_step}_win_{window}.pickle',
-                        'rb'))
+        volatility_data: pd.DataFrame = pickle.load(
+            open(
+                f"../data/epochs/epochs_volatility_data_{dates[0]}"
+                + f"_{dates[1]}_step_{time_step}_win_{window}.pickle",
+                "rb",
+            )
+        )
 
         figure_vol: plt.Figure = plt.figure()
 
         plot_vol: np.ndarray = volatility_data.plot(figsize=(16, 9), grid=True)
 
         plt.legend(loc=1, fontsize=20)
-        plt.xlabel(f'Date - {time_step} - window {window}', fontsize=20)
-        plt.ylabel(f'Volatility', fontsize=20)
+        plt.xlabel(f"Date - {time_step} - window {window}", fontsize=20)
+        plt.ylabel(f"Volatility", fontsize=20)
         plt.grid(True)
         plt.tight_layout()
 
         # Plotting
-        epochs_tools \
-            .save_plot(figure_vol, function_name, dates, time_step, window)
+        epochs_tools.save_plot(figure_vol, function_name, dates, time_step, window)
 
         plt.close()
         del volatility_data
@@ -149,15 +152,17 @@ def epochs_volatility_one_stock_plot(dates: List[str], time_step: str,
         gc.collect()
 
     except FileNotFoundError as error:
-        print('No data')
+        print("No data")
         print(error)
         print()
+
 
 # -----------------------------------------------------------------------------
 
 
-def epochs_normalized_returns_plot(dates: List[str], time_step: str,
-                                   window: str) -> None:
+def epochs_normalized_returns_plot(
+    dates: List[str], time_step: str, window: str
+) -> None:
     """Plots the local normalized returns of five stocks.
 
     :param dates: List of the interval of dates to be analyzed
@@ -170,30 +175,31 @@ def epochs_normalized_returns_plot(dates: List[str], time_step: str,
     """
 
     function_name: str = epochs_normalized_returns_plot.__name__
-    epochs_tools \
-        .function_header_print_plot(function_name, dates, time_step, window)
+    epochs_tools.function_header_print_plot(function_name, dates, time_step, window)
 
     try:
 
         # Load data
-        norm_returns_data: pd.DataFrame = pickle.load(open(
-            f'../data/epochs/epochs_normalized_returns_data_{dates[0]}'
-            + f'_{dates[1]}_step_{time_step}_win_{window}.pickle',
-            'rb')).iloc[:, :5]
+        norm_returns_data: pd.DataFrame = pickle.load(
+            open(
+                f"../data/epochs/epochs_normalized_returns_data_{dates[0]}"
+                + f"_{dates[1]}_step_{time_step}_win_{window}.pickle",
+                "rb",
+            )
+        ).iloc[:, :5]
 
-        plot_ret: np.ndarray = norm_returns_data \
-            .plot(subplots=True, sharex=True, figsize=(16, 16),
-                  grid=True, sort_columns=True)
+        plot_ret: np.ndarray = norm_returns_data.plot(
+            subplots=True, sharex=True, figsize=(16, 16), grid=True, sort_columns=True
+        )
 
-        _ = [ax.set_ylabel('Norm. Returns', fontsize=20) for ax in plot_ret]
+        _ = [ax.set_ylabel("Norm. Returns", fontsize=20) for ax in plot_ret]
         _ = [plot.legend(loc=1, fontsize=20) for plot in plt.gcf().axes]
-        plt.xlabel(f'Date - {time_step} - time window {window}', fontsize=20)
+        plt.xlabel(f"Date - {time_step} - time window {window}", fontsize=20)
         plt.tight_layout(pad=0.5)
         figure_ret: plt.Figure = plot_ret[0].get_figure()
 
         # Plotting
-        epochs_tools \
-            .save_plot(figure_ret, function_name, dates, time_step, window)
+        epochs_tools.save_plot(figure_ret, function_name, dates, time_step, window)
 
         plt.close()
         del norm_returns_data
@@ -202,7 +208,7 @@ def epochs_normalized_returns_plot(dates: List[str], time_step: str,
         gc.collect()
 
     except FileNotFoundError as error:
-        print('No data')
+        print("No data")
         print(error)
         print()
 
@@ -210,9 +216,9 @@ def epochs_normalized_returns_plot(dates: List[str], time_step: str,
 # -----------------------------------------------------------------------------
 
 
-def epochs_normalized_returns_distribution_plot(dates: List[str],
-                                                time_step: str,
-                                                window: str) -> None:
+def epochs_normalized_returns_distribution_plot(
+    dates: List[str], time_step: str, window: str
+) -> None:
     """Plots the normalized returns distribution of five stocks.
 
     :param dates: List of the interval of dates to be analyzed
@@ -225,32 +231,35 @@ def epochs_normalized_returns_distribution_plot(dates: List[str],
     """
 
     function_name: str = epochs_normalized_returns_distribution_plot.__name__
-    epochs_tools \
-        .function_header_print_plot(function_name + 'lin', dates, time_step,
-                                    window)
+    epochs_tools.function_header_print_plot(
+        function_name + "lin", dates, time_step, window
+    )
 
     try:
 
         # Load data
-        norm_returns_data: pd.DataFrame = pickle.load(open(
-            f'../data/epochs/epochs_normalized_returns_data_{dates[0]}'
-            + f'_{dates[1]}_step_{time_step}_win_{window}.pickle',
-            'rb')).iloc[:, :5]
+        norm_returns_data: pd.DataFrame = pickle.load(
+            open(
+                f"../data/epochs/epochs_normalized_returns_data_{dates[0]}"
+                + f"_{dates[1]}_step_{time_step}_win_{window}.pickle",
+                "rb",
+            )
+        ).iloc[:, :5]
 
         x_gauss: np.ndarray = np.arange(-6, 6, 0.001)
-        gaussian: np.ndarray = epochs_tools \
-            .gaussian_distribution(0, 1, x_gauss)
+        gaussian: np.ndarray = epochs_tools.gaussian_distribution(0, 1, x_gauss)
 
         # Linear plot
-        plot_lin = norm_returns_data.plot(kind='density', figsize=(16, 9))
+        plot_lin = norm_returns_data.plot(kind="density", figsize=(16, 9))
 
-        plt.plot(x_gauss, gaussian, lw=5, label='Gaussian')
-        plt.title(f'Local normalized returns distribution {dates[0]} to'
-                  + f' {dates[1]}',
-                  fontsize=30)
+        plt.plot(x_gauss, gaussian, lw=5, label="Gaussian")
+        plt.title(
+            f"Local normalized returns distribution {dates[0]} to" + f" {dates[1]}",
+            fontsize=30,
+        )
         plt.legend(loc=1, fontsize=20)
-        plt.xlabel(f'Returns - {time_step} - window {window}', fontsize=25)
-        plt.ylabel('Counts', fontsize=25)
+        plt.xlabel(f"Returns - {time_step} - window {window}", fontsize=25)
+        plt.ylabel("Counts", fontsize=25)
         plt.xticks(fontsize=15)
         plt.yticks(fontsize=15)
         plt.xlim(-5, 5)
@@ -259,25 +268,25 @@ def epochs_normalized_returns_distribution_plot(dates: List[str],
         figure_lin: plt.Figure = plot_lin.get_figure()
 
         # Plotting
-        epochs_tools \
-            .save_plot(figure_lin, function_name + '_lin', dates, time_step,
-                       window)
+        epochs_tools.save_plot(
+            figure_lin, function_name + "_lin", dates, time_step, window
+        )
 
         plt.close()
         del figure_lin
         del plot_lin
 
         # Log plot
-        plot_log = norm_returns_data.plot(kind='density', figsize=(16, 9),
-                                          logy=True)
+        plot_log = norm_returns_data.plot(kind="density", figsize=(16, 9), logy=True)
 
-        plt.semilogy(x_gauss, gaussian, lw=5, label='Gaussian')
-        plt.title(f'Local normalized returns distribution {dates[0]} to'
-                  + f' {dates[1]}',
-                  fontsize=30)
+        plt.semilogy(x_gauss, gaussian, lw=5, label="Gaussian")
+        plt.title(
+            f"Local normalized returns distribution {dates[0]} to" + f" {dates[1]}",
+            fontsize=30,
+        )
         plt.legend(loc=1, fontsize=20)
-        plt.xlabel(f'Returns - {time_step} - window {window}', fontsize=25)
-        plt.ylabel('Counts', fontsize=25)
+        plt.xlabel(f"Returns - {time_step} - window {window}", fontsize=25)
+        plt.ylabel("Counts", fontsize=25)
         plt.xticks(fontsize=15)
         plt.yticks(fontsize=15)
         plt.xlim(-5, 5)
@@ -287,9 +296,9 @@ def epochs_normalized_returns_distribution_plot(dates: List[str],
         figure_log: plt.Figure = plot_log.get_figure()
 
         # Plotting
-        epochs_tools \
-            .save_plot(figure_log, function_name + '_log', dates, time_step,
-                       window)
+        epochs_tools.save_plot(
+            figure_log, function_name + "_log", dates, time_step, window
+        )
 
         plt.close()
         del norm_returns_data
@@ -298,15 +307,17 @@ def epochs_normalized_returns_distribution_plot(dates: List[str],
         gc.collect()
 
     except FileNotFoundError as error:
-        print('No data')
+        print("No data")
         print(error)
         print()
+
 
 # ----------------------------------------------------------------------------
 
 
-def epochs_correlation_matrix_plot(dates: List[str], time_step: str,
-                                   window: str) -> None:
+def epochs_correlation_matrix_plot(
+    dates: List[str], time_step: str, window: str
+) -> None:
     """Plots the local normalized correlation matrix.
 
     :param dates: List of the interval of dates to be analyzed
@@ -319,23 +330,28 @@ def epochs_correlation_matrix_plot(dates: List[str], time_step: str,
     """
 
     function_name: str = epochs_correlation_matrix_plot.__name__
-    epochs_tools \
-        .function_header_print_plot(function_name, dates, time_step, window)
+    epochs_tools.function_header_print_plot(function_name, dates, time_step, window)
 
     try:
 
         figure: plt.figure = plt.figure(figsize=(16, 9))
 
         # Load data
-        correlations: pd.DataFrame = pickle.load(open(
-            f'../data/epochs/epochs_correlation_matrix_data_{dates[0]}'
-            + f'_{dates[1]}_step_{time_step}_win_{window}.pickle', 'rb'))
+        correlations: pd.DataFrame = pickle.load(
+            open(
+                f"../data/epochs/epochs_correlation_matrix_data_{dates[0]}"
+                + f"_{dates[1]}_step_{time_step}_win_{window}.pickle",
+                "rb",
+            )
+        )
 
-        sns.heatmap(correlations, cmap='Blues')  # , vmin=-1, vmax=1)
+        sns.heatmap(correlations, cmap="Blues")  # , vmin=-1, vmax=1)
 
-        plt.title(f'Local norm. corr. matrix {dates[0]} to'
-                  + f' {dates[1]} - {time_step} - window {window}',
-                  fontsize=30)
+        plt.title(
+            f"Local norm. corr. matrix {dates[0]} to"
+            + f" {dates[1]} - {time_step} - window {window}",
+            fontsize=30,
+        )
         plt.yticks(rotation=45)
         plt.xticks(rotation=45)
 
@@ -350,9 +366,10 @@ def epochs_correlation_matrix_plot(dates: List[str], time_step: str,
         gc.collect()
 
     except FileNotFoundError as error:
-        print('No data')
+        print("No data")
         print(error)
         print()
+
 
 # -----------------------------------------------------------------------------
 
@@ -365,21 +382,19 @@ def epochs_var_win_all_empirical_dist_returns_market_plot() -> None:
      a value.
     """
 
-    function_name: str = \
-        epochs_var_win_all_empirical_dist_returns_market_plot.__name__
-    epochs_tools \
-        .function_header_print_plot(function_name, ['', ''], '', '', '')
+    function_name: str = epochs_var_win_all_empirical_dist_returns_market_plot.__name__
+    epochs_tools.function_header_print_plot(function_name, ["", ""], "", "", "")
 
     try:
 
-        dates_1m = ['2021-07-19', '2021-08-14']
+        dates_1m = ["2021-07-19", "2021-08-14"]
         # dates_1h = ['2021-06-01', '2021-07-31']
-        dates = ['1990-01-01', '2020-12-31']
+        dates = ["1990-01-01", "2020-12-31"]
 
-        windows = ['10', '25', '40', '55']
-        K_values = ['20', '50']
+        windows = ["10", "25", "40", "55"]
+        K_values = ["20", "50"]
         dates_vals = [dates_1m, dates, dates, dates]
-        time_steps = ['1m', '1d', '1wk', '1mo']
+        time_steps = ["1m", "1d", "1wk", "1mo"]
 
         for K_value in K_values:
             for idx, date_val in enumerate(dates_vals):
@@ -387,34 +402,45 @@ def epochs_var_win_all_empirical_dist_returns_market_plot() -> None:
                 figure_log: plt.Figure = plt.figure(figsize=(16, 9))
 
                 x_values: np.ndarray = np.arange(-10, 10, 0.1)
-                gaussian: np.ndarray = epochs_tools \
-                    .gaussian_distribution(0, 1, x_values)
+                gaussian: np.ndarray = epochs_tools.gaussian_distribution(
+                    0, 1, x_values
+                )
 
                 # Log plot
-                plt.semilogy(x_values, gaussian, '-', lw=10, label='Gaussian')
+                plt.semilogy(x_values, gaussian, "-", lw=10, label="Gaussian")
 
                 for window in windows:
 
                     # Load data
-                    agg_returns: pd.Series = pickle.load(open(
-                        '../data/epochs/epochs_aggregated_dist_returns_market'
-                        + f'_data_{date_val[0]}_{date_val[1]}'
-                        + f'_step_{time_steps[idx]}_win_{window}_K_{K_value}'
-                        + '.pickle', 'rb'))[::10]
+                    agg_returns: pd.Series = pickle.load(
+                        open(
+                            "../data/epochs/epochs_aggregated_dist_returns_market"
+                            + f"_data_{date_val[0]}_{date_val[1]}"
+                            + f"_step_{time_steps[idx]}_win_{window}_K_{K_value}"
+                            + ".pickle",
+                            "rb",
+                        )
+                    )[::10]
 
-                    agg_returns = agg_returns.rename(f'Epoch {window}')
+                    agg_returns = agg_returns.rename(f"Epoch {window}")
 
-                    plot_log = agg_returns.plot(kind='density', style='-',
-                                                logy=True, figsize=(16, 9),
-                                                legend=True, lw=2)
+                    plot_log = agg_returns.plot(
+                        kind="density",
+                        style="-",
+                        logy=True,
+                        figsize=(16, 9),
+                        legend=True,
+                        lw=2,
+                    )
 
                     figure_log = plot_log.get_figure()
 
                 plt.legend(fontsize=20)
-                plt.title(f'Rotated Epochs - Time step = {time_steps[idx]}',
-                          fontsize=30)
-                plt.xlabel(f'Aggregated returns - K = {K_value}', fontsize=25)
-                plt.ylabel('PDF', fontsize=25)
+                plt.title(
+                    f"Rotated Epochs - Time step = {time_steps[idx]}", fontsize=30
+                )
+                plt.xlabel(f"Aggregated returns - K = {K_value}", fontsize=25)
+                plt.ylabel("PDF", fontsize=25)
                 plt.xticks(fontsize=15)
                 plt.yticks(fontsize=15)
                 plt.xlim(-6, 6)
@@ -423,17 +449,23 @@ def epochs_var_win_all_empirical_dist_returns_market_plot() -> None:
                 plt.tight_layout()
 
                 # Plotting
-                epochs_tools \
-                    .save_plot(figure_log, function_name + '_log_window',
-                               date_val, time_steps[idx], 'var', K_value)
+                epochs_tools.save_plot(
+                    figure_log,
+                    function_name + "_log_window",
+                    date_val,
+                    time_steps[idx],
+                    "var",
+                    K_value,
+                )
 
         plt.close()
         gc.collect()
 
     except FileNotFoundError as error:
-        print('No data')
+        print("No data")
         print(error)
         print()
+
 
 # -----------------------------------------------------------------------------
 
@@ -446,21 +478,19 @@ def epochs_var_K_all_empirical_dist_returns_market_plot() -> None:
      a value.
     """
 
-    function_name: str = epochs_var_K_all_empirical_dist_returns_market_plot \
-        .__name__
-    epochs_tools \
-        .function_header_print_plot(function_name, ['', ''], '', '', '')
+    function_name: str = epochs_var_K_all_empirical_dist_returns_market_plot.__name__
+    epochs_tools.function_header_print_plot(function_name, ["", ""], "", "", "")
 
     try:
 
-        dates_1m = ['2021-07-19', '2021-08-14']
+        dates_1m = ["2021-07-19", "2021-08-14"]
         # dates_1h = ['2021-06-01', '2021-07-31']
-        dates = ['1990-01-01', '2020-12-31']
+        dates = ["1990-01-01", "2020-12-31"]
 
-        windows = ['10', '25', '40', '55']
-        K_values = ['20', '50']
+        windows = ["10", "25", "40", "55"]
+        K_values = ["20", "50"]
         dates_vals = [dates_1m, dates, dates, dates]
-        time_steps = ['1m', '1d', '1wk', '1mo']
+        time_steps = ["1m", "1d", "1wk", "1mo"]
 
         for window in windows:
             for idx, date_val in enumerate(dates_vals):
@@ -468,34 +498,45 @@ def epochs_var_K_all_empirical_dist_returns_market_plot() -> None:
                 figure_log: plt.Figure = plt.figure(figsize=(16, 9))
 
                 x_values: np.ndarray = np.arange(-10, 10, 0.1)
-                gaussian: np.ndarray = epochs_tools \
-                    .gaussian_distribution(0, 1, x_values)
+                gaussian: np.ndarray = epochs_tools.gaussian_distribution(
+                    0, 1, x_values
+                )
 
                 # Log plot
-                plt.semilogy(x_values, gaussian, '-', lw=10, label='Gaussian')
+                plt.semilogy(x_values, gaussian, "-", lw=10, label="Gaussian")
 
                 for K_value in K_values:
 
                     # Load data
-                    agg_returns: pd.Series = pickle.load(open(
-                        '../data/epochs/epochs_aggregated_dist_returns_market'
-                        + f'_data_{date_val[0]}_{date_val[1]}'
-                        + f'_step_{time_steps[idx]}_win_{window}_K_{K_value}'
-                        + '.pickle', 'rb'))[::10]
+                    agg_returns: pd.Series = pickle.load(
+                        open(
+                            "../data/epochs/epochs_aggregated_dist_returns_market"
+                            + f"_data_{date_val[0]}_{date_val[1]}"
+                            + f"_step_{time_steps[idx]}_win_{window}_K_{K_value}"
+                            + ".pickle",
+                            "rb",
+                        )
+                    )[::10]
 
-                    agg_returns = agg_returns.rename(f'K {K_value}')
+                    agg_returns = agg_returns.rename(f"K {K_value}")
 
-                    plot_log = agg_returns.plot(kind='density', style='-',
-                                                logy=True, figsize=(16, 9),
-                                                legend=True, lw=2)
+                    plot_log = agg_returns.plot(
+                        kind="density",
+                        style="-",
+                        logy=True,
+                        figsize=(16, 9),
+                        legend=True,
+                        lw=2,
+                    )
 
                     figure_log = plot_log.get_figure()
 
                 plt.legend(fontsize=20)
-                plt.title(f'Rotated Epochs - Time step = {time_steps[idx]}',
-                          fontsize=30)
-                plt.xlabel(f'Aggregated returns - Win = {window}', fontsize=25)
-                plt.ylabel('PDF', fontsize=25)
+                plt.title(
+                    f"Rotated Epochs - Time step = {time_steps[idx]}", fontsize=30
+                )
+                plt.xlabel(f"Aggregated returns - Win = {window}", fontsize=25)
+                plt.ylabel("PDF", fontsize=25)
                 plt.xticks(fontsize=15)
                 plt.yticks(fontsize=15)
                 plt.xlim(-6, 6)
@@ -504,17 +545,23 @@ def epochs_var_K_all_empirical_dist_returns_market_plot() -> None:
                 plt.tight_layout()
 
                 # Plotting
-                epochs_tools \
-                    .save_plot(figure_log, function_name + '_log_K',
-                               date_val, time_steps[idx], window, 'var')
+                epochs_tools.save_plot(
+                    figure_log,
+                    function_name + "_log_K",
+                    date_val,
+                    time_steps[idx],
+                    window,
+                    "var",
+                )
 
         plt.close()
         gc.collect()
 
     except FileNotFoundError as error:
-        print('No data')
+        print("No data")
         print(error)
         print()
+
 
 # -----------------------------------------------------------------------------
 
@@ -527,21 +574,21 @@ def epochs_var_time_step_all_empirical_dist_returns_market_plot() -> None:
      a value.
     """
 
-    function_name: str = \
+    function_name: str = (
         epochs_var_time_step_all_empirical_dist_returns_market_plot.__name__
-    epochs_tools \
-        .function_header_print_plot(function_name, ['', ''], '', '', '')
+    )
+    epochs_tools.function_header_print_plot(function_name, ["", ""], "", "", "")
 
     try:
 
-        dates_1m = ['2021-07-19', '2021-08-14']
+        dates_1m = ["2021-07-19", "2021-08-14"]
         # dates_1h = ['2021-06-01', '2021-07-31']
-        dates = ['1990-01-01', '2020-12-31']
+        dates = ["1990-01-01", "2020-12-31"]
 
-        windows = ['10', '25', '40', '55']
-        K_values = ['20', '50']
+        windows = ["10", "25", "40", "55"]
+        K_values = ["20", "50"]
         dates_vals = [dates_1m, dates, dates, dates]
-        time_steps = ['1m', '1d', '1wk', '1mo']
+        time_steps = ["1m", "1d", "1wk", "1mo"]
 
         for window in windows:
             for K_value in K_values:
@@ -549,34 +596,43 @@ def epochs_var_time_step_all_empirical_dist_returns_market_plot() -> None:
                 figure_log: plt.Figure = plt.figure(figsize=(16, 9))
 
                 x_values: np.ndarray = np.arange(-10, 10, 0.1)
-                gaussian: np.ndarray = epochs_tools \
-                    .gaussian_distribution(0, 1, x_values)
+                gaussian: np.ndarray = epochs_tools.gaussian_distribution(
+                    0, 1, x_values
+                )
 
                 # Log plot
-                plt.semilogy(x_values, gaussian, '-', lw=10, label='Gaussian')
+                plt.semilogy(x_values, gaussian, "-", lw=10, label="Gaussian")
 
                 for idx, date_val in enumerate(dates_vals):
 
                     # Load data
-                    agg_returns: pd.Series = pickle.load(open(
-                        '../data/epochs/epochs_aggregated_dist_returns_market'
-                        + f'_data_{date_val[0]}_{date_val[1]}'
-                        + f'_step_{time_steps[idx]}_win_{window}_K_{K_value}'
-                        + '.pickle', 'rb'))[::10]
+                    agg_returns: pd.Series = pickle.load(
+                        open(
+                            "../data/epochs/epochs_aggregated_dist_returns_market"
+                            + f"_data_{date_val[0]}_{date_val[1]}"
+                            + f"_step_{time_steps[idx]}_win_{window}_K_{K_value}"
+                            + ".pickle",
+                            "rb",
+                        )
+                    )[::10]
 
-                    agg_returns = agg_returns.rename(f'{time_steps[idx]}')
+                    agg_returns = agg_returns.rename(f"{time_steps[idx]}")
 
-                    plot_log = agg_returns.plot(kind='density', style='-',
-                                                logy=True, figsize=(16, 9),
-                                                legend=True, lw=2)
+                    plot_log = agg_returns.plot(
+                        kind="density",
+                        style="-",
+                        logy=True,
+                        figsize=(16, 9),
+                        legend=True,
+                        lw=2,
+                    )
 
                     figure_log = plot_log.get_figure()
 
                 plt.legend(fontsize=20)
-                plt.title(f'Rotated Epochs - K = {K_value}',
-                          fontsize=30)
-                plt.xlabel(f'Aggregated returns - Win = {window}', fontsize=25)
-                plt.ylabel('PDF', fontsize=25)
+                plt.title(f"Rotated Epochs - K = {K_value}", fontsize=30)
+                plt.xlabel(f"Aggregated returns - Win = {window}", fontsize=25)
+                plt.ylabel("PDF", fontsize=25)
                 plt.xticks(fontsize=15)
                 plt.yticks(fontsize=15)
                 plt.xlim(-6, 6)
@@ -585,25 +641,30 @@ def epochs_var_time_step_all_empirical_dist_returns_market_plot() -> None:
                 plt.tight_layout()
 
                 # Plotting
-                epochs_tools \
-                    .save_plot(figure_log, function_name + '_log_time_step',
-                               date_val, 'var', window, K_value)
+                epochs_tools.save_plot(
+                    figure_log,
+                    function_name + "_log_time_step",
+                    date_val,
+                    "var",
+                    window,
+                    K_value,
+                )
 
         plt.close()
         gc.collect()
 
     except FileNotFoundError as error:
-        print('No data')
+        print("No data")
         print(error)
         print()
+
 
 # -----------------------------------------------------------------------------
 
 
-def epochs_aggregated_dist_returns_market_plot(dates: List[str],
-                                               time_step: str,
-                                               window: str, K_value: str,
-                                               l_value: str) -> None:
+def epochs_aggregated_dist_returns_market_plot(
+    dates: List[str], time_step: str, window: str, K_value: str, l_value: str
+) -> None:
     """Plots the aggregated distribution of returns for a market.
 
     :param dates: List of the interval of dates to be analyzed
@@ -618,42 +679,51 @@ def epochs_aggregated_dist_returns_market_plot(dates: List[str],
     """
 
     function_name: str = epochs_aggregated_dist_returns_market_plot.__name__
-    epochs_tools \
-        .function_header_print_plot(function_name, dates, time_step, window,
-                                    K_value)
+    epochs_tools.function_header_print_plot(
+        function_name, dates, time_step, window, K_value
+    )
 
     try:
 
         # Load data
-        agg_returns_data: pd.Series = pickle.load(open(
-            '../data/epochs/epochs_aggregated_dist_returns_market_data'
-            + f'_{dates[0]}_{dates[1]}_step_{time_step}_win_{window}_K'
-            + f'_{K_value}.pickle', 'rb'))[::10]
+        agg_returns_data: pd.Series = pickle.load(
+            open(
+                "../data/epochs/epochs_aggregated_dist_returns_market_data"
+                + f"_{dates[0]}_{dates[1]}_step_{time_step}_win_{window}_K"
+                + f"_{K_value}.pickle",
+                "rb",
+            )
+        )[::10]
 
-        agg_returns_data = agg_returns_data.rename('Agg. returns')
+        agg_returns_data = agg_returns_data.rename("Agg. returns")
 
         x_values: np.ndarray = np.arange(-10, 10, 0.1)
-        gaussian: np.ndarray = epochs_tools \
-            .gaussian_distribution(0, 1, x_values)
-        algebraic: np.ndarray = epochs_tools \
-            .algebraic_distribution(int(K_value), int(l_value), x_values)
+        gaussian: np.ndarray = epochs_tools.gaussian_distribution(0, 1, x_values)
+        algebraic: np.ndarray = epochs_tools.algebraic_distribution(
+            int(K_value), int(l_value), x_values
+        )
 
         figure_log: plt.Figure = plt.figure(figsize=(16, 9))
 
         # Log plot
-        plot_log = agg_returns_data.plot(kind='density', style='-', logy=True,
-                                         figsize=(16, 9), legend=True, lw=5)
+        plot_log = agg_returns_data.plot(
+            kind="density", style="-", logy=True, figsize=(16, 9), legend=True, lw=5
+        )
 
-        plt.semilogy(x_values, gaussian, '-', lw=3, label='Gaussian')
-        plt.semilogy(x_values, algebraic, '-', lw=3,
-                     label=f'A - K = {K_value} - l = {l_value} -'
-                     + f' m = {2 * int(l_value) - int(K_value) - 2}')
+        plt.semilogy(x_values, gaussian, "-", lw=3, label="Gaussian")
+        plt.semilogy(
+            x_values,
+            algebraic,
+            "-",
+            lw=3,
+            label=f"A - K = {K_value} - l = {l_value} -"
+            + f" m = {2 * int(l_value) - int(K_value) - 2}",
+        )
 
         plt.legend(fontsize=20)
-        plt.title(f'Epochs from {dates[0]} to {dates[1]} - {time_step}',
-                  fontsize=30)
-        plt.xlabel(f'Aggregated returns - window {window}', fontsize=25)
-        plt.ylabel('PDF', fontsize=25)
+        plt.title(f"Epochs from {dates[0]} to {dates[1]} - {time_step}", fontsize=30)
+        plt.xlabel(f"Aggregated returns - window {window}", fontsize=25)
+        plt.ylabel("PDF", fontsize=25)
         plt.xticks(fontsize=15)
         plt.yticks(fontsize=15)
         plt.xlim(-6, 6)
@@ -663,9 +733,9 @@ def epochs_aggregated_dist_returns_market_plot(dates: List[str],
         figure_log = plot_log.get_figure()
 
         # Plotting
-        epochs_tools \
-            .save_plot(figure_log, function_name + '_log', dates, time_step,
-                       window, K_value)
+        epochs_tools.save_plot(
+            figure_log, function_name + "_log", dates, time_step, window, K_value
+        )
 
         plt.close()
         del agg_returns_data
@@ -674,17 +744,17 @@ def epochs_aggregated_dist_returns_market_plot(dates: List[str],
         gc.collect()
 
     except FileNotFoundError as error:
-        print('No data')
+        print("No data")
         print(error)
         print()
+
 
 # -----------------------------------------------------------------------------
 
 
-def epochs_log_log_agg_dist_returns_market_plot(dates: List[str],
-                                                time_step: str, window: str,
-                                                K_value: str,
-                                                l_values: List[int]) -> None:
+def epochs_log_log_agg_dist_returns_market_plot(
+    dates: List[str], time_step: str, window: str, K_value: str, l_values: List[int]
+) -> None:
     """Plots the aggregated distribution of returns for a market in a log-log
        figure for diferent l values.
 
@@ -701,44 +771,52 @@ def epochs_log_log_agg_dist_returns_market_plot(dates: List[str],
     """
 
     function_name: str = epochs_log_log_agg_dist_returns_market_plot.__name__
-    epochs_tools \
-        .function_header_print_plot(function_name, dates, time_step, window,
-                                    K_value)
+    epochs_tools.function_header_print_plot(
+        function_name, dates, time_step, window, K_value
+    )
 
     try:
 
         # Load data
-        agg_returns_data: pd.Series = pickle.load(open(
-            '../data/epochs/epochs_aggregated_dist_returns_market_data'
-            + f'_{dates[0]}_{dates[1]}_step_{time_step}_win_{window}_K'
-            + f'_{K_value}.pickle', 'rb'))[::10]
+        agg_returns_data: pd.Series = pickle.load(
+            open(
+                "../data/epochs/epochs_aggregated_dist_returns_market_data"
+                + f"_{dates[0]}_{dates[1]}_step_{time_step}_win_{window}_K"
+                + f"_{K_value}.pickle",
+                "rb",
+            )
+        )[::10]
 
-        agg_returns_data = agg_returns_data.rename('Agg. returns')
+        agg_returns_data = agg_returns_data.rename("Agg. returns")
 
         x_values: np.ndarray = np.arange(-10, 10, 0.1)
-        gaussian: np.ndarray = epochs_tools \
-            .gaussian_distribution(0, 1, x_values)
+        gaussian: np.ndarray = epochs_tools.gaussian_distribution(0, 1, x_values)
 
         figure_log: plt.Figure = plt.figure(figsize=(16, 9))
 
         # Log plot
         for l_value in l_values:
             m_value = 2 * l_value - int(K_value) - 2
-            algebraic: np.ndarray = epochs_tools \
-                .algebraic_distribution(int(K_value), l_value, x_values)
-            plt.loglog(x_values, algebraic, '-', lw=1,
-                       label=f'A - K={K_value} - l={l_value} - m={m_value}')
+            algebraic: np.ndarray = epochs_tools.algebraic_distribution(
+                int(K_value), l_value, x_values
+            )
+            plt.loglog(
+                x_values,
+                algebraic,
+                "-",
+                lw=1,
+                label=f"A - K={K_value} - l={l_value} - m={m_value}",
+            )
 
-        plt.loglog(x_values, gaussian, '-', lw=10, label='Gaussian')
-        plot_log = agg_returns_data.plot(kind='density', style='-',
-                                         loglog=True, figsize=(16, 9),
-                                         legend=True, lw=5)
+        plt.loglog(x_values, gaussian, "-", lw=10, label="Gaussian")
+        plot_log = agg_returns_data.plot(
+            kind="density", style="-", loglog=True, figsize=(16, 9), legend=True, lw=5
+        )
 
         plt.legend(fontsize=20)
-        plt.title(f'Epochs from {dates[0]} to {dates[1]} - {time_step}',
-                  fontsize=30)
-        plt.xlabel(f'Aggregated returns - window {window}', fontsize=25)
-        plt.ylabel('PDF', fontsize=25)
+        plt.title(f"Epochs from {dates[0]} to {dates[1]} - {time_step}", fontsize=30)
+        plt.xlabel(f"Aggregated returns - window {window}", fontsize=25)
+        plt.ylabel("PDF", fontsize=25)
         plt.xticks(fontsize=15)
         plt.yticks(fontsize=15)
         plt.xlim(3, 5.5)
@@ -748,9 +826,9 @@ def epochs_log_log_agg_dist_returns_market_plot(dates: List[str],
         figure_log = plot_log.get_figure()
 
         # Plotting
-        epochs_tools \
-            .save_plot(figure_log, function_name + '_loglog', dates, time_step,
-                       window, K_value)
+        epochs_tools.save_plot(
+            figure_log, function_name + "_loglog", dates, time_step, window, K_value
+        )
 
         plt.close()
         del agg_returns_data
@@ -759,9 +837,10 @@ def epochs_log_log_agg_dist_returns_market_plot(dates: List[str],
         gc.collect()
 
     except FileNotFoundError as error:
-        print('No data')
+        print("No data")
         print(error)
         print()
+
 
 # -----------------------------------------------------------------------------
 
@@ -774,80 +853,89 @@ def epochs_log_log_all_empirical_dist_returns_market_plot() -> None:
      a value.
     """
 
-    function_name: str = \
-        epochs_log_log_all_empirical_dist_returns_market_plot.__name__
-    epochs_tools \
-        .function_header_print_plot(function_name, ['', ''], '', '')
+    function_name: str = epochs_log_log_all_empirical_dist_returns_market_plot.__name__
+    epochs_tools.function_header_print_plot(function_name, ["", ""], "", "")
 
     try:
 
-        dates_1m = ['2021-07-19', '2021-08-07']
-        dates_1h = ['2021-06-01', '2021-07-31']
-        dates = ['1990-01-01', '2020-12-31']
+        dates_1m = ["2021-07-19", "2021-08-07"]
+        dates_1h = ["2021-06-01", "2021-07-31"]
+        dates = ["1990-01-01", "2020-12-31"]
 
-        window = '25'
+        window = "25"
 
         # Load data
-        agg_returns_min: pd.Series = pickle.load(open(
-            '../data/epochs/epochs_aggregated_dist_returns_market_data'
-            + f'_{dates_1m[0]}_{dates_1m[1]}_step_1m_win_{window}.pickle',
-            'rb'))[::5]
+        agg_returns_min: pd.Series = pickle.load(
+            open(
+                "../data/epochs/epochs_aggregated_dist_returns_market_data"
+                + f"_{dates_1m[0]}_{dates_1m[1]}_step_1m_win_{window}.pickle",
+                "rb",
+            )
+        )[::5]
         # agg_returns_hour: pd.Series = pickle.load(open(
         #     '../data/epochs/epochs_aggregated_dist_returns_market_data'
         #     + f'_{dates_1h[0]}_{dates_1h[1]}_step_1h_win_{window}.pickle',
         #     'rb'))[::5]
-        agg_returns_day: pd.Series = pickle.load(open(
-            '../data/epochs/epochs_aggregated_dist_returns_market_data'
-            + f'_{dates[0]}_{dates[1]}_step_1d_win_{window}.pickle',
-            'rb'))[::5]
-        agg_returns_week: pd.Series = pickle.load(open(
-            '../data/epochs/epochs_aggregated_dist_returns_market_data'
-            + f'_{dates[0]}_{dates[1]}_step_1wk_win_{window}.pickle',
-            'rb'))[::5]
-        agg_returns_month: pd.Series = pickle.load(open(
-            '../data/epochs/epochs_aggregated_dist_returns_market_data'
-            + f'_{dates[0]}_{dates[1]}_step_1mo_win_{window}.pickle',
-            'rb'))[::5]
+        agg_returns_day: pd.Series = pickle.load(
+            open(
+                "../data/epochs/epochs_aggregated_dist_returns_market_data"
+                + f"_{dates[0]}_{dates[1]}_step_1d_win_{window}.pickle",
+                "rb",
+            )
+        )[::5]
+        agg_returns_week: pd.Series = pickle.load(
+            open(
+                "../data/epochs/epochs_aggregated_dist_returns_market_data"
+                + f"_{dates[0]}_{dates[1]}_step_1wk_win_{window}.pickle",
+                "rb",
+            )
+        )[::5]
+        agg_returns_month: pd.Series = pickle.load(
+            open(
+                "../data/epochs/epochs_aggregated_dist_returns_market_data"
+                + f"_{dates[0]}_{dates[1]}_step_1mo_win_{window}.pickle",
+                "rb",
+            )
+        )[::5]
 
-        agg_returns_min = agg_returns_min.rename('Minute')
-        agg_returns_hour = agg_returns_hour.rename('Hour')
-        agg_returns_day = agg_returns_day.rename('Day')
-        agg_returns_week = agg_returns_week.rename('Week')
-        agg_returns_month = agg_returns_month.rename('Month')
+        agg_returns_min = agg_returns_min.rename("Minute")
+        agg_returns_hour = agg_returns_hour.rename("Hour")
+        agg_returns_day = agg_returns_day.rename("Day")
+        agg_returns_week = agg_returns_week.rename("Week")
+        agg_returns_month = agg_returns_month.rename("Month")
 
         x_values: np.ndarray = np.arange(-10, 10, 0.1)
-        gaussian: np.ndarray = epochs_tools \
-            .gaussian_distribution(0, 1, x_values)
+        gaussian: np.ndarray = epochs_tools.gaussian_distribution(0, 1, x_values)
 
         figure_log: plt.Figure = plt.figure(figsize=(16, 9))
 
         # Log plot
-        plt.loglog(x_values, gaussian, '-', lw=10, label='Gaussian')
+        plt.loglog(x_values, gaussian, "-", lw=10, label="Gaussian")
 
-        plot_log_m = agg_returns_min.plot(kind='density', style='-',
-                                          loglog=True, figsize=(16, 9),
-                                          legend=True, lw=2)
+        plot_log_m = agg_returns_min.plot(
+            kind="density", style="-", loglog=True, figsize=(16, 9), legend=True, lw=2
+        )
         # plot_log_h = agg_returns_hour.plot(kind='density', style='-',
         #                                    loglog=True, figsize=(16, 9),
         #                                    legend=True, lw=2)
-        plot_log_d = agg_returns_day.plot(kind='density', style='-',
-                                          loglog=True, figsize=(16, 9),
-                                          legend=True, lw=2)
-        plot_log_wk = agg_returns_week.plot(kind='density', style='-',
-                                            loglog=True, figsize=(16, 9),
-                                            legend=True, lw=2)
-        plot_log_mo = agg_returns_month.plot(kind='density', style='-',
-                                             loglog=True, figsize=(16, 9),
-                                             legend=True, lw=2)
+        plot_log_d = agg_returns_day.plot(
+            kind="density", style="-", loglog=True, figsize=(16, 9), legend=True, lw=2
+        )
+        plot_log_wk = agg_returns_week.plot(
+            kind="density", style="-", loglog=True, figsize=(16, 9), legend=True, lw=2
+        )
+        plot_log_mo = agg_returns_month.plot(
+            kind="density", style="-", loglog=True, figsize=(16, 9), legend=True, lw=2
+        )
 
         plt.legend(fontsize=20)
-        plt.title(f'Rotated Epochs', fontsize=30)
-        plt.xlabel(f'Aggregated returns - window {window}', fontsize=25)
-        plt.ylabel('PDF', fontsize=25)
+        plt.title(f"Rotated Epochs", fontsize=30)
+        plt.xlabel(f"Aggregated returns - window {window}", fontsize=25)
+        plt.ylabel("PDF", fontsize=25)
         plt.xticks(fontsize=15)
         plt.yticks(fontsize=15)
         plt.xlim(2.5, 5)
-        plt.ylim(10 ** -5, 10 ** - 1)
+        plt.ylim(10 ** -5, 10 ** -1)
         plt.grid(True)
         plt.tight_layout()
         figure_log = plot_log_m.get_figure()
@@ -857,17 +945,18 @@ def epochs_log_log_all_empirical_dist_returns_market_plot() -> None:
         figure_log = plot_log_mo.get_figure()
 
         # Plotting
-        epochs_tools \
-            .save_plot(figure_log, function_name + '_loglog', ['', ''], '',
-                       window)
+        epochs_tools.save_plot(
+            figure_log, function_name + "_loglog", ["", ""], "", window
+        )
 
         plt.close()
         gc.collect()
 
     except FileNotFoundError as error:
-        print('No data')
+        print("No data")
         print(error)
         print()
+
 
 # -----------------------------------------------------------------------------
 
@@ -880,11 +969,11 @@ def main() -> None:
     :return: None.
     """
 
-    dates_1m = ['2021-07-19', '2021-08-07']
-    dates_1h = ['2021-06-01', '2021-07-31']
-    dates = ['1990-01-01', '2020-12-31']
+    dates_1m = ["2021-07-19", "2021-08-07"]
+    dates_1h = ["2021-06-01", "2021-07-31"]
+    dates = ["1990-01-01", "2020-12-31"]
 
-    win = '25'
+    win = "25"
 
     l_values = np.arange(28, 31).astype(int)
     # epochs_log_log_agg_dist_returns_market_plot(['1990-01-01', '2020-12-31'],
@@ -902,7 +991,8 @@ def main() -> None:
     # epochs_var_K_all_empirical_dist_returns_market_plot()
     # epochs_var_time_step_all_empirical_dist_returns_market_plot()
 
-    epochs_aggregated_dist_returns_market_plot(dates, '1d', '55', '50', '30')
+    epochs_aggregated_dist_returns_market_plot(dates, "1d", "55", "50", "30")
+
 
 # -----------------------------------------------------------------------------
 
