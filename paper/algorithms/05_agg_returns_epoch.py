@@ -206,7 +206,7 @@ def epochs_algebraic_agg_dist_returns_market_plot(
         figure.savefig(f"../plot/05_algebraic_agg_returns_short_epoch.png")
 
         plt.close()
-        # del agg
+        del agg
         del figure
         del plot_1
         del plot_2
