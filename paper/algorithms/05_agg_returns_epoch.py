@@ -14,11 +14,12 @@ This script requires the following modules:
 
 The module contains the following functions:
     * epochs_gaussian_agg_dist_returns_market_plot - plots the aggregated distribution of
-      returns for a market. Generates Fig. 2 in the paper.
+      returns for a market. Generates Fig. 2 of the paper.
     * epochs_algebraic_agg_dist_returns_market_plot - plots the aggregated distribution of
-      returns for a market. Generates Fig. 3 in the paper.
-    * epochs_aggregated_dist_returns_market_plot - plots the aggregated
-      distribution of returns for a market.
+      returns for a market. Generates Fig. 3 of the paper.
+    * epochs_var_win_all_empirical_dist_returns_market_plot - plots the aggregated
+      distribution of returns for a market for different epochs window lenghts. Generates
+      Fig. 4 of the paper.
     * main - the main function of the script.
 
 .. moduleauthor:: Juan Camilo Henao Londono <www.github.com/juanhenao21>
@@ -47,9 +48,9 @@ def epochs_gaussian_agg_dist_returns_market_plot(
 ) -> None:
     """Plots the aggregated distribution of returns for a market.
 
-    The function loads the data from the aggregated returns and plot them along with
-    a Gaussian distribution in a semilogy plot. This plot is used as Fig 2. in the
-    paper.
+    The function loads the data from the aggregated returns and plot them along with a
+    Gaussian distribution in a semilogy plot. The loaded data is obtained normalizing the
+    epochs before the rotation and scaling. This plot is used as Fig 2. in the paper.
 
     :param dates: list of the interval of dates to be analyzed
      (i.e. [['1992-01', '2012-12'], ['2012-01', '2020-12']).
@@ -126,9 +127,10 @@ def epochs_algebraic_agg_dist_returns_market_plot(
 ) -> None:
     """Plots the aggregated distribution of returns for a market.
 
-    The function loads the data from the aggregated returns and plot them along with
-    an algebraic distribution in a semilogy plot. This plot is used as Fig 3. in the
-    paper.
+    The function loads the data from the aggregated returns and plots two columns with a
+    semilogy plot and a loglog  plot. They are plotted along wiht an algebraic
+    distribution and a Gaussian distribution. The loaded data is obtained normalizing the
+    epochs before the rotation and scaling. This plot is used as Fig 3. in the paper.
 
     :param dates: List of the interval of dates to be analyzed
      (i.e. [['1992-01', '2012-12'], ['2012-01', '2020-12']).
@@ -224,9 +226,21 @@ def epochs_algebraic_agg_dist_returns_market_plot(
 def epochs_var_win_all_empirical_dist_returns_market_plot(
     dates: List[str], time_steps: List[str], windows: List[str], K_values: List[str]
 ) -> None:
-    """Plots all the local normalized aggregated distributions of returns for a
-       market in different epochs window lengths.
+    """Plots the aggregated distribution of returns for a market for different epochs
+       window lenghts.Plots the aggregated distribution of returns for a market for
+       different epochs window lenghts.
 
+    The function loads the data from the aggregated returns and plots four rows, each with
+    the different epochs window lenghts and number of companies. They are plotted along
+    with a Gaussian distribution in a semilogy plot. The loaded data is obtained
+    normalizing the epochs before the rotation and scaling. This plot is used as Fig 4.
+    in the paper.
+
+    :param dates: list of the interval of dates to be analyzed
+     (i.e. [['1992-01', '2012-12'], ['2012-01', '2020-12']).
+    :param time_steps: list of the time step of the data (i.e. ['1m', '1h']).
+    :param windows: list of window times to compute the volatility (i.e. '60', ...).
+    :param K_value: number of companies to be used (i.e. '80', 'all').
     :return: None -- The function saves the plot in a file and does not return
      a value.
     """
@@ -236,9 +250,9 @@ def epochs_var_win_all_empirical_dist_returns_market_plot(
 
     try:
 
-        figure, ((ax1, ax2), (ax3, ax4)) = plt.subplots(
-            2,
-            2,
+        figure, axs = plt.subplots(
+            4,
+            3,
             figsize=(16, 9),
             sharex="col",
             sharey="row",
@@ -249,127 +263,66 @@ def epochs_var_win_all_empirical_dist_returns_market_plot(
 
         for idx, date_val in enumerate(dates):
 
-            for K_value, marker in zip(K_values, markers):
+            for ax, win in zip(axs, windows):
 
-                # Load data
-                agg_10: pd.Series = pickle.load(
-                    open(
-                        "../../project/data/epochs/epochs_aggregated_dist"
-                        + f"_returns_market_data_short_{date_val[0]}"
-                        + f"_{date_val[1]}_step_{time_steps[idx]}_win_10"
-                        + f"_K_{K_value}.pickle",
-                        "rb",
+                for idx_ax, (K_value, marker) in enumerate(zip(K_values, markers)):
+
+                    # Load data
+                    agg: pd.Series = pickle.load(
+                        open(
+                            "../../project/data/epochs/epochs_aggregated_dist"
+                            + f"_returns_market_data_short_{date_val[0]}"
+                            + f"_{date_val[1]}_step_{time_steps[idx]}_win_{win}"
+                            + f"_K_{K_value}.pickle",
+                            "rb",
+                        )
                     )
-                )
-                agg_25: pd.Series = pickle.load(
-                    open(
-                        "../../project/data/epochs/epochs_aggregated_dist"
-                        + f"_returns_market_data_short_{date_val[0]}"
-                        + f"_{date_val[1]}_step_{time_steps[idx]}_win_25"
-                        + f"_K_{K_value}.pickle",
-                        "rb",
+
+                    agg = agg.rename(f"K = {K_value}")
+
+                    plot = agg.plot(
+                        kind="density",
+                        style=marker,
+                        ax=ax[idx_ax],
+                        logy=True,
+                        figsize=(16, 9),
+                        ms=5,
                     )
-                )
-                agg_40: pd.Series = pickle.load(
-                    open(
-                        "../../project/data/epochs/epochs_aggregated_dist"
-                        + f"_returns_market_data_short_{date_val[0]}"
-                        + f"_{date_val[1]}_step_{time_steps[idx]}_win_40"
-                        + f"_K_{K_value}.pickle",
-                        "rb",
-                    )
-                )
-                agg_55: pd.Series = pickle.load(
-                    open(
-                        "../../project/data/epochs/epochs_aggregated_dist"
-                        + f"_returns_market_data_short_{date_val[0]}"
-                        + f"_{date_val[1]}_step_{time_steps[idx]}_win_55"
-                        + f"_K_{K_value}.pickle",
-                        "rb",
-                    )
-                )
 
-                agg_10 = agg_10.rename(f"K = {K_value}")
-                agg_25 = agg_25.rename(f"K = {K_value}")
-                agg_40 = agg_40.rename(f"K = {K_value}")
-                agg_55 = agg_55.rename(f"K = {K_value}")
+                    figure_log = plot.get_figure()
 
-                plot_10 = agg_10.plot(
-                    kind="density",
-                    style=marker,
-                    ax=ax1,
-                    logy=True,
-                    figsize=(16, 9),
-                    ms=5,
-                )
-                plot_25 = agg_25.plot(
-                    kind="density",
-                    style=marker,
-                    ax=ax2,
-                    logy=True,
-                    figsize=(16, 9),
-                    ms=5,
-                )
-                plot_40 = agg_40.plot(
-                    kind="density",
-                    style=marker,
-                    ax=ax3,
-                    logy=True,
-                    figsize=(16, 9),
-                    ms=5,
-                )
-                plot_55 = agg_55.plot(
-                    kind="density",
-                    style=marker,
-                    ax=ax4,
-                    logy=True,
-                    figsize=(16, 9),
-                    ms=5,
-                )
+                    x_values: np.ndarray = np.arange(-10, 10, 0.1)
+                    gaussian: np.ndarray = epochs_tools.gaussian_distribution(0, 1, x_values)
 
-                figure_log = plot_10.get_figure()
-                figure_log = plot_25.get_figure()
-                figure_log = plot_40.get_figure()
-                figure_log = plot_55.get_figure()
+                    # Log plot
+                    ax[idx_ax].semilogy(x_values, gaussian, "-", lw=5, label="Gaussian")
 
-            x_values: np.ndarray = np.arange(-10, 10, 0.1)
-            gaussian: np.ndarray = epochs_tools.gaussian_distribution(0, 1, x_values)
-
-            # Log plot
-            ax1.semilogy(x_values, gaussian, "-", lw=10, label="Gaussian")
-            ax2.semilogy(x_values, gaussian, "-", lw=10, label="Gaussian")
-            ax3.semilogy(x_values, gaussian, "-", lw=10, label="Gaussian")
-            ax4.semilogy(x_values, gaussian, "-", lw=10, label="Gaussian")
-
-            for ax in [ax1, ax2, ax3, ax4]:
+        for axis in axs:
+            for ax in axis:
                 ax.set
                 ax.set_xlabel(r"$\tilde{r}$", fontsize=25)
-                ax.set_ylabel("PDF", fontsize=25)
                 ax.tick_params(axis="x", labelsize=20)
                 ax.tick_params(axis="y", labelsize=20)
-                ax.set_xlim(-6, 6)
+                ax.set_xlim(-5, 5)
                 ax.set_ylim(10 ** -4, 1)
                 ax.grid(True)
-            # for ax in [ax1, ax3]:
-            #     labels_y = ax.get_yticklabels()
-            #     labels_y[-1] = ""
-            #     ax.set_yticklabels(labels_y)
-            # for ax in [ax3, ax4]:
-            #     labels_x = ax.get_xticklabels()
-            #     labels_x[-1] = ""
-            #     ax.set_xticklabels(labels_x)
-            ax3.legend(
-                loc="upper center", bbox_to_anchor=(1.0, -0.2), ncol=4, fontsize=15
-            )
-            ax1.set_yticks(ax1.get_yticks()[2:-1])
-            ax3.set_yticks(ax3.get_yticks()[1:-2])
-            ax3.set_xticks(ax3.get_xticks()[:-1])
-            ax4.set_xticks(ax4.get_xticks()[1:])
 
-            plt.tight_layout()
+        axs[3][1].legend(
+            loc="upper center", bbox_to_anchor=(0.5, -0.4), ncol=4, fontsize=15
+        )
+        axs[0][0].set_ylabel("PDF", fontsize=25)
+        axs[0][0].set_yticks(axs[0][0].get_yticks()[2:-1])
+        axs[1][0].set_ylabel("PDF", fontsize=25)
+        axs[1][0].set_yticks(axs[1][0].get_yticks()[2:-1])
+        axs[2][0].set_ylabel("PDF", fontsize=25)
+        axs[2][0].set_yticks(axs[2][0].get_yticks()[2:-1])
+        axs[3][0].set_ylabel("PDF", fontsize=25)
+        axs[3][0].set_yticks(axs[3][0].get_yticks()[2:-1])
 
-            # Plotting
-            figure_log.savefig(f"../plot/05_window_comparison.png")
+        plt.tight_layout()
+
+        # Plotting
+        figure_log.savefig(f"../plot/05_window_comparison.png")
 
         plt.close()
         gc.collect()
@@ -396,10 +349,10 @@ def main() -> None:
 
     # epochs_gaussian_agg_dist_returns_market_plot(dates, time_steps, '25',
     #                                              'all')
-    epochs_algebraic_agg_dist_returns_market_plot(dates, time_steps, "55", "all", [104])
-    # epochs_var_win_all_empirical_dist_returns_market_plot(
-    #     dates, time_steps, [""], ["20", "100", "all"]
-    # )
+    # epochs_algebraic_agg_dist_returns_market_plot(dates, time_steps, "55", "all", [104])
+    epochs_var_win_all_empirical_dist_returns_market_plot(
+        dates, time_steps, ["10", "25", "40", "55"], ["20", "100", "all"]
+    )
 
 
 # -----------------------------------------------------------------------------
