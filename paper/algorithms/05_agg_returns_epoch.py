@@ -224,7 +224,10 @@ def epochs_algebraic_agg_dist_returns_market_plot(
 
 
 def epochs_var_win_all_empirical_dist_returns_market_plot(
-    dates: List[str], time_steps: List[str], windows: List[str], K_values: List[str]
+    dates: List[List[str]],
+    time_steps: List[str],
+    windows: List[str],
+    K_values: List[str],
 ) -> None:
     """Plots the aggregated distribution of returns for a market for different epochs
        window lenghts.Plots the aggregated distribution of returns for a market for
@@ -236,7 +239,7 @@ def epochs_var_win_all_empirical_dist_returns_market_plot(
     normalizing the epochs before the rotation and scaling. This plot is used as Fig 4.
     in the paper.
 
-    :param dates: list of the interval of dates to be analyzed
+    :param dates: list of lists with the interval of dates to be analyzed
      (i.e. [['1992-01', '2012-12'], ['2012-01', '2020-12']).
     :param time_steps: list of the time step of the data (i.e. ['1m', '1h']).
     :param windows: list of window times to compute the volatility (i.e. '60', ...).
@@ -259,7 +262,7 @@ def epochs_var_win_all_empirical_dist_returns_market_plot(
             gridspec_kw={"hspace": 0, "wspace": 0},
         )
 
-        markers: List[str] = ["o", "^", "s", "P", "x"]
+        markers: List[str] = ["go", "r^", "ms", "P", "x"]
 
         for idx, date_val in enumerate(dates):
 
@@ -283,19 +286,25 @@ def epochs_var_win_all_empirical_dist_returns_market_plot(
                     plot = agg.plot(
                         kind="density",
                         style=marker,
+                        marker=markers[idx_ax],
                         ax=ax[idx_ax],
                         logy=True,
                         figsize=(16, 9),
                         ms=5,
                     )
 
-                    figure_log = plot.get_figure()
+                    figure = plot.get_figure()
 
                     x_values: np.ndarray = np.arange(-10, 10, 0.1)
-                    gaussian: np.ndarray = epochs_tools.gaussian_distribution(0, 1, x_values)
+                    gaussian: np.ndarray = epochs_tools.gaussian_distribution(
+                        0, 1, x_values
+                    )
 
                     # Log plot
                     ax[idx_ax].semilogy(x_values, gaussian, "-", lw=5, label="Gaussian")
+                    ax[idx_ax].semilogy(
+                        x_values, gaussian, markers[idx_ax], ms=5, label="Gaussian"
+                    )
 
         for axis in axs:
             for ax in axis:
@@ -307,8 +316,14 @@ def epochs_var_win_all_empirical_dist_returns_market_plot(
                 ax.set_ylim(10 ** -4, 1)
                 ax.grid(True)
 
+        axs[3][0].legend(
+            loc="upper center", bbox_to_anchor=(0.5, -0.4), ncol=2, fontsize=15
+        )
         axs[3][1].legend(
-            loc="upper center", bbox_to_anchor=(0.5, -0.4), ncol=4, fontsize=15
+            loc="upper center", bbox_to_anchor=(0.5, -0.4), ncol=2, fontsize=15
+        )
+        axs[3][2].legend(
+            loc="upper center", bbox_to_anchor=(0.5, -0.4), ncol=2, fontsize=15
         )
         axs[0][0].set_ylabel("PDF", fontsize=25)
         axs[0][0].set_yticks(axs[0][0].get_yticks()[2:-1])
@@ -322,7 +337,7 @@ def epochs_var_win_all_empirical_dist_returns_market_plot(
         plt.tight_layout()
 
         # Plotting
-        figure_log.savefig(f"../plot/05_window_comparison.png")
+        figure.savefig(f"../plot/05_window_comparison.png")
 
         plt.close()
         gc.collect()
