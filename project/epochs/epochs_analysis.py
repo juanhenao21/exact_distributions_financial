@@ -249,7 +249,7 @@ def epochs_rolling_avg_correlation_matrix_data(
         corr_matrix_df: pd.DataFrame = (
             data.rolling(window=int(window)).corr(pairwise=True).dropna()
         )
-        avg_corr_matrix_df: pd.DataFrame = corr_matrix_df.mean(axis=1)
+        avg_corr_matrix_df: pd.DataFrame = corr_matrix_df.mean()
 
         # Saving data
         epochs_tools.save_data(
