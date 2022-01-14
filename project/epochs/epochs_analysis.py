@@ -88,7 +88,9 @@ def returns_data(dates: List[str], time_step: str) -> None:
 # -----------------------------------------------------------------------------
 
 
-def epochs_volatility_data(dates: List[str], time_step: str, window: str) -> None:
+def epochs_rolling_volatility_data(
+    dates: List[str], time_step: str, window: str
+) -> None:
     """Uses local normalization to compute the volatility of the time series.
 
     :param dates: List of the interval of dates to be analyzed
@@ -100,16 +102,16 @@ def epochs_volatility_data(dates: List[str], time_step: str, window: str) -> Non
      a value.
     """
 
-    function_name: str = epochs_volatility_data.__name__
-    epochs_tools.function_header_print_data(function_name, dates, time_step, window)
+    function_name: str = epochs_rolling_volatility_data.__name__
+    epochs_tools.function_header_print_data(function_name, dates, time_step, window, "")
 
     try:
 
         # Load data
         data: pd.DataFrame = pickle.load(
             open(
-                f"../data/epochs/returns_data_{dates[0]}_{dates[1]}_step"
-                + f"_{time_step}_win_.pickle",
+                f"../data/epochs/normalized_returns_data_{dates[0]}_{dates[1]}_step"
+                + f"_{time_step}_win__K_.pickle",
                 "rb",
             )
         )
@@ -117,7 +119,7 @@ def epochs_volatility_data(dates: List[str], time_step: str, window: str) -> Non
         std_df: pd.DataFrame = data.rolling(window=int(window)).std().dropna()
 
         # Saving data
-        epochs_tools.save_data(std_df, function_name, dates, time_step, window)
+        epochs_tools.save_data(std_df, function_name, dates, time_step, window, "")
 
     except FileNotFoundError as error:
         print("No data")
@@ -128,10 +130,8 @@ def epochs_volatility_data(dates: List[str], time_step: str, window: str) -> Non
 # -----------------------------------------------------------------------------
 
 
-def epochs_normalized_returns_data(
-    dates: List[str], time_step: str, window: str
-) -> None:
-    """Uses rolling normalization to normalize the returns of the time series.
+def normalized_returns_data(dates: List[str], time_step: str) -> None:
+    """Normalizes the returns of the time series to mean zero and std deviation one.
 
     :param dates: List of the interval of dates to be analyzed
      (i.e. ['1980-01-01', '2020-12-31']).
@@ -142,28 +142,24 @@ def epochs_normalized_returns_data(
      a value.
     """
 
-    function_name: str = epochs_normalized_returns_data.__name__
-    epochs_tools.function_header_print_data(function_name, dates, time_step, window)
+    function_name: str = normalized_returns_data.__name__
+    epochs_tools.function_header_print_data(function_name, dates, time_step, "", "")
 
     try:
 
         # Load data
         data: pd.DataFrame = pickle.load(
             open(
-                f"../data/epochs/returns_data_{dates[0]}_{dates[1]}_step"
-                + f"_{time_step}_win_.pickle",
+                f"../data/epochs/returns_data_{dates[0]}_{dates[1]}_step_{time_step}"
+                + "_win__K_.pickle",
                 "rb",
             )
         )
 
-        data_win = data.iloc[int(window) - 1 :]
-        data_mean = data.rolling(window=int(window)).mean().dropna()
-        data_std = data.rolling(window=int(window)).std().dropna()
-
-        normalized_df: pd.DataFrame = (data_win - data_mean) / data_std
+        normalized_df: pd.DataFrame = (data - data.mean()) / data.std()
 
         # Saving data
-        epochs_tools.save_data(normalized_df, function_name, dates, time_step, window)
+        epochs_tools.save_data(normalized_df, function_name, dates, time_step, "", "")
 
     except FileNotFoundError as error:
         print("No data")
@@ -207,6 +203,58 @@ def epochs_correlation_matrix_data(
 
         # Saving data
         epochs_tools.save_data(corr_matrix_df, function_name, dates, time_step, window)
+
+    except FileNotFoundError as error:
+        print("No data")
+        print(error)
+        print()
+
+    except TypeError as error:
+        print("To compute the correlation is needed at least to stocks")
+        print(error)
+        print()
+
+
+# -----------------------------------------------------------------------------
+
+
+def epochs_rolling_avg_correlation_matrix_data(
+    dates: List[str], time_step: str, window: str
+) -> None:
+    """Computes the correlation matrix of the normalized returns and average each column.
+
+    :param dates: List of the interval of dates to be analyzed
+     (i.e. ['1980-01-01', '2020-12-31']).
+    :param time_step: time step of the data (i.e. '1m', '1h', '1d', '1wk',
+     '1mo').
+    :param window: window time to compute the volatility (i.e. '25').
+    :return: None -- The function saves the data in a file and does not return
+     a value.
+    """
+
+    function_name: str = epochs_rolling_avg_correlation_matrix_data.__name__
+    epochs_tools.function_header_print_data(function_name, dates, time_step, window, "")
+
+    try:
+
+        # Load data
+        data: pd.DataFrame = pickle.load(
+            open(
+                f"../data/epochs/normalized_returns_data_{dates[0]}"
+                + f"_{dates[1]}_step_{time_step}_win__K_.pickle",
+                "rb",
+            )
+        )
+
+        corr_matrix_df: pd.DataFrame = (
+            data.rolling(window=int(window)).corr(pairwise=True).dropna()
+        )
+        avg_corr_matrix_df: pd.DataFrame = corr_matrix_df.mean(axis=1)
+
+        # Saving data
+        epochs_tools.save_data(
+            avg_corr_matrix_df, function_name, dates, time_step, window, ""
+        )
 
     except FileNotFoundError as error:
         print("No data")
@@ -447,6 +495,14 @@ def main() -> None:
 
     :return: None.
     """
+
+    windows = ["55", "40", "25", "10"]
+    dates: List[str] = ["1990-01-01", "2020-12-31"]
+
+    normalized_returns_data(dates, "1d")
+
+    for window in windows:
+        epochs_rolling_avg_correlation_matrix_data(dates, "1d", window)
 
 
 # -----------------------------------------------------------------------------
