@@ -40,7 +40,7 @@ import gc
 import pickle
 from typing import List
 
-from matplotlib import pyplot as plt  # type: ignore
+from matplotlib import legend, pyplot as plt  # type: ignore
 import numpy as np  # type: ignore
 import pandas as pd  # type: ignore
 import seaborn as sns  # type: ignore
@@ -50,8 +50,10 @@ import epochs_tools
 # -----------------------------------------------------------------------------
 
 
-def epochs_volatility_plot(dates: List[str], time_step: str, window: str) -> None:
-    """Plots the local normalized volatility of five stocks.
+def epochs_rolling_volatility_plot(
+    dates: List[str], time_step: str, window: str
+) -> None:
+    """Plots the normalized rolling volatility.
 
     :param dates: List of the interval of dates to be analyzed
      (i.e. ['1980-01-01', '2020-12-31']).
@@ -62,37 +64,102 @@ def epochs_volatility_plot(dates: List[str], time_step: str, window: str) -> Non
      a value.
     """
 
-    function_name: str = epochs_volatility_plot.__name__
-    epochs_tools.function_header_print_plot(function_name, dates, time_step, window)
+    function_name: str = epochs_rolling_volatility_plot.__name__
+    epochs_tools.function_header_print_plot(function_name, dates, time_step, window, "")
 
     try:
 
         # Load data
         volatility_data: pd.DataFrame = pickle.load(
             open(
-                f"../data/epochs/epochs_volatility_data_{dates[0]}"
-                + f"_{dates[1]}_step_{time_step}_win_{window}.pickle",
+                f"../data/epochs/epochs_volatility_rolling_data_{dates[0]}_{dates[1]}_step"
+                + f"_{time_step}_win_{window}_K_.pickle",
                 "rb",
             )
-        ).iloc[:, :5]
-
-        plot_vol: np.ndarray = volatility_data.plot(
-            subplots=True, sharex=True, figsize=(16, 16), grid=True, sort_columns=True
         )
 
-        _ = [ax.set_ylabel("Volatility", fontsize=20) for ax in plot_vol]
-        _ = [plot.legend(loc=1, fontsize=20) for plot in plt.gcf().axes]
-        plt.xlabel(f"Date - {time_step} - time window {window}", fontsize=20)
-        plt.tight_layout(pad=0.5)
-        figure_vol: plt.Figure = plot_vol[0].get_figure()
+        avg_volatility = volatility_data.mean(axis=1)
+
+        plot_volatility = avg_volatility.plot(figsize=(16, 9))
+        figure_volatility = plot_volatility.get_figure()
+
+        plt.title(f"Avg Volatility Epochs - Epoch {window}", fontsize=30)
+        plt.xlabel("Date", fontsize=25)
+        plt.ylabel("Volatility", fontsize=25)
+        plt.xticks(fontsize=15)
+        plt.yticks(fontsize=15)
+        plt.grid(True)
+        plt.tight_layout()
 
         # Plotting
-        epochs_tools.save_plot(figure_vol, function_name, dates, time_step, window)
+        epochs_tools.save_plot(
+            figure_volatility, function_name, dates, time_step, window, ""
+        )
 
         plt.close()
         del volatility_data
-        del figure_vol
-        del plot_vol
+        del figure_volatility
+        del plot_volatility
+        gc.collect()
+
+    except FileNotFoundError as error:
+        print("No data")
+        print(error)
+        print()
+
+
+# -----------------------------------------------------------------------------
+
+
+def epochs_rolling_avg_correlation_matrix(
+    dates: List[str], time_step: str, window: str
+) -> None:
+    """Plots the rolling average correlation matrix.
+
+    :param dates: List of the interval of dates to be analyzed
+     (i.e. ['1980-01-01', '2020-12-31']).
+    :param time_step: time step of the data (i.e. '1m', '1h', '1d', '1wk',
+     '1mo').
+    :param window: window time to compute the volatility (i.e. '25').
+    :return: None -- The function saves the plot in a file and does not return
+     a value.
+    """
+
+    function_name: str = epochs_rolling_avg_correlation_matrix.__name__
+    epochs_tools.function_header_print_plot(function_name, dates, time_step, window, "")
+
+    try:
+
+        # Load data
+        avg_corr_matrix_data: pd.DataFrame = pickle.load(
+            open(
+                f"../data/epochs/epochs_rolling_avg_correlation_matrix_data_{dates[0]}_{dates[1]}_step"
+                + f"_{time_step}_win_{window}_K_.pickle",
+                "rb",
+            )
+        )
+
+        plot_avg_corr_matrix = avg_corr_matrix_data.plot(figsize=(16, 9))
+        figure_avg_corr_matrix = plot_avg_corr_matrix.get_figure()
+
+        plt.title(f"Avg Correlation Matrix Epochs - Epoch {window}", fontsize=30)
+        plt.xlabel("Date", fontsize=25)
+        plt.ylabel("Avg. Correlation", fontsize=25)
+        plt.xticks(fontsize=15)
+        plt.yticks(fontsize=15)
+        plt.ylim(0, 0.5)
+        plt.grid(True)
+        plt.tight_layout()
+
+        # Plotting
+        epochs_tools.save_plot(
+            figure_avg_corr_matrix, function_name, dates, time_step, window, ""
+        )
+
+        plt.close()
+        del avg_corr_matrix_data
+        del figure_avg_corr_matrix
+        del plot_avg_corr_matrix
         gc.collect()
 
     except FileNotFoundError as error:
@@ -969,11 +1036,11 @@ def main() -> None:
     :return: None.
     """
 
-    dates_1m = ["2021-07-19", "2021-08-07"]
-    dates_1h = ["2021-06-01", "2021-07-31"]
-    dates = ["1990-01-01", "2020-12-31"]
+    # dates_1m = ["2021-07-19", "2021-08-07"]
+    # dates_1h = ["2021-06-01", "2021-07-31"]
+    # dates = ["1990-01-01", "2020-12-31"]
 
-    win = "25"
+    # win = "25"
 
     l_values = np.arange(28, 31).astype(int)
     # epochs_log_log_agg_dist_returns_market_plot(['1990-01-01', '2020-12-31'],
@@ -991,7 +1058,13 @@ def main() -> None:
     # epochs_var_K_all_empirical_dist_returns_market_plot()
     # epochs_var_time_step_all_empirical_dist_returns_market_plot()
 
-    epochs_aggregated_dist_returns_market_plot(dates, "1d", "55", "50", "30")
+    # epochs_aggregated_dist_returns_market_plot(dates, "1d", "55", "50", "30")
+
+    windows = [10, 25, 40, 55]
+    dates: List[str] = ["1990-01-01", "2020-12-31"]
+
+    for window in windows:
+        epochs_rolling_avg_correlation_matrix(dates, "1d", window)
 
 
 # -----------------------------------------------------------------------------
