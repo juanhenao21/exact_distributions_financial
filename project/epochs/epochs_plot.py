@@ -131,23 +131,26 @@ def epochs_rolling_avg_correlation_matrix(
     try:
 
         # Load data
-        avg_corr_matrix_data: pd.DataFrame = pickle.load(
+        avg_corr_matrix_data: pd.Series = pickle.load(
             open(
                 f"../data/epochs/epochs_rolling_avg_correlation_matrix_data_{dates[0]}_{dates[1]}_step"
                 + f"_{time_step}_win_{window}_K_.pickle",
                 "rb",
             )
         )
+        avg_corr_matrix_data = avg_corr_matrix_data.rename(f"epochs {window}")
+        print(avg_corr_matrix_data)
 
-        plot_avg_corr_matrix = avg_corr_matrix_data.plot(figsize=(16, 9))
+        plot_avg_corr_matrix = avg_corr_matrix_data.plot(figsize=(16, 9), legend=True)
         figure_avg_corr_matrix = plot_avg_corr_matrix.get_figure()
 
-        plt.title(f"Avg Correlation Matrix Epochs - Epoch {window}", fontsize=30)
+        plt.legend()
+        # plt.title(f"Avg Correlation Matrix Epochs - Epoch {window}", fontsize=30)
         plt.xlabel("Date", fontsize=25)
         plt.ylabel("Avg. Correlation", fontsize=25)
         plt.xticks(fontsize=15)
         plt.yticks(fontsize=15)
-        plt.ylim(0, 0.5)
+        # plt.ylim(0, 0.5)
         plt.grid(True)
         plt.tight_layout()
 
@@ -156,7 +159,7 @@ def epochs_rolling_avg_correlation_matrix(
             figure_avg_corr_matrix, function_name, dates, time_step, window, ""
         )
 
-        plt.close()
+        # plt.close()
         del avg_corr_matrix_data
         del figure_avg_corr_matrix
         del plot_avg_corr_matrix
@@ -1060,7 +1063,7 @@ def main() -> None:
 
     # epochs_aggregated_dist_returns_market_plot(dates, "1d", "55", "50", "30")
 
-    windows = [10, 25, 40, 55]
+    windows = ["10", "25", "40", "55"]
     dates: List[str] = ["1990-01-01", "2020-12-31"]
 
     for window in windows:

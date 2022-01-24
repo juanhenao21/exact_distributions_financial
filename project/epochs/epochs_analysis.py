@@ -37,6 +37,7 @@ from itertools import product as iprod
 from itertools import combinations as icomb
 import math
 import multiprocessing as mp
+from operator import index
 import pickle
 from typing import Any, Iterable, List, Tuple
 
@@ -246,15 +247,22 @@ def epochs_rolling_avg_correlation_matrix_data(
             )
         )
 
-        corr_matrix_df: pd.DataFrame = (
-            data.rolling(window=int(window)).corr(pairwise=True).dropna()
-        )
-        avg_corr_matrix_df: pd.DataFrame = corr_matrix_df.mean()
+        _, k = data.shape
+
+        corr_matrix_df: pd.DataFrame = data.rolling(window=int(window)).corr().dropna()
+
+        avg_data = []
+        dates_series = []
+
+        for idx in set(corr_matrix_df.index.get_level_values(0)):
+            avg_data.append(corr_matrix_df.loc[idx].values.sum() / (k * k))
+            dates_series.append(idx)
+
+        series = pd.Series(data=avg_data, index=dates_series)
+        series = series.sort_index()
 
         # Saving data
-        epochs_tools.save_data(
-            avg_corr_matrix_df, function_name, dates, time_step, window, ""
-        )
+        epochs_tools.save_data(series, function_name, dates, time_step, window, "")
 
     except FileNotFoundError as error:
         print("No data")
@@ -496,7 +504,7 @@ def main() -> None:
     :return: None.
     """
 
-    windows = ["55", "40", "25", "10"]
+    windows = ["55"] #["10", "25", "40", "55"]
     dates: List[str] = ["1990-01-01", "2020-12-31"]
 
     normalized_returns_data(dates, "1d")
